@@ -1,0 +1,82 @@
+22:38:41.789962532: Debug accept4 by name= nginx id= 6625 with parentid=  5163
+22:38:41.789964927: Debug accept4 by name= nginx id= 6625 with parentid=  5163
+22:38:41.789996066: Debug accept4 by name= nginx id= 6625 with parentid=  5163
+22:38:41.790004812: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790021183: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790040240: Debug epoll_ctl by name= nginx id= 6625 with parentid=  5163
+22:38:41.790083011: Debug epoll_ctl by name= nginx id= 6625 with parentid=  5163
+22:38:41.790127265: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790436882: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:38:41.790455358: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:38:41.790466258: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.789990766: Debug accept4 by name= nginx id= 6625 with parentid=  5163
+22:38:41.790003550: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790491586: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790506545: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790520050: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790544026: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790561489: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790573802: Debug openat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790593380: Debug openat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790599912: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790607647: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790619960: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790638886: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790678120: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790741932: Debug close by name= nginx id= 6625 with parentid=  5163
+22:38:41.790748364: Debug close by name= nginx id= 6625 with parentid=  5163
+22:38:41.790757501: Debug setsockopt by name= nginx id= 6625 with parentid=  5163
+22:38:41.790766418: Debug setsockopt by name= nginx id= 6625 with parentid=  5163
+22:38:41.790788219: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790020091: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790038416: Debug epoll_ctl by name= nginx id= 6625 with parentid=  5163
+22:38:41.790079905: Debug epoll_ctl by name= nginx id= 6625 with parentid=  5163
+22:38:41.790125411: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790434047: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:38:41.790450308: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:38:41.790464936: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790490514: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790505503: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790519018: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790542533: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790558964: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790571318: Debug openat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790589713: Debug openat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790598820: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790605873: Debug newfstatat by name= nginx id= 6625 with parentid=  5163
+22:38:41.790618818: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790637884: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790676878: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:41.790740188: Debug close by name= nginx id= 6625 with parentid=  5163
+22:38:41.790746821: Debug close by name= nginx id= 6625 with parentid=  5163
+22:38:41.790756359: Debug setsockopt by name= nginx id= 6625 with parentid=  5163
+22:38:41.790763643: Debug setsockopt by name= nginx id= 6625 with parentid=  5163
+22:38:41.790786326: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:38:43.456618251: Critical Falco internal: hot restart failure: /etc/falco/rules.d/events.txt: Invalid
+1 Schema warnings:
+------
+failed for <root>: Value type not permitted by 'type' constraint.
+------
+
+1 Errors:
+In rules content: (/etc/falco/rules.d/events.txt:0:0)
+------
+22:38:41.789962532: Debug accept4 by name= nginx id= 6625 with parentid=  5163
+^
+------
+LOAD_ERR_YAML_VALIDATE (Error validating internal structure of YAML file): Rules content is not yaml array of objects
+ ()
+22:38:43.557016688: Critical Falco internal: hot restart failure: /etc/falco/rules.d/events.txt: Invalid
+1 Schema warnings:
+------
+failed for <root>: Value type not permitted by 'type' constraint.
+------
+
+1 Errors:
+In rules content: (/etc/falco/rules.d/events.txt:0:0)
+------
+22:38:41.789962532: Debug accept4 by name= nginx id= 6625 with parentid=  5163
+^
+------
+LOAD_ERR_YAML_VALIDATE (Error validating internal structure of YAML file): Rules content is not yaml array of objects
+ ()

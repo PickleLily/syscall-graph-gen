@@ -1,0 +1,18 @@
+strace: Process 697 attached
+epoll_wait(8, [{events=EPOLLIN, data={u32=473825544, u64=140080832184584}}], 512, -1) = 1
+recvmsg(7, {msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="\1\0\0\0\0\0\0\0]\21\0\0\0\0\0\0\1\0\0\0\0\0\0\0\4\0\0\0\0\0\0\0", iov_len=32}], msg_iovlen=1, msg_control=[{cmsg_len=20, cmsg_level=SOL_SOCKET, cmsg_type=SCM_RIGHTS, cmsg_data=[3]}], msg_controllen=24, msg_flags=0}, 0) = 32
+recvmsg(7, {msg_namelen=0}, 0)          = -1 EAGAIN (Resource temporarily unavailable)
+epoll_wait(8, [{events=EPOLLIN, data={u32=473825544, u64=140080832184584}}], 512, -1) = 1
+recvmsg(7, {msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="\3\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\377\377\377\377\0\0\0\0", iov_len=32}], msg_iovlen=1, msg_controllen=0, msg_flags=0}, 0) = 32
+recvmsg(7, {msg_namelen=0}, 0)          = -1 EAGAIN (Resource temporarily unavailable)
+gettid()                                = 697
+write(4, "2024/11/14 21:22:12 [notice] 697#697: gracefully shutting down\n", 63) = 63
+epoll_ctl(8, EPOLL_CTL_DEL, 6, 0x7ffe3676a8fc) = 0
+close(6)                                = 0
+gettid()                                = 697
+write(4, "2024/11/14 21:22:12 [notice] 697#697: exiting\n", 46) = 46
+gettid()                                = 697
+write(4, "2024/11/14 21:22:12 [notice] 697#697: exit\n", 43) = 43
+futex(0x7f671ca7f5d8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+exit_group(0)                           = ?
++++ exited with 0 +++

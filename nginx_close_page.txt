@@ -1,0 +1,38 @@
+22:39:46.758497024: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:39:46.758494729: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:39:46.758511852: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:39:46.758522082: Debug close by name= nginx id= 6625 with parentid=  5163
+22:39:46.758526620: Debug close by name= nginx id= 6625 with parentid=  5163
+22:39:46.758601222: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:39:46.758507974: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+22:39:46.758520678: Debug close by name= nginx id= 6625 with parentid=  5163
+22:39:46.758525507: Debug close by name= nginx id= 6625 with parentid=  5163
+22:39:46.758599428: Debug <NA> by name= nginx id= 6625 with parentid=  5163
+22:39:47.949940387: Critical Falco internal: hot restart failure: /etc/falco/rules.d/events.txt: Invalid
+1 Schema warnings:
+------
+failed for <root>: Value type not permitted by 'type' constraint.
+------
+
+1 Errors:
+In rules content: (/etc/falco/rules.d/events.txt:0:0)
+------
+22:39:46.758497024: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+^
+------
+LOAD_ERR_YAML_VALIDATE (Error validating internal structure of YAML file): Rules content is not yaml array of objects
+ ()
+22:39:48.024168522: Critical Falco internal: hot restart failure: /etc/falco/rules.d/events.txt: Invalid
+1 Schema warnings:
+------
+failed for <root>: Value type not permitted by 'type' constraint.
+------
+
+1 Errors:
+In rules content: (/etc/falco/rules.d/events.txt:0:0)
+------
+22:39:46.758497024: Debug recvfrom by name= nginx id= 6625 with parentid=  5163
+^
+------
+LOAD_ERR_YAML_VALIDATE (Error validating internal structure of YAML file): Rules content is not yaml array of objects
+ ()
