@@ -5,6 +5,9 @@ Project Description:
 
 Client:
     - handle 3 types of input such that we see multiple branches when tracking
+        - open file, read contents & display it on screen
+        - ping site for random space fact
+        - display the current time of the computer running 
 
 Server:
     - Take input from a website
