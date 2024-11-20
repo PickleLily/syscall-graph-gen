@@ -16,11 +16,10 @@
 
 #define SIZE 1024
 
-void DieWithError(char *errorMessage)
-{
-	printf(errorMessage + "\n");
-    exit(0);
-} 
+void DieWithError(char *errorMessage){
+	printf("%c \n", errorMessage);
+    	exit(0);
+}
 
 void HandleTCPClient(int clntSocket) /* TCP client handling function */
 {
@@ -35,7 +34,7 @@ void HandleTCPClient(int clntSocket) /* TCP client handling function */
 
 int main(int argc, char *argv[]){
 
-    // int printRTT = 0; //0 == store --> 1 == print
+    int printRTT = 0; //0 == store --> 1 == print
     char buffer[SIZE]; //for the request / resp
 
     int sock;
@@ -65,17 +64,25 @@ int main(int argc, char *argv[]){
 
 //0 read in args from cmd line and set appropriate values
 
-    if((argc < 3) || (argc > 4)){ 
-        fprintf(stderr, "Usage: %s [-options] server_url port_number\n", argv[0]);
+    if((argc < 4) || (argc > 4)){ 
+        fprintf(stderr, "Usage: %s [-options(1/2/3] server_url port_number\n", argv[0]);
         exit(1);
     }
+
+	char output[1024];
+
         if(argc == 4){
-		if(strcmp(argv[1], "-p") != 0){
-			printf("The only optional argument is -p.");
-			exit(1);
+		if(strcmp(argv[1], "1") == 0){
+			printf("option 1");
+			
+		}else if (strcmp(argv[1], "2") == 0){
+            		printf("option 2");
+		}else if (strcmp(argv[1], "3") == 0){
+			printf("option 3");
+			output = gettimeofday();
+	
 		}else{
-            //printf("Print option chosen. \n");
-			printRTT = 1;
+			printf("need to pick either option 1 2 or 3... no other number or letters work...");
 		}
     }
 

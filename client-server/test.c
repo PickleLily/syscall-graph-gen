@@ -6,6 +6,10 @@
 
 
 int main(int argc, char* argv[]){
+	
+	pid_t pid = getpid();
+	printf("PID: %d\n", pid);
+	printf("process_name: %s\n", argv[0]);
     if (argc < 2){
         printf("did not specify enough arguments...\n");
         return -1;
