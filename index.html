@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Welcome to our custom site!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
+	<title>Welcome to our custom site!</title>
+	<style>
+		html { color-scheme: light dark; }
+		body { width: 35em; margin: 0 auto;
+		font-family: Tahoma, Verdana, Arial, sans-serif; }
+	</style>
 </head>
+
 <body>
 <h1>Welcome to our custom site!</h1>
-<p>To edit this page, change the html content available at /usr/share/nginx/html/index.html OR the location provided by /etc/nginx/conf.d/default.conf</p>
+<p>To edit this page, change the html content available at /usr/share/nginx/html. For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a></p>
 
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
 
-<form>
-	<input type="file" accept="image*" name= "image" placeholder="image..."/>
-</form>
 <body>
     <h1>Download Your Text</h1>
+
     <form id="textForm">
         <label for="username">Enter file name:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+        <input type="text" id="username" name="username" required></input><br>
 
         <label for="userText">Enter your text:</label><br>
-        <textarea id="userText" name="userText" rows="4" cols="50" required></textarea><br><br>
+        <textarea id="userText" name="userText" rows="4" cols="50" required></textarea>
 
         <button type="button" onclick="downloadTextFile()">Download as TXT</button>
-    </form>
+    </form><br>
 
     <script>
         function downloadTextFile() {
             const username = document.getElementById('username').value;
             const userText = document.getElementById('userText').value;
             const textToWrite = `Name: ${username}\n\nText:\n${userText}`;
-
-            const blob = new Blob([textToWrite], { type: 'text/plain' });
+           const blob = new Blob([textToWrite], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = `${username || 'text'}.txt`;
@@ -46,35 +42,33 @@ Commercial support is available at
             URL.revokeObjectURL(link.href);
         }
     </script>
+</body>
+
 
 <body>
-
 <h1>Upload a Text File</h1>
-<input type="file" id="fileInput" accept=".txt">
+<input type="file" id="fileInput" accept=".txt"></input>
 <div id="output"></div>
 
 <script>
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const content = e.target.result;
-                document.getElementById('output').textContent = content;
-            };
-                                                             reader.readAsText(file);
-        } else {
-            document.getElementById('output').textContent = 'No file selected.';
-        }
-    });
+	document.getElementById('fileInput').addEventListener('change', function(event)	
+	{
+		const file = event.target.files[0];
+		if(file){
+			const reader = new FileReader();
+			reader.onload = function(e){
+				const content = e.target.result;
+				document.getElementById('output').textContent = content; 			
+			}
+			reader.readAsText(file);
+		}else{
+			document.getElementById('output').textContent = 'No file selected.';
+		}
+	});
 </script>
 
 </body>
 
-</body>
+<p>thanks</p>
 
-<p><em>Thank you for using nginx.</em></p>
-
-<p></p>
-</body>
 </html>
