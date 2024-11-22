@@ -80,20 +80,22 @@ int main() {
     }
 
     char line[1024];
+    char time[1024];
+    char status[1024];
     while (fgets(line, sizeof(line), file)) {
         char syscall[64], args[512];
-        if (sscanf(line, "Syscall=%s Args=%[^\n]", syscall, args) != 2) {
+        if (sscanf(line, "%s %s Syscall=%s Args=%[^\n]",time, status, syscall, args) != 2) {
             continue;
         }
 
         // Extract root node from the first accept4 syscall
         if (root_node_id == -1 && strcmp(syscall, "accept4") == 0) {
             char fd[256] = "Unknown FD";
-            if (strstr(args, "fd=")) {
+           if (strstr(args, "fd=")) {
                 sscanf(args, "fd=%255[^ ]", fd); // Extract fd field
                 parse_file_descriptor(fd, fd);  // Extract file path from fd
             }
-            root_node_id = find_or_add_node(fd); // Use fd as root node
+          root_node_id = find_or_add_node(fd); // Use fd as root node
             continue;
         }
 
