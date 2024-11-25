@@ -25,32 +25,50 @@ int node_count = 0, edge_count = 0;
 // Global root node ID
 int root_node_id = -1;
 
-// Function to find or add a node
+// Function to find or add a node -- AKA a FILE
 int find_or_add_node(const char *name) {
-    for (int i = 0; i < node_count; i++) {
+//for each node in the list of nodes, if the name exists, return the index ELSE constinue
+for (int i = 0; i < node_count; i++) {
         if (strcmp(nodes[i].name, name) == 0) {
             return nodes[i].id;
         }
     }
+//if the node does NOT exist, & we exceed the max #of nodes crash...
     if (node_count >= MAX_NODES) {
         fprintf(stderr, "Error: Maximum nodes exceeded.\n");
         exit(1);
     }
+
+//if the node does NOT exist and we have NOT exceeded the max # create a new node And write the name and return the node ID
     nodes[node_count].id = node_count;
     strncpy(nodes[node_count].name, name, sizeof(nodes[node_count].name) - 1);
     return nodes[node_count++].id;
 }
 
 // Function to add an edge
-void add_edge(int from, int to, const char *syscall) {
+int add_edge(int from, int to, const char *syscall) {
+//have we exceeded the number of edges we can store?
     if (edge_count >= MAX_EDGES) {
         fprintf(stderr, "Error: Maximum edges exceeded.\n");
         exit(1);
     }
+
+//does the edge exist? (aka do we track the same syscall going between the same nodes?
+//if so return. otherwise create a new edge
+
+    for (int i = 0; i < edge_count; i++) {
+	int f = edges[i].from;
+	int t = edges[i].to;
+        if (f ==  from && t == to && strcmp(edges[i].syscall, syscall) == 0) {
+            return -1;
+        }
+    }
+
+//create a new edge
     edges[edge_count].from = from;
     edges[edge_count].to = to;
     strncpy(edges[edge_count].syscall, syscall, sizeof(edges[edge_count].syscall) - 1);
-    edge_count++;
+    return edge_count++;
 }
 
 // Helper function to parse file descriptors with "<f>"
@@ -58,7 +76,7 @@ void parse_file_descriptor(const char *fd, char *file_path) {
     char *start = strstr(fd, "<f>");
     if (start) {
         start += 3; // Skip past "<f>"
-        char *end = strchr(start, ')');
+	char *end = strchr(start, ')');
         if (end) {
             size_t length = end - start;
             strncpy(file_path, start, length);
@@ -84,7 +102,8 @@ int main() {
     char status[1024];
     while (fgets(line, sizeof(line), file)) {
         char syscall[64], args[512];
-        if (sscanf(line, "%s %s Syscall=%s Args=%[^\n]",time, status, syscall, args) != 2) {
+// get any char up until S Then extract the syscall and args!
+        if (sscanf(line, "%[^S] Syscall=%s Args=%[^\n]",time, status, syscall, args) != 2) {
             continue;
         }
 
