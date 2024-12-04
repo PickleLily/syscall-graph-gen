@@ -127,34 +127,39 @@ int main(){
         int currentSysNum = findNum(currentLine);
         if(currentSysNum == -1){
             printf("%s, %d\n", currentLine, findNum(currentLine));
-        }
-
-        //Fill root node
-        if(root == NULL){
-            root = makeNode(currentSysNum);
-            current = root;
         } else {
-            //Handle way to stop repeated calls.
-            //This should be done before every added node?
 
-            /*
-            Maybe make way for pairs to be studied?
-            */
+                //Fill root node
+                if(root == NULL){
+                    root = makeNode(currentSysNum);
+                    current = root;
+                } else {
+                    //Handle way to stop repeated calls.
+                    //This should be done before every added node?
+
+                    /*
+                    Maybe make way for pairs to be studied?
+                    */
 
 
-            if(currentSysNum == current->sysCallNum){
-                // printf(" %d\n", compareNodes(setCurrentNode(currentSysNum, current), current));
-                // current = setCurrentNode(currentSysNum, current);
-            } else {
-                //Otherwise we add a new node
-                //And set that to current
-                // setCurrentNode(currentSysNum, current);
-                current = setCurrentNode(currentSysNum, current);
-                Node* newNode = makeNode(currentSysNum);
-                addNode(current, newNode);
-                current = newNode;
-            }
+                    if(currentSysNum == current->sysCallNum){
+                        // printf(" %d\n", compareNodes(setCurrentNode(currentSysNum, current), current));
+                        // current = setCurrentNode(currentSysNum, current);
+                    } else {
+                        //Otherwise we add a new node
+                        //And set that to current
+                        // setCurrentNode(currentSysNum, current);
+                        if(setCurrentNode(currentSysNum, current) != current){
+                            current = setCurrentNode(currentSysNum, current);
+                        }
+                        else {
+                            Node* newNode = makeNode(currentSysNum);
+                            addNode(current, newNode);
+                            current = newNode;
+                        }
+                    }
 
+                }
         }
 
     }
