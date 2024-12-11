@@ -83,7 +83,7 @@ int find_or_add_edge(int prev, int current){
 
 int main(int argc, char* argv[]){
 	if(argc != 2){
-		printf("You must specify the file that you want to parse...\n");
+		perror("Error: You must specify the file that you want to parse...\n");
 		return -1;
 	}
 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]){
 	FILE *f = fopen(argv[1], "r");
 	FILE *fout = fopen("output.txt", "w");
         if(f == NULL || fout == NULL){
-                perror("Error opening file");
+                perror("Error: opening file...\n");
                 return -1;
         }
 
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]){
 		//if the line does NOT have the priority ... get the next line...
 		if(strstr(currentLine, PRIORITY) == NULL){
 			break;
-			printf("error line\n");
+			printf("parsing error line... \n");
 		}
 
 		//returns time
@@ -130,8 +130,7 @@ int main(int argc, char* argv[]){
 
 				fprintf(fout, "%s\n",syscall);
 				find_or_add_edge(pastCall_num, syscall_num);
-				edge_count = edge_count + 1;
-				printf("%s %s\n", syscall, pastCall);
+//				printf("%s %s\n", syscall, pastCall);
 			}else{
 				syscall_num = find_or_add_node(syscall);
 			}
@@ -157,7 +156,6 @@ int main(int argc, char* argv[]){
 	}
 
 	for(int i = 0; i < edge_count; i++){
-//		fprintf(dot_file, " %d -> %d [label=\'%s\"];\n", edges[i].from, edges[i].to);
 		fprintf(dot_file, " %d -> %d\n", edges[i].from, edges[i].to);
 	}
 

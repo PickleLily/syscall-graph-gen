@@ -1,29 +1,10 @@
 20:35:47.572472464: Debug nginx execve
-20:35:47.572494024: Debug nginx page_fault
-20:35:47.572503822: Debug nginx page_fault
-20:35:47.572510154: Debug nginx page_fault
-20:35:47.572516405: Debug nginx page_fault
-20:35:47.572520543: Debug nginx page_fault
-20:35:47.572526825: Debug nginx page_fault
 20:35:47.572536843: Debug nginx brk
-20:35:47.572539148: Debug nginx brk
-20:35:47.572881503: Debug nginx switch
-20:35:47.575238765: Debug nginx page_fault
-20:35:47.575905262: Debug nginx page_fault
-20:35:47.575915070: Debug nginx page_fault
-20:35:47.575925720: Debug nginx page_fault
-20:35:47.576186023: Debug nginx switch
-20:35:47.578147261: Debug nginx page_fault
-20:35:47.578163491: Debug nginx page_fault
+20:35:47.572539148: Debug nginx brk 
 20:35:47.578177868: Debug nginx mmap
 20:35:47.578194448: Debug nginx mmap
-20:35:47.578197624: Debug nginx page_fault
 20:35:47.578206190: Debug nginx access
 20:35:47.578218503: Debug nginx access
-20:35:47.578222110: Debug nginx page_fault
-20:35:47.578227279: Debug nginx page_fault
-20:35:47.578467765: Debug nginx switch
-20:35:47.579298747: Debug nginx page_fault
 20:35:47.579322982: Debug nginx openat
 20:35:47.579339623: Debug nginx openat
 20:35:47.579343981: Debug nginx newfstatat
@@ -32,7 +13,6 @@
 20:35:47.579365931: Debug nginx mmap
 20:35:47.579368276: Debug nginx close
 20:35:47.579370841: Debug nginx close
-20:35:47.579372924: Debug nginx page_fault
 20:35:47.579385187: Debug nginx openat
 20:35:47.579396368: Debug nginx openat
 20:35:47.579403952: Debug nginx newfstatat
@@ -45,15 +25,10 @@
 20:35:47.579469704: Debug nginx mmap
 20:35:47.579471768: Debug nginx mmap
 20:35:47.579491815: Debug nginx mmap
-20:35:47.579494300: Debug nginx page_fault
 20:35:47.579505280: Debug nginx mmap
 20:35:47.579517783: Debug nginx mmap
-20:35:47.579520208: Debug nginx page_fault
-20:35:47.579524886: Debug nginx page_fault
-20:35:47.579532530: Debug nginx page_fault
 20:35:47.579536758: Debug nginx close
 20:35:47.579538852: Debug nginx close
-20:35:47.579542810: Debug nginx page_fault
 20:35:47.579549883: Debug nginx openat
 20:35:47.579561254: Debug nginx openat
 20:35:47.579567956: Debug nginx newfstatat
@@ -66,17 +41,12 @@
 20:35:47.579636133: Debug nginx mmap
 20:35:47.579638186: Debug nginx mmap
 20:35:47.579653725: Debug nginx mmap
-20:35:47.579656180: Debug nginx page_fault
-20:35:47.579665207: Debug nginx page_fault
-20:35:47.579669835: Debug nginx page_fault
-20:35:47.579676508: Debug nginx page_fault
 20:35:47.579682659: Debug nginx close
 20:35:47.579684883: Debug nginx close
 20:35:47.579689231: Debug nginx openat
 20:35:47.579699550: Debug nginx openat
 20:35:47.579755494: Debug nginx newfstatat
 20:35:47.579761786: Debug nginx newfstatat
-20:35:47.579765713: Debug nginx page_fault
 20:35:47.579773437: Debug nginx mmap
 20:35:47.579788065: Debug nginx mmap
 20:35:47.579790229: Debug nginx mmap
@@ -85,10 +55,6 @@
 20:35:47.579859367: Debug nginx mmap
 20:35:47.579861861: Debug nginx mmap
 20:35:47.579894833: Debug nginx mmap
-20:35:47.579897638: Debug nginx page_fault
-20:35:47.579908448: Debug nginx page_fault
-20:35:47.579918637: Debug nginx page_fault
-20:35:47.579925980: Debug nginx page_fault
 20:35:47.579932713: Debug nginx close
 20:35:47.579935157: Debug nginx close
 20:35:47.579940347: Debug nginx openat
@@ -103,15 +69,10 @@
 20:35:47.580073654: Debug nginx mmap
 20:35:47.580075648: Debug nginx mmap
 20:35:47.580093371: Debug nginx mmap
-20:35:47.580095926: Debug nginx page_fault
 20:35:47.580105063: Debug nginx mmap
 20:35:47.580117005: Debug nginx mmap
-20:35:47.580119429: Debug nginx page_fault
-20:35:47.580127795: Debug nginx page_fault
-20:35:47.580134738: Debug nginx page_fault
 20:35:47.580143324: Debug nginx close
 20:35:47.580145437: Debug nginx close
-20:35:47.580147321: Debug nginx page_fault
 20:35:47.580157340: Debug nginx openat
 20:35:47.580168170: Debug nginx openat
 20:35:47.580174882: Debug nginx newfstatat
@@ -124,10 +85,6 @@
 20:35:47.580242728: Debug nginx mmap
 20:35:47.580244782: Debug nginx mmap
 20:35:47.580260361: Debug nginx mmap
-20:35:47.580262825: Debug nginx page_fault
-20:35:47.580271632: Debug nginx page_fault
-20:35:47.580276541: Debug nginx page_fault
-20:35:47.580282963: Debug nginx page_fault
 20:35:47.580287361: Debug nginx close
 20:35:47.580289374: Debug nginx close
 20:35:47.580293723: Debug nginx openat
@@ -136,8 +93,6 @@
 20:35:47.580315743: Debug nginx newfstatat
 20:35:47.580318178: Debug nginx mmap
 20:35:47.580326734: Debug nginx mmap
-20:35:47.580329148: Debug nginx page_fault
-20:35:47.580339107: Debug nginx page_fault
 20:35:47.580344136: Debug nginx mmap
 20:35:47.580355778: Debug nginx mmap
 20:35:47.580357902: Debug nginx mmap
@@ -146,20 +101,12 @@
 20:35:47.580410459: Debug nginx mmap
 20:35:47.580412513: Debug nginx mmap
 20:35:47.580433211: Debug nginx mmap
-20:35:47.580435656: Debug nginx page_fault
 20:35:47.580445624: Debug nginx mmap
 20:35:47.580460261: Debug nginx mmap
-20:35:47.580462666: Debug nginx page_fault
-20:35:47.580468196: Debug nginx page_fault
-20:35:47.580474879: Debug nginx page_fault
 20:35:47.580482132: Debug nginx close
 20:35:47.580484126: Debug nginx close
-20:35:47.580486280: Debug nginx page_fault
-20:35:47.580513761: Debug nginx page_fault
 20:35:47.580520453: Debug nginx mmap
 20:35:47.580528147: Debug nginx mmap
-20:35:47.580530462: Debug nginx page_fault
-20:35:47.580535992: Debug nginx page_fault
 20:35:47.580541322: Debug nginx arch_prctl
 20:35:47.580543806: Debug nginx arch_prctl
 20:35:47.580545309: Debug nginx set_tid_address
@@ -168,295 +115,60 @@
 20:35:47.580549968: Debug nginx set_robust_list
 20:35:47.580551501: Debug nginx rseq
 20:35:47.580553104: Debug nginx rseq
-20:35:47.580556300: Debug nginx page_fault
-20:35:47.580562942: Debug nginx page_fault
-20:35:47.580570366: Debug nginx page_fault
-20:35:47.580578701: Debug nginx page_fault
-20:35:47.580587127: Debug nginx page_fault
-20:35:47.580598738: Debug nginx page_fault
-20:35:47.580837922: Debug nginx page_fault
-20:35:47.580866986: Debug nginx page_fault
-20:35:47.580874269: Debug nginx page_fault
-20:35:47.580883557: Debug nginx page_fault
-20:35:47.580890469: Debug nginx page_fault
 20:35:47.580900869: Debug nginx mprotect
 20:35:47.580918031: Debug nginx mprotect
 20:35:47.580924172: Debug nginx mprotect
 20:35:47.580937657: Debug nginx mprotect
-20:35:47.580941725: Debug nginx page_fault
-20:35:47.580963084: Debug nginx page_fault
-20:35:47.580973594: Debug nginx page_fault
-20:35:47.580982941: Debug nginx page_fault
-20:35:47.580993390: Debug nginx page_fault
-20:35:47.580999271: Debug nginx page_fault
-20:35:47.581005313: Debug nginx page_fault
-20:35:47.581011113: Debug nginx page_fault
-20:35:47.581018206: Debug nginx page_fault
-20:35:47.581027393: Debug nginx page_fault
-20:35:47.581037893: Debug nginx page_fault
-20:35:47.581050546: Debug nginx page_fault
-20:35:47.581062258: Debug nginx page_fault
-20:35:47.581070944: Debug nginx page_fault
-20:35:47.581076605: Debug nginx page_fault
-20:35:47.581082686: Debug nginx page_fault
-20:35:47.581088978: Debug nginx page_fault
-20:35:47.581094568: Debug nginx page_fault
-20:35:47.581100559: Debug nginx page_fault
-20:35:47.581106170: Debug nginx page_fault
-20:35:47.581115928: Debug nginx page_fault
-20:35:47.581122290: Debug nginx page_fault
-20:35:47.581128170: Debug nginx page_fault
-20:35:47.581134632: Debug nginx page_fault
-20:35:47.581141595: Debug nginx page_fault
-20:35:47.581147907: Debug nginx page_fault
-20:35:47.581154149: Debug nginx page_fault
-20:35:47.581160090: Debug nginx page_fault
-20:35:47.581166942: Debug nginx page_fault
-20:35:47.581173224: Debug nginx page_fault
-20:35:47.581179365: Debug nginx page_fault
-20:35:47.581185447: Debug nginx page_fault
-20:35:47.581806960: Debug nginx page_fault
-20:35:47.581816938: Debug nginx page_fault
-20:35:47.581823340: Debug nginx page_fault
-20:35:47.581829862: Debug nginx page_fault
-20:35:47.581839821: Debug nginx page_fault
-20:35:47.581925079: Debug nginx page_fault
-20:35:47.581936360: Debug nginx page_fault
-20:35:47.581943553: Debug nginx page_fault
-20:35:47.581952540: Debug nginx page_fault
-20:35:47.581961827: Debug nginx page_fault
-20:35:47.581970443: Debug nginx page_fault
-20:35:47.581979149: Debug nginx page_fault
-20:35:47.581988306: Debug nginx page_fault
-20:35:47.581995610: Debug nginx page_fault
-20:35:47.582001991: Debug nginx page_fault
-20:35:47.582008083: Debug nginx page_fault
-20:35:47.582016989: Debug nginx page_fault
-20:35:47.582029843: Debug nginx page_fault
-20:35:47.582045031: Debug nginx page_fault
-20:35:47.582056382: Debug nginx page_fault
-20:35:47.582076439: Debug nginx page_fault
-20:35:47.582085747: Debug nginx page_fault
-20:35:47.582091988: Debug nginx page_fault
-20:35:47.582097889: Debug nginx page_fault
-20:35:47.582105133: Debug nginx page_fault
-20:35:47.582111264: Debug nginx page_fault
-20:35:47.582116975: Debug nginx page_fault
-20:35:47.582123717: Debug nginx page_fault
-20:35:47.582129227: Debug nginx page_fault
-20:35:47.582137623: Debug nginx page_fault
-20:35:47.582148924: Debug nginx page_fault
-20:35:47.582160385: Debug nginx page_fault
-20:35:47.582172377: Debug nginx page_fault
-20:35:47.582180202: Debug nginx page_fault
-20:35:47.582187225: Debug nginx page_fault
-20:35:47.582195040: Debug nginx page_fault
-20:35:47.582207953: Debug nginx page_fault
-20:35:47.582217391: Debug nginx page_fault
-20:35:47.582223793: Debug nginx page_fault
-20:35:47.582229714: Debug nginx page_fault
-20:35:47.582236797: Debug nginx page_fault
-20:35:47.582242688: Debug nginx page_fault
-20:35:47.582248368: Debug nginx page_fault
-20:35:47.582254780: Debug nginx page_fault
-20:35:47.582260822: Debug nginx page_fault
-20:35:47.582267784: Debug nginx page_fault
-20:35:47.582273455: Debug nginx page_fault
-20:35:47.582279236: Debug nginx page_fault
-20:35:47.582285457: Debug nginx page_fault
-20:35:47.582291378: Debug nginx page_fault
-20:35:47.582297590: Debug nginx page_fault
-20:35:47.582303771: Debug nginx page_fault
-20:35:47.582317196: Debug nginx page_fault
-20:35:47.582330521: Debug nginx page_fault
-20:35:47.582344988: Debug nginx page_fault
-20:35:47.582357751: Debug nginx page_fault
-20:35:47.582365205: Debug nginx page_fault
-20:35:47.582372579: Debug nginx page_fault
-20:35:47.582381846: Debug nginx page_fault
-20:35:47.582393568: Debug nginx page_fault
-20:35:47.582402074: Debug nginx page_fault
-20:35:47.582409407: Debug nginx page_fault
-20:35:47.582416420: Debug nginx page_fault
-20:35:47.582423423: Debug nginx page_fault
-20:35:47.582430176: Debug nginx page_fault
-20:35:47.582436618: Debug nginx page_fault
-20:35:47.582443250: Debug nginx page_fault
-20:35:47.582450253: Debug nginx page_fault
-20:35:47.582457306: Debug nginx page_fault
-20:35:47.582564164: Debug nginx page_fault
-20:35:47.582583881: Debug nginx page_fault
-20:35:47.582745340: Debug nginx page_fault
-20:35:47.582925785: Debug nginx page_fault
-20:35:47.582934030: Debug nginx page_fault
-20:35:47.582963776: Debug nginx page_fault
-20:35:47.583044956: Debug nginx page_fault
-20:35:47.583155020: Debug nginx page_fault
-20:35:47.583300310: Debug nginx page_fault
-20:35:47.583404193: Debug nginx page_fault
-20:35:47.583425232: Debug nginx page_fault
 20:35:47.583564740: Debug nginx mprotect
 20:35:47.583586290: Debug nginx mprotect
-20:35:47.583589967: Debug nginx page_fault
-20:35:47.583643486: Debug nginx page_fault
-20:35:47.583676518: Debug nginx page_fault
-20:35:47.583684442: Debug nginx page_fault
-20:35:47.583714628: Debug nginx page_fault
-20:35:47.583721992: Debug nginx page_fault
-20:35:47.583729406: Debug nginx page_fault
-20:35:47.583757298: Debug nginx page_fault
-20:35:47.583801490: Debug nginx page_fault
-20:35:47.583829481: Debug nginx page_fault
-20:35:47.583856742: Debug nginx page_fault
-20:35:47.583884343: Debug nginx page_fault
-20:35:47.583891767: Debug nginx page_fault
-20:35:47.583931240: Debug nginx page_fault
 20:35:47.584149736: Debug nginx mprotect
 20:35:47.584165845: Debug nginx mprotect
 20:35:47.584169763: Debug nginx mprotect
 20:35:47.584185291: Debug nginx mprotect
 20:35:47.584194779: Debug nginx mprotect
-20:35:47.584205539: Debug nginx mprotect
-20:35:47.584208464: Debug nginx page_fault
-20:35:47.584216650: Debug nginx page_fault
-20:35:47.584223041: Debug nginx page_fault
-20:35:47.584229203: Debug nginx page_fault
-20:35:47.584236146: Debug nginx page_fault
-20:35:47.584242257: Debug nginx page_fault
-20:35:47.584248980: Debug nginx page_fault
-20:35:47.584694827: Debug nginx switch
-20:35:47.594604582: Debug nginx page_fault
-20:35:47.594615642: Debug nginx page_fault
-20:35:47.594633576: Debug nginx page_fault
-20:35:47.594640088: Debug nginx page_fault
-20:35:47.594646890: Debug nginx page_fault
-20:35:47.594654384: Debug nginx page_fault
-20:35:47.594663120: Debug nginx page_fault
-20:35:47.594675493: Debug nginx page_fault
-20:35:47.594684029: Debug nginx page_fault
-20:35:47.594692595: Debug nginx page_fault
-20:35:47.594701191: Debug nginx page_fault
-20:35:47.594708925: Debug nginx page_fault
-20:35:47.594716940: Debug nginx page_fault
-20:35:47.594949201: Debug nginx page_fault
-20:35:47.594959099: Debug nginx page_fault
-20:35:47.594965722: Debug nginx page_fault
-20:35:47.594971663: Debug nginx page_fault
-20:35:47.594977544: Debug nginx page_fault
-20:35:47.594983324: Debug nginx page_fault
-20:35:47.594989486: Debug nginx page_fault
-20:35:47.594995237: Debug nginx page_fault
-20:35:47.595005165: Debug nginx page_fault
-20:35:47.595014913: Debug nginx page_fault
-20:35:47.595021155: Debug nginx page_fault
-20:35:47.595027647: Debug nginx page_fault
-20:35:47.595033477: Debug nginx page_fault
-20:35:47.595111232: Debug nginx page_fault
+20:35:47.584205539: Debug nginx mprotect 
 20:35:47.595244138: Debug nginx mprotect
 20:35:47.595262372: Debug nginx mprotect
 20:35:47.595271108: Debug nginx mprotect
 20:35:47.595285836: Debug nginx mprotect
-20:35:47.595288601: Debug nginx page_fault
-20:35:47.595295984: Debug nginx page_fault
-20:35:47.595302807: Debug nginx page_fault
-20:35:47.595308778: Debug nginx page_fault
-20:35:47.595313597: Debug nginx page_fault
 20:35:47.595320881: Debug nginx prlimit
-20:35:47.595326531: Debug nginx prlimit
-20:35:47.595820327: Debug nginx page_fault
-20:35:47.595828322: Debug nginx page_fault
-20:35:47.595835986: Debug nginx page_fault
-20:35:47.595844582: Debug nginx page_fault
+20:35:47.595326531: Debug nginx prlimit 
 20:35:47.595849010: Debug nginx munmap
 20:35:47.595875359: Debug nginx munmap
-20:35:47.595882763: Debug nginx page_fault
-20:35:47.595890127: Debug nginx page_fault
-20:35:47.595897560: Debug nginx page_fault
-20:35:47.595904243: Debug nginx page_fault
-20:35:47.595913811: Debug nginx page_fault
-20:35:47.595920934: Debug nginx page_fault
-20:35:47.595927566: Debug nginx page_fault
-20:35:47.596149969: Debug nginx page_fault
-20:35:47.596161690: Debug nginx page_fault
-20:35:47.596168453: Debug nginx page_fault
-20:35:47.596175486: Debug nginx page_fault
-20:35:47.596184443: Debug nginx page_fault
-20:35:47.596194902: Debug nginx page_fault
-20:35:47.596207345: Debug nginx page_fault
-20:35:47.596584945: Debug nginx switch
-20:35:47.598106738: Debug nginx page_fault
-20:35:47.598119172: Debug nginx page_fault
-20:35:47.598129551: Debug nginx page_fault
-20:35:47.598134490: Debug nginx page_fault
-20:35:47.598150930: Debug nginx page_fault
-20:35:47.598161199: Debug nginx page_fault
-20:35:47.598165568: Debug nginx page_fault
-20:35:47.598171519: Debug nginx page_fault
 20:35:47.598180966: Debug nginx getrandom
 20:35:47.598184513: Debug nginx getrandom
 20:35:47.598188069: Debug nginx brk
 20:35:47.598190384: Debug nginx brk
 20:35:47.598192678: Debug nginx brk
 20:35:47.598199320: Debug nginx brk
-20:35:47.598201825: Debug nginx page_fault
-20:35:47.598224327: Debug nginx page_fault
-20:35:47.598242741: Debug nginx page_fault
 20:35:47.598248892: Debug nginx openat
 20:35:47.598268539: Debug nginx openat
 20:35:47.598273297: Debug nginx newfstatat
 20:35:47.598279008: Debug nginx newfstatat
 20:35:47.598282454: Debug nginx newfstatat
 20:35:47.598285951: Debug nginx newfstatat
-20:35:47.598288616: Debug nginx page_fault
 20:35:47.598299787: Debug nginx lseek
 20:35:47.598303754: Debug nginx lseek
 20:35:47.598310697: Debug nginx close
 20:35:47.598313482: Debug nginx close
-20:35:47.598320154: Debug nginx page_fault
-20:35:47.598327899: Debug nginx page_fault
-20:35:47.598334571: Debug nginx page_fault
-20:35:47.598555541: Debug nginx switch
-20:35:47.599463145: Debug nginx page_fault
 20:35:47.599470578: Debug nginx getpid
 20:35:47.599473193: Debug nginx getpid
 20:35:47.599475227: Debug nginx getppid
 20:35:47.599477261: Debug nginx getppid
 20:35:47.599479164: Debug nginx openat
-20:35:47.599594067: Debug nginx switch
-20:35:47.599759815: Debug nginx switch
 20:35:47.600792260: Debug nginx openat
-20:35:47.600799443: Debug nginx page_fault
-20:35:47.600807378: Debug nginx page_fault
-20:35:47.600858343: Debug nginx page_fault
 20:35:47.600955032: Debug nginx futex
 20:35:47.600960041: Debug nginx futex
-20:35:47.600963438: Debug nginx page_fault
 20:35:47.600972605: Debug nginx futex
 20:35:47.600974689: Debug nginx futex
 20:35:47.600976312: Debug nginx futex
 20:35:47.600978105: Debug nginx futex
-20:35:47.600979838: Debug nginx page_fault
-20:35:47.601028328: Debug nginx page_fault
-20:35:47.601043536: Debug nginx page_fault
-20:35:47.601051321: Debug nginx page_fault
 20:35:47.601084673: Debug nginx futex
 20:35:47.601087127: Debug nginx futex
-20:35:47.601110801: Debug nginx page_fault
-20:35:47.601143953: Debug nginx page_fault
-20:35:47.601159461: Debug nginx page_fault
-20:35:47.601221066: Debug nginx page_fault
-20:35:47.601230203: Debug nginx page_fault
-20:35:47.601271519: Debug nginx page_fault
-20:35:47.601328345: Debug nginx page_fault
-20:35:47.601368599: Debug nginx page_fault
 20:35:47.601378588: Debug nginx futex
 20:35:47.601381233: Debug nginx futex
-20:35:47.601400368: Debug nginx page_fault
-20:35:47.601411860: Debug nginx page_fault
 20:35:47.601424643: Debug nginx futex
 20:35:47.601426717: Debug nginx futex
-20:35:47.601431356: Debug nginx page_fault
-20:35:47.601439160: Debug nginx page_fault
 20:35:47.601455661: Debug nginx futex
 20:35:47.601457725: Debug nginx futex
 20:35:47.601487009: Debug nginx futex
@@ -465,93 +177,84 @@
 20:35:47.601494132: Debug nginx futex
 20:35:47.601496797: Debug nginx futex
 20:35:47.601498641: Debug nginx futex
-20:35:47.601501977: Debug nginx page_fault
-20:35:47.601516924: Debug nginx page_fault
-20:35:47.601531602: Debug nginx page_fault
-20:35:47.601541941: Debug nginx page_fault
-20:35:47.601555416: Debug nginx page_fault
-20:35:47.601568721: Debug nginx page_fault
-20:35:47.601585572: Debug nginx page_fault
-20:35:47.601596632: Debug nginx page_fault
-20:35:47.601608204: Debug nginx page_fault
-20:35:47.601618152: Debug nginx page_fault
-20:35:47.601630986: Debug nginx page_fault
-20:35:47.601642417: Debug nginx page_fault
-20:35:47.601655061: Debug nginx page_fault
-20:35:47.601663637: Debug nginx page_fault
-20:35:47.601683764: Debug nginx page_fault
-20:35:47.601707298: Debug nginx page_fault
-20:35:47.601712497: Debug nginx page_fault
-20:35:47.601728437: Debug nginx page_fault
-20:35:47.601746310: Debug nginx page_fault
-20:35:47.601772879: Debug nginx page_fault
-20:35:47.601786224: Debug nginx page_fault
-20:35:47.601810038: Debug nginx page_fault
-20:35:47.601858538: Debug nginx page_fault
-20:35:47.601864800: Debug nginx page_fault
-20:35:47.601871743: Debug nginx page_fault
-20:35:47.601910344: Debug nginx page_fault
-20:35:47.601953374: Debug nginx page_fault
+20:35:47.601618152: 
+20:35:47.601630986: 
+20:35:47.601642417: 
+20:35:47.601655061: 
+20:35:47.601663637: 
+20:35:47.601683764: 
+20:35:47.601707298: 
+20:35:47.601712497: 
+20:35:47.601728437: 
+20:35:47.601746310: 
+20:35:47.601772879: 
+20:35:47.601786224: 
+20:35:47.601810038: 
+20:35:47.601858538: 
+20:35:47.601864800: 
+20:35:47.601871743: 
+20:35:47.601910344: 
+20:35:47.601953374: 
 20:35:47.601967821: Debug nginx futex
 20:35:47.601970706: Debug nginx futex
 20:35:47.602006392: Debug nginx openat
 20:35:47.602025177: Debug nginx openat
 20:35:47.602038031: Debug nginx newfstatat
 20:35:47.602044022: Debug nginx newfstatat
-20:35:47.602047669: Debug nginx page_fault
-20:35:47.602112479: Debug nginx page_fault
-20:35:47.602168824: Debug nginx page_fault
-20:35:47.602198258: Debug nginx page_fault
-20:35:47.602229055: Debug nginx page_fault
-20:35:47.602266475: Debug nginx page_fault
-20:35:47.602291431: Debug nginx page_fault
+20:35:47.602047669: 
+20:35:47.602112479: 
+20:35:47.602168824: 
+20:35:47.602198258: 
+20:35:47.602229055: 
+20:35:47.602266475: 
+20:35:47.602291431: 
 20:35:47.602314905: Debug nginx close
 20:35:47.602317880: Debug nginx close
 20:35:47.602358235: Debug nginx futex
 20:35:47.602360770: Debug nginx futex
-20:35:47.602363455: Debug nginx page_fault
-20:35:47.602783053: Debug nginx switch
+20:35:47.602363455: 
+20:35:47.602783053: 
 20:35:47.602812448: Debug nginx futex
 20:35:47.602829770: Debug nginx futex
 20:35:47.602842604: Debug nginx sysinfo
 20:35:47.602848194: Debug nginx sysinfo
 20:35:47.602875485: Debug nginx futex
 20:35:47.602877629: Debug nginx futex
-20:35:47.602883680: Debug nginx page_fault
-20:35:47.602893949: Debug nginx page_fault
+20:35:47.602883680: 
+20:35:47.602893949: 
 20:35:47.602898958: Debug nginx uname
 20:35:47.602901473: Debug nginx uname
-20:35:47.602904579: Debug nginx page_fault
+20:35:47.602904579: 
 20:35:47.602911461: Debug nginx openat
 20:35:47.602958929: Debug nginx openat
-20:35:47.603092146: Debug nginx page_fault
-20:35:47.603490836: Debug nginx page_fault
+20:35:47.603092146: 
+20:35:47.603490836: 
 20:35:47.603497719: Debug nginx close
 20:35:47.603501616: Debug nginx close
 20:35:47.603579801: Debug nginx prlimit
 20:35:47.603583338: Debug nginx prlimit
 20:35:47.603595811: Debug nginx newfstatat
 20:35:47.603608504: Debug nginx newfstatat
-20:35:47.603618383: Debug nginx page_fault
-20:35:47.603627339: Debug nginx page_fault
-20:35:47.603632669: Debug nginx page_fault
+20:35:47.603618383: 
+20:35:47.603627339: 
+20:35:47.603632669: 
 20:35:47.603638109: Debug nginx uname
 20:35:47.603640814: Debug nginx uname
-20:35:47.603644341: Debug nginx page_fault
-20:35:47.603653438: Debug nginx page_fault
+20:35:47.603644341: 
+20:35:47.603653438: 
 20:35:47.603659890: Debug nginx brk
 20:35:47.603671431: Debug nginx brk
-20:35:47.603674256: Debug nginx page_fault
+20:35:47.603674256: 
 20:35:47.603680087: Debug nginx openat
-20:35:47.603718779: Debug nginx switch
-20:35:47.603909783: Debug nginx switch
+20:35:47.603718779: 
+20:35:47.603909783: 
 20:35:47.604993694: Debug nginx openat
 20:35:47.605000376: Debug nginx newfstatat
 20:35:47.605005426: Debug nginx newfstatat
-20:35:47.605413763: Debug nginx switch
+20:35:47.605413763: 
 20:35:47.606257208: Debug nginx geteuid
 20:35:47.606259763: Debug nginx geteuid
-20:35:47.606264692: Debug nginx page_fault
+20:35:47.606264692: 
 20:35:47.606271404: Debug nginx socket
 20:35:47.606294246: Debug nginx socket
 20:35:47.606296851: Debug nginx connect
@@ -564,22 +267,22 @@
 20:35:47.606367182: Debug nginx connect
 20:35:47.606370428: Debug nginx close
 20:35:47.606372391: Debug nginx close
-20:35:47.606381899: Debug nginx page_fault
+20:35:47.606381899: 
 20:35:47.606410071: Debug nginx newfstatat
 20:35:47.606417134: Debug nginx newfstatat
 20:35:47.606420300: Debug nginx newfstatat
 20:35:47.606424228: Debug nginx newfstatat
 20:35:47.606427444: Debug nginx openat
 20:35:47.606437923: Debug nginx openat
-20:35:47.606442812: Debug nginx page_fault
+20:35:47.606442812: 
 20:35:47.606450426: Debug nginx newfstatat
 20:35:47.606454544: Debug nginx newfstatat
-20:35:47.606457419: Debug nginx page_fault
+20:35:47.606457419: 
 20:35:47.606484149: Debug nginx newfstatat
 20:35:47.606487956: Debug nginx newfstatat
 20:35:47.606490631: Debug nginx close
 20:35:47.606492695: Debug nginx close
-20:35:47.606502242: Debug nginx page_fault
+20:35:47.606502242: 
 20:35:47.606526046: Debug nginx openat
 20:35:47.606535113: Debug nginx openat
 20:35:47.606539261: Debug nginx newfstatat
@@ -610,68 +313,68 @@
 20:35:47.606670094: Debug nginx lseek
 20:35:47.606685061: Debug nginx close
 20:35:47.606686965: Debug nginx close
-20:35:47.606693868: Debug nginx page_fault
-20:35:47.606898618: Debug nginx switch
+20:35:47.606693868: 
+20:35:47.606898618: 
 20:35:47.607761979: Debug nginx epoll_create
 20:35:47.607776947: Debug nginx epoll_create
 20:35:47.607779922: Debug nginx close
 20:35:47.607782647: Debug nginx close
-20:35:47.607799358: Debug nginx page_fault
-20:35:47.607807814: Debug nginx page_fault
-20:35:47.608002505: Debug nginx switch
-20:35:47.608894630: Debug nginx page_fault
-20:35:47.609128474: Debug nginx switch
-20:35:47.610325715: Debug nginx page_fault
-20:35:47.610332157: Debug nginx page_fault
-20:35:47.610532058: Debug nginx switch
-20:35:47.612012584: Debug nginx page_fault
-20:35:47.612019417: Debug nginx page_fault
-20:35:47.612028644: Debug nginx page_fault
-20:35:47.612256747: Debug nginx switch
-20:35:47.613150816: Debug nginx page_fault
-20:35:47.613158901: Debug nginx page_fault
-20:35:47.614308363: Debug nginx switch
-20:35:47.614807409: Debug nginx page_fault
-20:35:47.615008421: Debug nginx switch
-20:35:47.616422976: Debug nginx page_fault
-20:35:47.616432193: Debug nginx page_fault
-20:35:47.616444075: Debug nginx page_fault
-20:35:47.616449435: Debug nginx page_fault
-20:35:47.616456999: Debug nginx page_fault
-20:35:47.616462298: Debug nginx page_fault
-20:35:47.616468280: Debug nginx page_fault
-20:35:47.616476284: Debug nginx page_fault
-20:35:47.616485742: Debug nginx page_fault
-20:35:47.616499297: Debug nginx page_fault
-20:35:47.616507162: Debug nginx page_fault
-20:35:47.616513974: Debug nginx page_fault
-20:35:47.616521578: Debug nginx page_fault
-20:35:47.616539271: Debug nginx page_fault
-20:35:47.616561352: Debug nginx page_fault
-20:35:47.616575088: Debug nginx page_fault
-20:35:47.616580297: Debug nginx page_fault
+20:35:47.607799358: 
+20:35:47.607807814: 
+20:35:47.608002505: 
+20:35:47.608894630: 
+20:35:47.609128474: 
+20:35:47.610325715: 
+20:35:47.610332157: 
+20:35:47.610532058: 
+20:35:47.612012584: 
+20:35:47.612019417: 
+20:35:47.612028644: 
+20:35:47.612256747: 
+20:35:47.613150816: 
+20:35:47.613158901: 
+20:35:47.614308363: 
+20:35:47.614807409: 
+20:35:47.615008421: 
+20:35:47.616422976: 
+20:35:47.616432193: 
+20:35:47.616444075: 
+20:35:47.616449435: 
+20:35:47.616456999: 
+20:35:47.616462298: 
+20:35:47.616468280: 
+20:35:47.616476284: 
+20:35:47.616485742: 
+20:35:47.616499297: 
+20:35:47.616507162: 
+20:35:47.616513974: 
+20:35:47.616521578: 
+20:35:47.616539271: 
+20:35:47.616561352: 
+20:35:47.616575088: 
+20:35:47.616580297: 
 20:35:47.616590667: Debug nginx openat
 20:35:47.616674512: Debug nginx openat
 20:35:47.616679932: Debug nginx newfstatat
 20:35:47.616686324: Debug nginx newfstatat
-20:35:47.616690582: Debug nginx page_fault
-20:35:47.616866649: Debug nginx switch
-20:35:47.619444260: Debug nginx page_fault
-20:35:47.619522395: Debug nginx page_fault
+20:35:47.616690582: 
+20:35:47.616866649: 
+20:35:47.619444260: 
+20:35:47.619522395: 
 20:35:47.619608395: Debug nginx close
 20:35:47.619611330: Debug nginx close
-20:35:47.619626198: Debug nginx page_fault
-20:35:47.619633010: Debug nginx page_fault
+20:35:47.619626198: 
+20:35:47.619633010: 
 20:35:47.619646395: Debug nginx openat
 20:35:47.619676421: Debug nginx openat
 20:35:47.619681140: Debug nginx newfstatat
 20:35:47.619686980: Debug nginx newfstatat
-20:35:47.619690757: Debug nginx page_fault
+20:35:47.619690757: 
 20:35:47.619696388: Debug nginx getdents64
-20:35:47.619725812: Debug nginx switch
-20:35:47.619903632: Debug nginx switch
+20:35:47.619725812: 
+20:35:47.619903632: 
 20:35:47.620726429: Debug nginx getdents64
-20:35:47.620733001: Debug nginx page_fault
+20:35:47.620733001: 
 20:35:47.620743791: Debug nginx getdents64
 20:35:47.620748550: Debug nginx getdents64
 20:35:47.620753328: Debug nginx close
@@ -680,73 +383,73 @@
 20:35:47.620795958: Debug nginx openat
 20:35:47.620800566: Debug nginx newfstatat
 20:35:47.620806387: Debug nginx newfstatat
-20:35:47.620965953: Debug nginx switch
-20:35:47.622015840: Debug nginx page_fault
-20:35:47.622027813: Debug nginx page_fault
-20:35:47.622040136: Debug nginx page_fault
-20:35:47.622285290: Debug nginx page_fault
-20:35:47.622310788: Debug nginx page_fault
-20:35:47.622329382: Debug nginx page_fault
-20:35:47.622337668: Debug nginx page_fault
+20:35:47.620965953: 
+20:35:47.622015840: 
+20:35:47.622027813: 
+20:35:47.622040136: 
+20:35:47.622285290: 
+20:35:47.622310788: 
+20:35:47.622329382: 
+20:35:47.622337668: 
 20:35:47.622348728: Debug nginx close
 20:35:47.622352505: Debug nginx close
-20:35:47.622378443: Debug nginx page_fault
-20:35:47.622388382: Debug nginx page_fault
-20:35:47.622432013: Debug nginx page_fault
+20:35:47.622378443: 
+20:35:47.622388382: 
+20:35:47.622432013: 
 20:35:47.622491343: Debug nginx futex
 20:35:47.622496292: Debug nginx futex
-20:35:47.623260820: Debug nginx page_fault
-20:35:47.623376795: Debug nginx page_fault
-20:35:47.623649591: Debug nginx page_fault
-20:35:47.623664750: Debug nginx page_fault
-20:35:47.623678004: Debug nginx page_fault
-20:35:47.623682583: Debug nginx page_fault
-20:35:47.623689345: Debug nginx page_fault
+20:35:47.623260820: 
+20:35:47.623376795: 
+20:35:47.623649591: 
+20:35:47.623664750: 
+20:35:47.623678004: 
+20:35:47.623682583: 
+20:35:47.623689345: 
 20:35:47.623712819: Debug nginx brk
 20:35:47.623725132: Debug nginx brk
-20:35:47.623728217: Debug nginx page_fault
-20:35:47.623743937: Debug nginx page_fault
+20:35:47.623728217: 
+20:35:47.623743937: 
 20:35:47.623762100: Debug nginx getpid
 20:35:47.623764805: Debug nginx getpid
-20:35:47.623776968: Debug nginx page_fault
-20:35:47.623824877: Debug nginx page_fault
-20:35:47.623847509: Debug nginx page_fault
-20:35:47.623873777: Debug nginx page_fault
-20:35:47.623894516: Debug nginx page_fault
-20:35:47.623918811: Debug nginx page_fault
-20:35:47.623937586: Debug nginx page_fault
-20:35:47.623963023: Debug nginx page_fault
-20:35:47.623983541: Debug nginx page_fault
-20:35:47.624008377: Debug nginx page_fault
-20:35:47.624038363: Debug nginx page_fault
-20:35:47.624065112: Debug nginx page_fault
-20:35:47.624105517: Debug nginx page_fault
-20:35:47.624159498: Debug nginx page_fault
-20:35:47.624184824: Debug nginx page_fault
-20:35:47.624224959: Debug nginx page_fault
-20:35:47.624247701: Debug nginx page_fault
-20:35:47.624274711: Debug nginx page_fault
-20:35:47.624302232: Debug nginx page_fault
-20:35:47.624331066: Debug nginx page_fault
-20:35:47.624358336: Debug nginx page_fault
-20:35:47.624378824: Debug nginx page_fault
-20:35:47.624403881: Debug nginx page_fault
-20:35:47.624431612: Debug nginx page_fault
-20:35:47.624458192: Debug nginx page_fault
-20:35:47.624484941: Debug nginx page_fault
-20:35:47.624512222: Debug nginx page_fault
-20:35:47.624544472: Debug nginx page_fault
-20:35:47.624570340: Debug nginx page_fault
-20:35:47.624597570: Debug nginx page_fault
-20:35:47.624621204: Debug nginx page_fault
+20:35:47.623776968: 
+20:35:47.623824877: 
+20:35:47.623847509: 
+20:35:47.623873777: 
+20:35:47.623894516: 
+20:35:47.623918811: 
+20:35:47.623937586: 
+20:35:47.623963023: 
+20:35:47.623983541: 
+20:35:47.624008377: 
+20:35:47.624038363: 
+20:35:47.624065112: 
+20:35:47.624105517: 
+20:35:47.624159498: 
+20:35:47.624184824: 
+20:35:47.624224959: 
+20:35:47.624247701: 
+20:35:47.624274711: 
+20:35:47.624302232: 
+20:35:47.624331066: 
+20:35:47.624358336: 
+20:35:47.624378824: 
+20:35:47.624403881: 
+20:35:47.624431612: 
+20:35:47.624458192: 
+20:35:47.624484941: 
+20:35:47.624512222: 
+20:35:47.624544472: 
+20:35:47.624570340: 
+20:35:47.624597570: 
+20:35:47.624621204: 
 20:35:47.624644427: Debug nginx brk
 20:35:47.624652011: Debug nginx brk
-20:35:47.624654626: Debug nginx page_fault
+20:35:47.624654626: 
 20:35:47.624663813: Debug nginx brk
 20:35:47.624722883: Debug nginx brk
-20:35:47.624756916: Debug nginx page_fault
-20:35:47.624789586: Debug nginx page_fault
-20:35:47.624813751: Debug nginx page_fault
+20:35:47.624756916: 
+20:35:47.624789586: 
+20:35:47.624813751: 
 20:35:47.624868944: Debug nginx getrandom
 20:35:47.624873332: Debug nginx getrandom
 20:35:47.624930608: Debug nginx getpid
@@ -757,47 +460,47 @@
 20:35:47.624981603: Debug nginx getpid
 20:35:47.624984899: Debug nginx getpid
 20:35:47.624986392: Debug nginx getpid
-20:35:47.625028540: Debug nginx page_fault
-20:35:47.625051202: Debug nginx page_fault
-20:35:47.625067442: Debug nginx page_fault
-20:35:47.625083692: Debug nginx page_fault
-20:35:47.625096516: Debug nginx page_fault
-20:35:47.625110562: Debug nginx page_fault
-20:35:47.625124318: Debug nginx page_fault
-20:35:47.625369693: Debug nginx page_fault
-20:35:47.625730743: Debug nginx switch
+20:35:47.625028540: 
+20:35:47.625051202: 
+20:35:47.625067442: 
+20:35:47.625083692: 
+20:35:47.625096516: 
+20:35:47.625110562: 
+20:35:47.625124318: 
+20:35:47.625369693: 
+20:35:47.625730743: 
 20:35:47.636170188: Debug nginx futex
 20:35:47.636175318: Debug nginx futex
-20:35:47.636276996: Debug nginx page_fault
-20:35:47.636361323: Debug nginx page_fault
-20:35:47.636384305: Debug nginx page_fault
-20:35:47.636407108: Debug nginx page_fault
-20:35:47.636423799: Debug nginx page_fault
-20:35:47.636455487: Debug nginx page_fault
-20:35:47.636471998: Debug nginx page_fault
-20:35:47.636497756: Debug nginx page_fault
-20:35:47.636527952: Debug nginx page_fault
-20:35:47.636558579: Debug nginx page_fault
-20:35:47.636581571: Debug nginx page_fault
-20:35:47.636614262: Debug nginx page_fault
-20:35:47.636644879: Debug nginx page_fault
-20:35:47.636684222: Debug nginx page_fault
-20:35:47.636709208: Debug nginx page_fault
-20:35:47.636734355: Debug nginx page_fault
-20:35:47.636747679: Debug nginx page_fault
-20:35:47.636977386: Debug nginx switch
-20:35:47.638534314: Debug nginx page_fault
-20:35:47.638760012: Debug nginx page_fault
-20:35:47.638774980: Debug nginx page_fault
-20:35:47.638801299: Debug nginx page_fault
-20:35:47.638832216: Debug nginx page_fault
-20:35:47.638920430: Debug nginx page_fault
-20:35:47.638930779: Debug nginx page_fault
+20:35:47.636276996: 
+20:35:47.636361323: 
+20:35:47.636384305: 
+20:35:47.636407108: 
+20:35:47.636423799: 
+20:35:47.636455487: 
+20:35:47.636471998: 
+20:35:47.636497756: 
+20:35:47.636527952: 
+20:35:47.636558579: 
+20:35:47.636581571: 
+20:35:47.636614262: 
+20:35:47.636644879: 
+20:35:47.636684222: 
+20:35:47.636709208: 
+20:35:47.636734355: 
+20:35:47.636747679: 
+20:35:47.636977386: 
+20:35:47.638534314: 
+20:35:47.638760012: 
+20:35:47.638774980: 
+20:35:47.638801299: 
+20:35:47.638832216: 
+20:35:47.638920430: 
+20:35:47.638930779: 
 20:35:47.638956537: Debug nginx close
 20:35:47.638962528: Debug nginx close
 20:35:47.638973679: Debug nginx mkdir
-20:35:47.639502129: Debug nginx switch
-20:35:47.639639654: Debug nginx switch
+20:35:47.639502129: 
+20:35:47.639639654: 
 20:35:47.640555142: Debug nginx mkdir
 20:35:47.640561514: Debug nginx newfstatat
 20:35:47.640571803: Debug nginx newfstatat
@@ -839,14 +542,14 @@
 20:35:47.640942501: Debug nginx listen
 20:35:47.640947430: Debug nginx gettid
 20:35:47.640949835: Debug nginx gettid
-20:35:47.641008012: Debug nginx switch
-20:35:47.642595908: Debug nginx switch
-20:35:47.642733514: Debug nginx switch
+20:35:47.641008012: 
+20:35:47.642595908: 
+20:35:47.642733514: 
 20:35:47.643610010: Debug nginx prlimit
 20:35:47.643614568: Debug nginx prlimit
 20:35:47.643622673: Debug nginx mmap
 20:35:47.643655694: Debug nginx mmap
-20:35:47.643659742: Debug nginx page_fault
+20:35:47.643659742: 
 20:35:47.643676162: Debug nginx gettid
 20:35:47.643678346: Debug nginx gettid
 20:35:47.643691190: Debug nginx gettid
@@ -881,148 +584,148 @@
 20:35:47.643755810: Debug nginx rt_sigaction
 20:35:47.643758054: Debug nginx clone
 20:35:47.644196898: Debug nginx clone
-20:35:47.644215503: Debug nginx page_fault
-20:35:47.644227125: Debug nginx page_fault
-20:35:47.644234518: Debug nginx page_fault
-20:35:47.644242593: Debug nginx page_fault
-20:35:47.644250097: Debug nginx page_fault
-20:35:47.644257371: Debug nginx page_fault
-20:35:47.644264865: Debug nginx page_fault
-20:35:47.644273360: Debug nginx page_fault
-20:35:47.644280894: Debug nginx page_fault
-20:35:47.644287517: Debug nginx page_fault
-20:35:47.644294329: Debug nginx page_fault
-20:35:47.644305961: Debug nginx page_fault
-20:35:47.644313615: Debug nginx page_fault
-20:35:47.644320828: Debug nginx page_fault
-20:35:47.644327932: Debug nginx page_fault
-20:35:47.644335706: Debug nginx page_fault
-20:35:47.644342789: Debug nginx page_fault
-20:35:47.644350744: Debug nginx page_fault
-20:35:47.644358017: Debug nginx page_fault
-20:35:47.644364459: Debug nginx page_fault
-20:35:47.644371282: Debug nginx page_fault
-20:35:47.644378175: Debug nginx page_fault
-20:35:47.644384977: Debug nginx page_fault
+20:35:47.644215503: 
+20:35:47.644227125: 
+20:35:47.644234518: 
+20:35:47.644242593: 
+20:35:47.644250097: 
+20:35:47.644257371: 
+20:35:47.644264865: 
+20:35:47.644273360: 
+20:35:47.644280894: 
+20:35:47.644287517: 
+20:35:47.644294329: 
+20:35:47.644305961: 
+20:35:47.644313615: 
+20:35:47.644320828: 
+20:35:47.644327932: 
+20:35:47.644335706: 
+20:35:47.644342789: 
+20:35:47.644350744: 
+20:35:47.644358017: 
+20:35:47.644364459: 
+20:35:47.644371282: 
+20:35:47.644378175: 
+20:35:47.644384977: 
 20:35:47.644393944: Debug nginx futex
 20:35:47.644398222: Debug nginx futex
-20:35:47.644401218: Debug nginx page_fault
-20:35:47.644408080: Debug nginx page_fault
-20:35:47.644412238: Debug nginx page_fault
-20:35:47.644418630: Debug nginx page_fault
-20:35:47.644432225: Debug nginx page_fault
-20:35:47.644440230: Debug nginx page_fault
-20:35:47.644447604: Debug nginx page_fault
-20:35:47.644482889: Debug nginx page_fault
-20:35:47.644490934: Debug nginx page_fault
-20:35:47.644498197: Debug nginx page_fault
-20:35:47.644505842: Debug nginx page_fault
-20:35:47.644513245: Debug nginx page_fault
-20:35:47.644519978: Debug nginx page_fault
-20:35:47.644527392: Debug nginx page_fault
-20:35:47.644535366: Debug nginx page_fault
-20:35:47.644550695: Debug nginx page_fault
-20:35:47.644559271: Debug nginx page_fault
-20:35:47.644566985: Debug nginx page_fault
-20:35:47.644574940: Debug nginx page_fault
-20:35:47.644586151: Debug nginx page_fault
-20:35:47.644593675: Debug nginx page_fault
-20:35:47.644601890: Debug nginx page_fault
-20:35:47.644609063: Debug nginx page_fault
-20:35:47.644616397: Debug nginx page_fault
-20:35:47.644626606: Debug nginx page_fault
-20:35:47.644633909: Debug nginx page_fault
-20:35:47.644641654: Debug nginx page_fault
-20:35:47.644648617: Debug nginx page_fault
-20:35:47.644655850: Debug nginx page_fault
-20:35:47.644666931: Debug nginx page_fault
-20:35:47.644676578: Debug nginx page_fault
-20:35:47.644683952: Debug nginx page_fault
-20:35:47.644692969: Debug nginx page_fault
-20:35:47.644703298: Debug nginx page_fault
-20:35:47.644714008: Debug nginx page_fault
-20:35:47.644721712: Debug nginx page_fault
-20:35:47.644728815: Debug nginx page_fault
-20:35:47.644736409: Debug nginx page_fault
-20:35:47.644743493: Debug nginx page_fault
-20:35:47.644750265: Debug nginx page_fault
-20:35:47.644760274: Debug nginx page_fault
-20:35:47.644767878: Debug nginx page_fault
-20:35:47.644775632: Debug nginx page_fault
-20:35:47.644784118: Debug nginx page_fault
-20:35:47.644795259: Debug nginx page_fault
-20:35:47.644804155: Debug nginx page_fault
-20:35:47.644812881: Debug nginx page_fault
-20:35:47.644820085: Debug nginx page_fault
-20:35:47.644829212: Debug nginx page_fault
-20:35:47.644845973: Debug nginx page_fault
-20:35:47.644853897: Debug nginx page_fault
-20:35:47.644864427: Debug nginx page_fault
-20:35:47.644877040: Debug nginx page_fault
-20:35:47.644893631: Debug nginx page_fault
-20:35:47.644958572: Debug nginx page_fault
-20:35:47.644967648: Debug nginx page_fault
-20:35:47.644979631: Debug nginx page_fault
-20:35:47.644986423: Debug nginx page_fault
-20:35:47.644993226: Debug nginx page_fault
-20:35:47.645000018: Debug nginx page_fault
-20:35:47.645006170: Debug nginx page_fault
-20:35:47.645039812: Debug nginx page_fault
-20:35:47.645054870: Debug nginx page_fault
-20:35:47.645065119: Debug nginx page_fault
-20:35:47.645083754: Debug nginx page_fault
-20:35:47.645150688: Debug nginx page_fault
-20:35:47.645157320: Debug nginx page_fault
-20:35:47.645163261: Debug nginx page_fault
-20:35:47.645169323: Debug nginx page_fault
-20:35:47.645175454: Debug nginx page_fault
-20:35:47.645181445: Debug nginx page_fault
-20:35:47.645187446: Debug nginx page_fault
-20:35:47.645193808: Debug nginx page_fault
-20:35:47.645200070: Debug nginx page_fault
-20:35:47.645206972: Debug nginx page_fault
-20:35:47.645257035: Debug nginx page_fault
-20:35:47.645266954: Debug nginx page_fault
-20:35:47.645273776: Debug nginx page_fault
-20:35:47.645288283: Debug nginx page_fault
-20:35:47.645297701: Debug nginx page_fault
-20:35:47.645304804: Debug nginx page_fault
-20:35:47.645313370: Debug nginx page_fault
-20:35:47.645320042: Debug nginx page_fault
-20:35:47.645326013: Debug nginx page_fault
-20:35:47.645337034: Debug nginx page_fault
-20:35:47.645343646: Debug nginx page_fault
-20:35:47.645350298: Debug nginx page_fault
-20:35:47.645356340: Debug nginx page_fault
-20:35:47.645365096: Debug nginx page_fault
-20:35:47.645374143: Debug nginx page_fault
-20:35:47.645380564: Debug nginx page_fault
-20:35:47.645389952: Debug nginx page_fault
+20:35:47.644401218: 
+20:35:47.644408080: 
+20:35:47.644412238: 
+20:35:47.644418630: 
+20:35:47.644432225: 
+20:35:47.644440230: 
+20:35:47.644447604: 
+20:35:47.644482889: 
+20:35:47.644490934: 
+20:35:47.644498197: 
+20:35:47.644505842: 
+20:35:47.644513245: 
+20:35:47.644519978: 
+20:35:47.644527392: 
+20:35:47.644535366: 
+20:35:47.644550695: 
+20:35:47.644559271: 
+20:35:47.644566985: 
+20:35:47.644574940: 
+20:35:47.644586151: 
+20:35:47.644593675: 
+20:35:47.644601890: 
+20:35:47.644609063: 
+20:35:47.644616397: 
+20:35:47.644626606: 
+20:35:47.644633909: 
+20:35:47.644641654: 
+20:35:47.644648617: 
+20:35:47.644655850: 
+20:35:47.644666931: 
+20:35:47.644676578: 
+20:35:47.644683952: 
+20:35:47.644692969: 
+20:35:47.644703298: 
+20:35:47.644714008: 
+20:35:47.644721712: 
+20:35:47.644728815: 
+20:35:47.644736409: 
+20:35:47.644743493: 
+20:35:47.644750265: 
+20:35:47.644760274: 
+20:35:47.644767878: 
+20:35:47.644775632: 
+20:35:47.644784118: 
+20:35:47.644795259: 
+20:35:47.644804155: 
+20:35:47.644812881: 
+20:35:47.644820085: 
+20:35:47.644829212: 
+20:35:47.644845973: 
+20:35:47.644853897: 
+20:35:47.644864427: 
+20:35:47.644877040: 
+20:35:47.644893631: 
+20:35:47.644958572: 
+20:35:47.644967648: 
+20:35:47.644979631: 
+20:35:47.644986423: 
+20:35:47.644993226: 
+20:35:47.645000018: 
+20:35:47.645006170: 
+20:35:47.645039812: 
+20:35:47.645054870: 
+20:35:47.645065119: 
+20:35:47.645083754: 
+20:35:47.645150688: 
+20:35:47.645157320: 
+20:35:47.645163261: 
+20:35:47.645169323: 
+20:35:47.645175454: 
+20:35:47.645181445: 
+20:35:47.645187446: 
+20:35:47.645193808: 
+20:35:47.645200070: 
+20:35:47.645206972: 
+20:35:47.645257035: 
+20:35:47.645266954: 
+20:35:47.645273776: 
+20:35:47.645288283: 
+20:35:47.645297701: 
+20:35:47.645304804: 
+20:35:47.645313370: 
+20:35:47.645320042: 
+20:35:47.645326013: 
+20:35:47.645337034: 
+20:35:47.645343646: 
+20:35:47.645350298: 
+20:35:47.645356340: 
+20:35:47.645365096: 
+20:35:47.645374143: 
+20:35:47.645380564: 
+20:35:47.645389952: 
 20:35:47.645396434: Debug nginx exit_group
 20:35:47.646253294: Debug nginx procexit
-20:35:47.653998692: Debug nginx page_fault
+20:35:47.653998692: 
 20:35:47.654003441: Debug nginx clone
-20:35:47.654017577: Debug nginx page_fault
-20:35:47.654021595: Debug nginx page_fault
+20:35:47.654017577: 
+20:35:47.654021595: 
 20:35:47.654030351: Debug nginx set_robust_list
 20:35:47.654032194: Debug nginx set_robust_list
-20:35:47.654035240: Debug nginx page_fault
-20:35:47.654039318: Debug nginx page_fault
-20:35:47.654043305: Debug nginx page_fault
-20:35:47.654046511: Debug nginx page_fault
-20:35:47.654050739: Debug nginx page_fault
-20:35:47.654064214: Debug nginx page_fault
-20:35:47.654068211: Debug nginx page_fault
+20:35:47.654035240: 
+20:35:47.654039318: 
+20:35:47.654043305: 
+20:35:47.654046511: 
+20:35:47.654050739: 
+20:35:47.654064214: 
+20:35:47.654068211: 
 20:35:47.654077148: Debug nginx getpid
 20:35:47.654079081: Debug nginx getpid
 20:35:47.654081436: Debug nginx setsid
 20:35:47.654098517: Debug nginx setsid
-20:35:47.654104999: Debug nginx switch
-20:35:47.655397858: Debug nginx page_fault
+20:35:47.654104999: 
+20:35:47.655397858: 
 20:35:47.655405372: Debug nginx umask
 20:35:47.655407265: Debug nginx umask
 20:35:47.655409239: Debug nginx openat
-20:35:47.655421522: Debug nginx page_fault
+20:35:47.655421522: 
 20:35:47.655441729: Debug nginx openat
 20:35:47.655446067: Debug nginx dup2
 20:35:47.655449984: Debug nginx dup2
@@ -1030,36 +733,36 @@
 20:35:47.655457659: Debug nginx dup2
 20:35:47.655459642: Debug nginx close
 20:35:47.655461756: Debug nginx close
-20:35:47.655464181: Debug nginx page_fault
+20:35:47.655464181: 
 20:35:47.655473678: Debug nginx openat
-20:35:47.655513683: Debug nginx switch
+20:35:47.655513683: 
 20:35:47.656292948: Debug nginx openat
-20:35:47.656299821: Debug nginx page_fault
-20:35:47.656306333: Debug nginx page_fault
-20:35:47.656310471: Debug nginx page_fault
-20:35:47.656341268: Debug nginx switch
+20:35:47.656299821: 
+20:35:47.656306333: 
+20:35:47.656310471: 
+20:35:47.656341268: 
 20:35:47.657220298: Debug nginx close
 20:35:47.657223104: Debug nginx close
 20:35:47.657227562: Debug nginx dup2
 20:35:47.657230437: Debug nginx dup2
-20:35:47.657241838: Debug nginx switch
+20:35:47.657241838: 
 20:35:47.657323971: Debug nginx close
 20:35:47.657326445: Debug nginx close
-20:35:47.657330593: Debug nginx page_fault
-20:35:47.657335702: Debug nginx page_fault
-20:35:47.657344258: Debug nginx page_fault
+20:35:47.657330593: 
+20:35:47.657335702: 
+20:35:47.657344258: 
 20:35:47.657350720: Debug nginx rt_sigprocmask
 20:35:47.657352834: Debug nginx rt_sigprocmask
-20:35:47.657355058: Debug nginx page_fault
-20:35:47.657363684: Debug nginx page_fault
-20:35:47.657367471: Debug nginx page_fault
-20:35:47.657371028: Debug nginx page_fault
-20:35:47.657375837: Debug nginx page_fault
-20:35:47.657381467: Debug nginx page_fault
+20:35:47.657355058: 
+20:35:47.657363684: 
+20:35:47.657367471: 
+20:35:47.657371028: 
+20:35:47.657375837: 
+20:35:47.657381467: 
 20:35:47.657387829: Debug nginx gettid
 20:35:47.657389492: Debug nginx gettid
 20:35:47.657406193: Debug nginx socketpair
-20:35:47.657410491: Debug nginx page_fault
+20:35:47.657410491: 
 20:35:47.657433284: Debug nginx socketpair
 20:35:47.657437702: Debug nginx ioctl
 20:35:47.657440807: Debug nginx ioctl
@@ -1075,102 +778,102 @@
 20:35:47.657464481: Debug nginx fcntl
 20:35:47.657466916: Debug nginx clone
 20:35:47.657715216: Debug nginx clone
-20:35:47.657728381: Debug nginx page_fault
-20:35:47.657738229: Debug nginx page_fault
+20:35:47.657728381: 
+20:35:47.657738229: 
 20:35:47.657745883: Debug nginx gettid
 20:35:47.657748158: Debug nginx gettid
-20:35:47.657761202: Debug nginx page_fault
-20:35:47.657768075: Debug nginx page_fault
+20:35:47.657761202: 
+20:35:47.657768075: 
 20:35:47.657775468: Debug nginx rt_sigsuspend
-20:35:47.657781199: Debug nginx switch
-20:35:47.657785276: Debug nginx page_fault
+20:35:47.657781199: 
+20:35:47.657785276: 
 20:35:47.657791508: Debug nginx clone
-20:35:47.657800976: Debug nginx page_fault
-20:35:47.657807868: Debug nginx page_fault
+20:35:47.657800976: 
+20:35:47.657807868: 
 20:35:47.657815202: Debug nginx set_robust_list
 20:35:47.657816905: Debug nginx set_robust_list
-20:35:47.657818959: Debug nginx page_fault
-20:35:47.657825271: Debug nginx page_fault
-20:35:47.657831362: Debug nginx page_fault
-20:35:47.657837814: Debug nginx page_fault
-20:35:47.657843895: Debug nginx page_fault
-20:35:47.657859184: Debug nginx page_fault
-20:35:47.657862810: Debug nginx page_fault
-20:35:47.657865996: Debug nginx page_fault
+20:35:47.657818959: 
+20:35:47.657825271: 
+20:35:47.657831362: 
+20:35:47.657837814: 
+20:35:47.657843895: 
+20:35:47.657859184: 
+20:35:47.657862810: 
+20:35:47.657865996: 
 20:35:47.657872548: Debug nginx getpid
 20:35:47.657874342: Debug nginx getpid
-20:35:47.657878259: Debug nginx page_fault
-20:35:47.657884881: Debug nginx page_fault
-20:35:47.657891574: Debug nginx page_fault
-20:35:47.657897655: Debug nginx page_fault
-20:35:47.657904127: Debug nginx page_fault
-20:35:47.657910829: Debug nginx page_fault
-20:35:47.657916560: Debug nginx page_fault
-20:35:47.657923202: Debug nginx page_fault
-20:35:47.657930666: Debug nginx page_fault
-20:35:47.657936838: Debug nginx page_fault
-20:35:47.657946926: Debug nginx page_fault
-20:35:47.657953899: Debug nginx page_fault
+20:35:47.657878259: 
+20:35:47.657884881: 
+20:35:47.657891574: 
+20:35:47.657897655: 
+20:35:47.657904127: 
+20:35:47.657910829: 
+20:35:47.657916560: 
+20:35:47.657923202: 
+20:35:47.657930666: 
+20:35:47.657936838: 
+20:35:47.657946926: 
+20:35:47.657953899: 
 20:35:47.657959870: Debug nginx geteuid
 20:35:47.657962435: Debug nginx geteuid
 20:35:47.657964469: Debug nginx setgid
 20:35:47.657971392: Debug nginx setgid
-20:35:47.657973506: Debug nginx page_fault
-20:35:47.657980489: Debug nginx page_fault
+20:35:47.657973506: 
+20:35:47.657980489: 
 20:35:47.657986700: Debug nginx openat
-20:35:47.657996919: Debug nginx page_fault
+20:35:47.657996919: 
 20:35:47.658016886: Debug nginx openat
 20:35:47.658026784: Debug nginx close
 20:35:47.658029289: Debug nginx close
-20:35:47.658033226: Debug nginx page_fault
-20:35:47.658040610: Debug nginx page_fault
-20:35:47.658046130: Debug nginx page_fault
-20:35:47.658054265: Debug nginx page_fault
-20:35:47.658061018: Debug nginx page_fault
-20:35:47.658067039: Debug nginx page_fault
-20:35:47.658072930: Debug nginx page_fault
-20:35:47.658079643: Debug nginx page_fault
-20:35:47.658087297: Debug nginx page_fault
-20:35:47.658094330: Debug nginx page_fault
-20:35:47.658100381: Debug nginx page_fault
+20:35:47.658033226: 
+20:35:47.658040610: 
+20:35:47.658046130: 
+20:35:47.658054265: 
+20:35:47.658061018: 
+20:35:47.658067039: 
+20:35:47.658072930: 
+20:35:47.658079643: 
+20:35:47.658087297: 
+20:35:47.658094330: 
+20:35:47.658100381: 
 20:35:47.658108837: Debug nginx newfstatat
 20:35:47.658116731: Debug nginx newfstatat
-20:35:47.658119937: Debug nginx page_fault
+20:35:47.658119937: 
 20:35:47.658126489: Debug nginx newfstatat
 20:35:47.658131018: Debug nginx newfstatat
-20:35:47.658133803: Debug nginx page_fault
-20:35:47.658140746: Debug nginx page_fault
-20:35:47.658148590: Debug nginx page_fault
-20:35:47.658155183: Debug nginx page_fault
-20:35:47.658161915: Debug nginx page_fault
-20:35:47.658168227: Debug nginx page_fault
+20:35:47.658133803: 
+20:35:47.658140746: 
+20:35:47.658148590: 
+20:35:47.658155183: 
+20:35:47.658161915: 
+20:35:47.658168227: 
 20:35:47.658173487: Debug nginx openat
 20:35:47.658183265: Debug nginx openat
 20:35:47.658188144: Debug nginx newfstatat
 20:35:47.658192031: Debug nginx newfstatat
-20:35:47.658194896: Debug nginx page_fault
+20:35:47.658194896: 
 20:35:47.658201479: Debug nginx lseek
 20:35:47.658204133: Debug nginx lseek
-20:35:47.658206438: Debug nginx page_fault
-20:35:47.658213401: Debug nginx page_fault
+20:35:47.658206438: 
+20:35:47.658213401: 
 20:35:47.658237004: Debug nginx close
 20:35:47.658239148: Debug nginx close
-20:35:47.658245781: Debug nginx page_fault
-20:35:47.658252964: Debug nginx page_fault
-20:35:47.658260939: Debug nginx page_fault
-20:35:47.658268523: Debug nginx page_fault
-20:35:47.658276317: Debug nginx page_fault
-20:35:47.658283741: Debug nginx page_fault
-20:35:47.658289762: Debug nginx page_fault
-20:35:47.658296194: Debug nginx page_fault
-20:35:47.658301103: Debug nginx page_fault
-20:35:47.658306383: Debug nginx page_fault
-20:35:47.658314278: Debug nginx page_fault
-20:35:47.658323465: Debug nginx page_fault
-20:35:47.658329526: Debug nginx page_fault
-20:35:47.658334305: Debug nginx page_fault
-20:35:47.658343322: Debug nginx page_fault
-20:35:47.658347570: Debug nginx page_fault
+20:35:47.658245781: 
+20:35:47.658252964: 
+20:35:47.658260939: 
+20:35:47.658268523: 
+20:35:47.658276317: 
+20:35:47.658283741: 
+20:35:47.658289762: 
+20:35:47.658296194: 
+20:35:47.658301103: 
+20:35:47.658306383: 
+20:35:47.658314278: 
+20:35:47.658323465: 
+20:35:47.658329526: 
+20:35:47.658334305: 
+20:35:47.658343322: 
+20:35:47.658347570: 
 20:35:47.658359041: Debug nginx openat
 20:35:47.658370021: Debug nginx openat
 20:35:47.658373588: Debug nginx newfstatat
@@ -1179,14 +882,14 @@
 20:35:47.658396530: Debug nginx mmap
 20:35:47.658399826: Debug nginx close
 20:35:47.658401740: Debug nginx close
-20:35:47.658403523: Debug nginx page_fault
-20:35:47.658414153: Debug nginx page_fault
-20:35:47.658422358: Debug nginx page_fault
+20:35:47.658403523: 
+20:35:47.658414153: 
+20:35:47.658422358: 
 20:35:47.658429131: Debug nginx openat
 20:35:47.658440682: Debug nginx openat
 20:35:47.658447886: Debug nginx newfstatat
 20:35:47.658451603: Debug nginx newfstatat
-20:35:47.658454618: Debug nginx page_fault
+20:35:47.658454618: 
 20:35:47.658462383: Debug nginx mmap
 20:35:47.658476419: Debug nginx mmap
 20:35:47.658478603: Debug nginx mmap
@@ -1195,18 +898,18 @@
 20:35:47.658527283: Debug nginx mmap
 20:35:47.658529317: Debug nginx mmap
 20:35:47.658550075: Debug nginx mmap
-20:35:47.658552610: Debug nginx page_fault
-20:35:47.658562108: Debug nginx page_fault
-20:35:47.658569732: Debug nginx page_fault
-20:35:47.658610958: Debug nginx page_fault
+20:35:47.658552610: 
+20:35:47.658562108: 
+20:35:47.658569732: 
+20:35:47.658610958: 
 20:35:47.658616749: Debug nginx close
 20:35:47.658619123: Debug nginx close
-20:35:47.658627799: Debug nginx page_fault
+20:35:47.658627799: 
 20:35:47.658635253: Debug nginx openat
 20:35:47.658649329: Debug nginx openat
 20:35:47.658656623: Debug nginx newfstatat
 20:35:47.658660961: Debug nginx newfstatat
-20:35:47.658665690: Debug nginx page_fault
+20:35:47.658665690: 
 20:35:47.658672582: Debug nginx mmap
 20:35:47.658687700: Debug nginx mmap
 20:35:47.658689975: Debug nginx mmap
@@ -1215,10 +918,10 @@
 20:35:47.658739647: Debug nginx mmap
 20:35:47.658741691: Debug nginx mmap
 20:35:47.658756608: Debug nginx mmap
-20:35:47.658759073: Debug nginx page_fault
-20:35:47.658767448: Debug nginx page_fault
-20:35:47.658772257: Debug nginx page_fault
-20:35:47.658778669: Debug nginx page_fault
+20:35:47.658759073: 
+20:35:47.658767448: 
+20:35:47.658772257: 
+20:35:47.658778669: 
 20:35:47.658782937: Debug nginx close
 20:35:47.658785021: Debug nginx close
 20:35:47.658790551: Debug nginx openat
@@ -1233,39 +936,39 @@
 20:35:47.658878675: Debug nginx mmap
 20:35:47.658880648: Debug nginx mmap
 20:35:47.658900806: Debug nginx mmap
-20:35:47.658903300: Debug nginx page_fault
-20:35:47.658912217: Debug nginx page_fault
-20:35:47.658917457: Debug nginx page_fault
-20:35:47.658924850: Debug nginx page_fault
+20:35:47.658903300: 
+20:35:47.658912217: 
+20:35:47.658917457: 
+20:35:47.658924850: 
 20:35:47.658933607: Debug nginx close
 20:35:47.658935731: Debug nginx close
-20:35:47.658957721: Debug nginx page_fault
-20:35:47.658964694: Debug nginx page_fault
-20:35:47.658971848: Debug nginx page_fault
-20:35:47.658980584: Debug nginx page_fault
-20:35:47.659006061: Debug nginx page_fault
-20:35:47.659013124: Debug nginx page_fault
-20:35:47.659020618: Debug nginx page_fault
+20:35:47.658957721: 
+20:35:47.658964694: 
+20:35:47.658971848: 
+20:35:47.658980584: 
+20:35:47.659006061: 
+20:35:47.659013124: 
+20:35:47.659020618: 
 20:35:47.659029715: Debug nginx mprotect
 20:35:47.659044723: Debug nginx mprotect
 20:35:47.659087602: Debug nginx mprotect
 20:35:47.659100697: Debug nginx mprotect
-20:35:47.659103352: Debug nginx page_fault
-20:35:47.659111226: Debug nginx page_fault
-20:35:47.659118610: Debug nginx page_fault
-20:35:47.659148646: Debug nginx page_fault
+20:35:47.659103352: 
+20:35:47.659111226: 
+20:35:47.659118610: 
+20:35:47.659148646: 
 20:35:47.659220980: Debug nginx mprotect
 20:35:47.659235236: Debug nginx mprotect
-20:35:47.659238081: Debug nginx page_fault
-20:35:47.659244323: Debug nginx page_fault
-20:35:47.660204695: Debug nginx switch
-20:35:47.669392408: Debug nginx page_fault
-20:35:47.669406644: Debug nginx page_fault
-20:35:47.669414018: Debug nginx page_fault
-20:35:47.669421893: Debug nginx page_fault
-20:35:47.669429797: Debug nginx page_fault
-20:35:47.669438514: Debug nginx page_fault
-20:35:47.669444615: Debug nginx page_fault
+20:35:47.659238081: 
+20:35:47.659244323: 
+20:35:47.660204695: 
+20:35:47.669392408: 
+20:35:47.669406644: 
+20:35:47.669414018: 
+20:35:47.669421893: 
+20:35:47.669429797: 
+20:35:47.669438514: 
+20:35:47.669444615: 
 20:35:47.669451237: Debug nginx prctl
 20:35:47.669454573: Debug nginx prctl
 20:35:47.669457789: Debug nginx prctl
@@ -1278,34 +981,34 @@
 20:35:47.669468609: Debug nginx prctl
 20:35:47.669470753: Debug nginx prctl
 20:35:47.669472477: Debug nginx prctl
-20:35:47.669475262: Debug nginx page_fault
+20:35:47.669475262: 
 20:35:47.669486743: Debug nginx munmap
 20:35:47.669524453: Debug nginx munmap
-20:35:47.669580958: Debug nginx page_fault
+20:35:47.669580958: 
 20:35:47.669977473: Debug nginx rt_sigprocmask
 20:35:47.669982382: Debug nginx rt_sigprocmask
-20:35:47.669986730: Debug nginx switch
-20:35:47.671593541: Debug nginx page_fault
+20:35:47.669986730: 
+20:35:47.671593541: 
 20:35:47.671604031: Debug nginx futex
 20:35:47.671610543: Debug nginx futex
-20:35:47.671631622: Debug nginx page_fault
-20:35:47.671656097: Debug nginx page_fault
-20:35:47.671669422: Debug nginx page_fault
+20:35:47.671631622: 
+20:35:47.671656097: 
+20:35:47.671669422: 
 20:35:47.671678158: Debug nginx openat
 20:35:47.671695350: Debug nginx openat
 20:35:47.671699528: Debug nginx newfstatat
 20:35:47.671705539: Debug nginx newfstatat
 20:35:47.671709156: Debug nginx brk
 20:35:47.671722420: Debug nginx brk
-20:35:47.671725406: Debug nginx page_fault
-20:35:47.671733050: Debug nginx page_fault
+20:35:47.671725406: 
+20:35:47.671733050: 
 20:35:47.671740894: Debug nginx getdents64
 20:35:47.671747857: Debug nginx getdents64
 20:35:47.671756053: Debug nginx socket
 20:35:47.671769387: Debug nginx socket
 20:35:47.671771832: Debug nginx connect
 20:35:47.671792220: Debug nginx connect
-20:35:47.671798982: Debug nginx switch
+20:35:47.671798982: 
 20:35:47.671952497: Debug nginx getpid
 20:35:47.671954381: Debug nginx getpid
 20:35:47.671956585: Debug nginx epoll_create1
@@ -1316,10 +1019,10 @@
 20:35:47.671981721: Debug nginx epoll_ctl
 20:35:47.671986240: Debug nginx epoll_ctl
 20:35:47.671990097: Debug nginx epoll_ctl
-20:35:47.671992782: Debug nginx page_fault
-20:35:47.672008972: Debug nginx page_fault
-20:35:47.672015444: Debug nginx page_fault
-20:35:47.672021896: Debug nginx page_fault
+20:35:47.671992782: 
+20:35:47.672008972: 
+20:35:47.672015444: 
+20:35:47.672021896: 
 20:35:47.672036643: Debug nginx getrandom
 20:35:47.672039919: Debug nginx getrandom
 20:35:47.672041622: Debug nginx futex
@@ -1546,13 +1249,13 @@
 20:35:47.672871903: Debug nginx close
 20:35:47.672875028: Debug nginx timerfd_settime
 20:35:47.672879537: Debug nginx timerfd_settime
-20:35:47.672883083: Debug nginx page_fault
+20:35:47.672883083: 
 20:35:47.672901948: Debug nginx sendto
 20:35:47.672915123: Debug nginx sendto
-20:35:47.672920873: Debug nginx switch
+20:35:47.672920873: 
 20:35:47.673650657: Debug nginx epoll_ctl
 20:35:47.673653953: Debug nginx epoll_ctl
-20:35:47.673663741: Debug nginx page_fault
+20:35:47.673663741: 
 20:35:47.673672017: Debug nginx recvfrom
 20:35:47.673678809: Debug nginx recvfrom
 20:35:47.673683728: Debug nginx epoll_ctl
@@ -1561,7 +1264,7 @@
 20:35:47.673712352: Debug nginx epoll_ctl
 20:35:47.673715678: Debug nginx close
 20:35:47.673718493: Debug nginx close
-20:35:47.673728562: Debug nginx switch
+20:35:47.673728562: 
 20:35:47.675558817: Debug nginx rt_sigprocmask
 20:35:47.675561742: Debug nginx rt_sigprocmask
 20:35:47.675564487: Debug nginx close
@@ -1576,13 +1279,13 @@
 20:35:47.675610553: Debug nginx prctl
 20:35:47.675614099: Debug nginx rt_sigprocmask
 20:35:47.675615752: Debug nginx rt_sigprocmask
-20:35:47.675621463: Debug nginx page_fault
+20:35:47.675621463: 
 20:35:47.675634217: Debug nginx epoll_create
 20:35:47.675642813: Debug nginx epoll_create
-20:35:47.675645738: Debug nginx page_fault
+20:35:47.675645738: 
 20:35:47.675653292: Debug nginx eventfd2
 20:35:47.675660525: Debug nginx eventfd2
-20:35:47.675663631: Debug nginx page_fault
+20:35:47.675663631: 
 20:35:47.675669783: Debug nginx epoll_ctl
 20:35:47.675674552: Debug nginx epoll_ctl
 20:35:47.675676245: Debug nginx eventfd2
@@ -1603,128 +1306,128 @@
 20:35:47.675838075: Debug nginx close
 20:35:47.675849526: Debug nginx mmap
 20:35:47.675860136: Debug nginx mmap
-20:35:47.675863512: Debug nginx page_fault
-20:35:47.675872789: Debug nginx page_fault
-20:35:47.675877989: Debug nginx page_fault
-20:35:47.675882798: Debug nginx page_fault
-20:35:47.675887547: Debug nginx page_fault
-20:35:47.675892315: Debug nginx page_fault
-20:35:47.675897615: Debug nginx page_fault
-20:35:47.675902635: Debug nginx page_fault
-20:35:47.675908105: Debug nginx page_fault
-20:35:47.675917923: Debug nginx page_fault
-20:35:47.675922812: Debug nginx page_fault
-20:35:47.675927751: Debug nginx page_fault
-20:35:47.675932520: Debug nginx page_fault
-20:35:47.675937279: Debug nginx page_fault
-20:35:47.675942058: Debug nginx page_fault
-20:35:47.675946756: Debug nginx page_fault
-20:35:47.675952187: Debug nginx page_fault
-20:35:47.675956865: Debug nginx page_fault
-20:35:47.675962205: Debug nginx page_fault
-20:35:47.675967625: Debug nginx page_fault
-20:35:47.675972524: Debug nginx page_fault
-20:35:47.675977293: Debug nginx page_fault
-20:35:47.675982022: Debug nginx page_fault
-20:35:47.675987342: Debug nginx page_fault
+20:35:47.675863512: 
+20:35:47.675872789: 
+20:35:47.675877989: 
+20:35:47.675882798: 
+20:35:47.675887547: 
+20:35:47.675892315: 
+20:35:47.675897615: 
+20:35:47.675902635: 
+20:35:47.675908105: 
+20:35:47.675917923: 
+20:35:47.675922812: 
+20:35:47.675927751: 
+20:35:47.675932520: 
+20:35:47.675937279: 
+20:35:47.675942058: 
+20:35:47.675946756: 
+20:35:47.675952187: 
+20:35:47.675956865: 
+20:35:47.675962205: 
+20:35:47.675967625: 
+20:35:47.675972524: 
+20:35:47.675977293: 
+20:35:47.675982022: 
+20:35:47.675987342: 
 20:35:47.675995617: Debug nginx brk
 20:35:47.676001558: Debug nginx brk
-20:35:47.676004063: Debug nginx page_fault
-20:35:47.676009343: Debug nginx page_fault
-20:35:47.676014823: Debug nginx page_fault
-20:35:47.676019592: Debug nginx page_fault
-20:35:47.676025022: Debug nginx page_fault
-20:35:47.676030432: Debug nginx page_fault
-20:35:47.676035191: Debug nginx page_fault
-20:35:47.676039919: Debug nginx page_fault
-20:35:47.676044969: Debug nginx page_fault
-20:35:47.676049808: Debug nginx page_fault
-20:35:47.676055117: Debug nginx page_fault
-20:35:47.676059836: Debug nginx page_fault
-20:35:47.676064545: Debug nginx page_fault
-20:35:47.676069815: Debug nginx page_fault
-20:35:47.676074584: Debug nginx page_fault
-20:35:47.676082478: Debug nginx page_fault
-20:35:47.676087437: Debug nginx page_fault
-20:35:47.676092176: Debug nginx page_fault
-20:35:47.676096935: Debug nginx page_fault
-20:35:47.676101684: Debug nginx page_fault
-20:35:47.676106583: Debug nginx page_fault
-20:35:47.676111372: Debug nginx page_fault
-20:35:47.676116151: Debug nginx page_fault
-20:35:47.676121410: Debug nginx page_fault
-20:35:47.676126259: Debug nginx page_fault
-20:35:47.676130988: Debug nginx page_fault
-20:35:47.676135737: Debug nginx page_fault
-20:35:47.676140897: Debug nginx page_fault
-20:35:47.676145545: Debug nginx page_fault
-20:35:47.676151025: Debug nginx page_fault
-20:35:47.676158940: Debug nginx page_fault
-20:35:47.676163899: Debug nginx page_fault
-20:35:47.676168678: Debug nginx page_fault
-20:35:47.676173397: Debug nginx page_fault
-20:35:47.676178106: Debug nginx page_fault
-20:35:47.676182804: Debug nginx page_fault
-20:35:47.676188184: Debug nginx page_fault
-20:35:47.676193144: Debug nginx page_fault
-20:35:47.676197972: Debug nginx page_fault
-20:35:47.676202731: Debug nginx page_fault
-20:35:47.676207610: Debug nginx page_fault
-20:35:47.676212429: Debug nginx page_fault
-20:35:47.676217639: Debug nginx page_fault
-20:35:47.676222278: Debug nginx page_fault
-20:35:47.676227377: Debug nginx page_fault
-20:35:47.676235282: Debug nginx page_fault
-20:35:47.676240041: Debug nginx page_fault
-20:35:47.676244759: Debug nginx page_fault
-20:35:47.676250049: Debug nginx page_fault
-20:35:47.676254908: Debug nginx page_fault
-20:35:47.676259677: Debug nginx page_fault
-20:35:47.676265137: Debug nginx page_fault
-20:35:47.676269826: Debug nginx page_fault
-20:35:47.676275266: Debug nginx page_fault
-20:35:47.676280405: Debug nginx page_fault
-20:35:47.676285254: Debug nginx page_fault
-20:35:47.676290544: Debug nginx page_fault
-20:35:47.676295834: Debug nginx page_fault
-20:35:47.676300523: Debug nginx page_fault
-20:35:47.676305221: Debug nginx page_fault
-20:35:47.676313206: Debug nginx page_fault
-20:35:47.676318025: Debug nginx page_fault
-20:35:47.676322774: Debug nginx page_fault
-20:35:47.676328945: Debug nginx page_fault
-20:35:47.676336009: Debug nginx page_fault
-20:35:47.676343112: Debug nginx page_fault
-20:35:47.676349453: Debug nginx page_fault
-20:35:47.676355775: Debug nginx page_fault
-20:35:47.676363329: Debug nginx page_fault
-20:35:47.676369360: Debug nginx page_fault
-20:35:47.676375402: Debug nginx page_fault
-20:35:47.676381343: Debug nginx page_fault
-20:35:47.676387795: Debug nginx page_fault
-20:35:47.676393856: Debug nginx page_fault
-20:35:47.676400127: Debug nginx page_fault
-20:35:47.676496887: Debug nginx page_fault
-20:35:47.676506144: Debug nginx page_fault
-20:35:47.676515181: Debug nginx page_fault
-20:35:47.676522144: Debug nginx page_fault
-20:35:47.676527534: Debug nginx page_fault
-20:35:47.676534887: Debug nginx page_fault
-20:35:47.676539656: Debug nginx page_fault
-20:35:47.676544595: Debug nginx page_fault
-20:35:47.676549404: Debug nginx page_fault
-20:35:47.676554644: Debug nginx page_fault
+20:35:47.676004063: 
+20:35:47.676009343: 
+20:35:47.676014823: 
+20:35:47.676019592: 
+20:35:47.676025022: 
+20:35:47.676030432: 
+20:35:47.676035191: 
+20:35:47.676039919: 
+20:35:47.676044969: 
+20:35:47.676049808: 
+20:35:47.676055117: 
+20:35:47.676059836: 
+20:35:47.676064545: 
+20:35:47.676069815: 
+20:35:47.676074584: 
+20:35:47.676082478: 
+20:35:47.676087437: 
+20:35:47.676092176: 
+20:35:47.676096935: 
+20:35:47.676101684: 
+20:35:47.676106583: 
+20:35:47.676111372: 
+20:35:47.676116151: 
+20:35:47.676121410: 
+20:35:47.676126259: 
+20:35:47.676130988: 
+20:35:47.676135737: 
+20:35:47.676140897: 
+20:35:47.676145545: 
+20:35:47.676151025: 
+20:35:47.676158940: 
+20:35:47.676163899: 
+20:35:47.676168678: 
+20:35:47.676173397: 
+20:35:47.676178106: 
+20:35:47.676182804: 
+20:35:47.676188184: 
+20:35:47.676193144: 
+20:35:47.676197972: 
+20:35:47.676202731: 
+20:35:47.676207610: 
+20:35:47.676212429: 
+20:35:47.676217639: 
+20:35:47.676222278: 
+20:35:47.676227377: 
+20:35:47.676235282: 
+20:35:47.676240041: 
+20:35:47.676244759: 
+20:35:47.676250049: 
+20:35:47.676254908: 
+20:35:47.676259677: 
+20:35:47.676265137: 
+20:35:47.676269826: 
+20:35:47.676275266: 
+20:35:47.676280405: 
+20:35:47.676285254: 
+20:35:47.676290544: 
+20:35:47.676295834: 
+20:35:47.676300523: 
+20:35:47.676305221: 
+20:35:47.676313206: 
+20:35:47.676318025: 
+20:35:47.676322774: 
+20:35:47.676328945: 
+20:35:47.676336009: 
+20:35:47.676343112: 
+20:35:47.676349453: 
+20:35:47.676355775: 
+20:35:47.676363329: 
+20:35:47.676369360: 
+20:35:47.676375402: 
+20:35:47.676381343: 
+20:35:47.676387795: 
+20:35:47.676393856: 
+20:35:47.676400127: 
+20:35:47.676496887: 
+20:35:47.676506144: 
+20:35:47.676515181: 
+20:35:47.676522144: 
+20:35:47.676527534: 
+20:35:47.676534887: 
+20:35:47.676539656: 
+20:35:47.676544595: 
+20:35:47.676549404: 
+20:35:47.676554644: 
 20:35:47.676564593: Debug nginx epoll_ctl
 20:35:47.676572076: Debug nginx epoll_ctl
-20:35:47.676574411: Debug nginx page_fault
-20:35:47.676583928: Debug nginx page_fault
-20:35:47.676593366: Debug nginx page_fault
+20:35:47.676574411: 
+20:35:47.676583928: 
+20:35:47.676593366: 
 20:35:47.676602683: Debug nginx close
 20:35:47.676605589: Debug nginx close
 20:35:47.676607552: Debug nginx epoll_ctl
 20:35:47.676611920: Debug nginx epoll_ctl
-20:35:47.676615116: Debug nginx page_fault
-20:35:47.676632649: Debug nginx switch
+20:35:47.676615116: 
+20:35:47.676632649: 
 20:35:49.218616094: Critical Falco internal: hot restart failure: /etc/falco/rules.d/events.txt: Invalid
 1 Schema warnings:
 ------
@@ -1739,43 +1442,19 @@ In rules content: (/etc/falco/rules.d/events.txt:0:0)
 ------
 LOAD_ERR_YAML_VALIDATE (Error validating internal structure of YAML file): Rules content is not yaml array of objects
  ()
-20:36:27.998245814: Debug nginx page_fault
-20:36:27.998262465: Debug nginx page_fault
-20:36:27.998278134: Debug nginx page_fault
 20:36:27.998312959: Debug nginx accept4
 20:36:27.998331563: Debug nginx accept4
-20:36:27.998337534: Debug nginx page_fault
-20:36:27.998354506: Debug nginx page_fault
-20:36:27.998807317: Debug nginx switch
 20:36:27.999394268: Debug nginx epoll_ctl
 20:36:27.999403655: Debug nginx epoll_ctl
-20:36:27.999420396: Debug nginx switch
 20:36:27.999652538: Debug nginx recvfrom
 20:36:27.999662957: Debug nginx recvfrom
-20:36:27.999673387: Debug nginx page_fault
-20:36:27.999687493: Debug nginx page_fault
-20:36:27.999701338: Debug nginx page_fault
-20:36:27.999907892: Debug nginx switch
-20:36:28.000812173: Debug nginx page_fault
-20:36:28.000868447: Debug nginx page_fault
 20:36:28.000882994: Debug nginx newfstatat
-20:36:28.000964025: Debug nginx switch
-20:36:28.002764831: Debug nginx switch
-20:36:28.002907166: Debug nginx switch
 20:36:28.003638034: Debug nginx newfstatat
-20:36:28.003651008: Debug nginx page_fault
 20:36:28.003669713: Debug nginx openat
 20:36:28.003689840: Debug nginx openat
 20:36:28.003695521: Debug nginx newfstatat
 20:36:28.003700560: Debug nginx newfstatat
-20:36:28.003709957: Debug nginx page_fault
-20:36:28.003719746: Debug nginx page_fault
-20:36:28.003942029: Debug nginx switch
-20:36:28.004680932: Debug nginx page_fault
-20:36:28.004750551: Debug nginx switch
-20:36:28.004899899: Debug nginx switch
 20:36:28.005797667: Debug nginx close
 20:36:28.005802105: Debug nginx close
 20:36:28.005809549: Debug nginx setsockopt
 20:36:28.005813687: Debug nginx setsockopt
-20:36:28.005830097: Debug nginx switch
