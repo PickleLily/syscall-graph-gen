@@ -6,6 +6,7 @@
 #include "graphMaker.h"
 #define MAX_CONTEXT 20
 #define NUM_SYSCALLS 373
+#define MAX_EDGES 2000
 
 int findNum(char *x){
     int min = 0;
@@ -38,7 +39,21 @@ typedef struct Node {
     struct Node* parent; //Points backwards to last call
     struct Node** children; //Points to an array of all potential following syscalls
     size_t numChildren; //The number of following syscalls
+    struct Edge** edges;
+    size_t numEdges;
 } Node;
+
+typedef struct Edge {
+    Node* parent;
+    Node* child;
+} Edge;
+
+Edge* makeEdge(Node* parent, Node* child){
+    Edge* newEdge = (Edge*)malloc(sizeof(Edge));
+    newEdge->parent = parent;
+    newEdge->child = child;
+    return newEdge;
+}
 
 Node* makeNode(int syscall) {
     Node* newNode = (Node*)malloc(sizeof(Node));
@@ -46,6 +61,8 @@ Node* makeNode(int syscall) {
     newNode->parent = NULL;
     newNode->children = NULL;
     newNode->numChildren = 0;
+    newNode->edges = NULL;
+    newNode->numEdges = 0;
     return newNode;
 }
 
@@ -55,6 +72,13 @@ void addNode(Node* parent, Node* child){
     //Realloc (free and malloc) the old pointer to pointers array with updated size
     parent->children = (Node**)realloc(parent->children, parent->numChildren * sizeof(Node*));
     parent->children[parent->numChildren - 1] = child; //Adds the child node to the end of parent's child node list
+    
+    parent->numEdges++;
+    // child->numEdges++;
+    parent->edges = (Edge**)realloc(parent->edges, parent->numEdges * sizeof(Edge*));
+    Edge* newEdge = makeEdge(parent, child);
+    // child->edges = (Edge**)realloc(child->edges, child->numEdges * sizeof(Edge*));
+    parent->edges[parent->numEdges-1] = newEdge;
     child->parent = parent;
 }
 
@@ -82,11 +106,18 @@ Node* setCurrentNode(int syscall, Node* current){
 
 
 void printGraph(FILE* output, Node* current, int layer, int i){
-    for(int i = 0; i < layer; i++){
-        fprintf(output, "    ");
-    }
+    // for(int i = 0; i < layer; i++){
+    //     fprintf(output, "    ");
+    // }
 
-    fprintf(output, "%d\n", current->sysCallNum);
+    // fprintf(output, "%d\n", current->sysCallNum);
+    if(current == NULL){
+        return;
+    }
+    fprintf(output, " %d [label=\"%d\"];\n", current, current->sysCallNum);
+    for(size_t i = 0; i < current->numEdges; i++){
+        fprintf(output, "%d -> %d;\n", current->edges[i]->parent, current->edges[i]->child);
+    }
     // printf("i: %d: %d\n", i, current->sysCallNum);
     for(size_t i = 0; i < current->numChildren; i++){
         printGraph(output, current->children[i], layer + 1, i+1);
@@ -111,6 +142,7 @@ int main(){
 
     Node* root = NULL;
     Node* current = NULL;
+    Edge edges[MAX_EDGES];
 
     if(fptr == NULL || fptr2 == NULL){
         printf("Error, could not open output");
@@ -173,7 +205,14 @@ int main(){
     //For current we can get how many children it has
     //For root->numChildren
     //Call print graph
-    printGraph(fptr2, root, 0, 1);
+    FILE *dot_file = fopen("graph.dot","w");
+    if(!dot_file){
+        perror("Failed to open DOT file");
+        return 1;
+    }
+    fprintf(dot_file, "digraph nginx_syscalls {\n");
+    printGraph(dot_file, root, 0, 1);
+    fprintf(dot_file, "}\n");
 
 }
 
