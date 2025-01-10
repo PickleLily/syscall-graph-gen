@@ -1,19 +1,23 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_NODES 1000
 #define MAX_EDGES 2000
 
 // Structures for Nodes and Edges
 typedef struct Node {
+    int sysCallNum;
     char name[256]; // Name of the object (e.g., file path, socket info)
     int id;         // Unique identifier
 } Node;
 
 typedef struct Edge {
-    int from;       // ID of the source node
-    int to;         // ID of the destination node
+    int parent;       // ID of the source node
+    int child;        // ID of the destination node
+    int sysCallNum;
     char syscall[64]; // The system call connecting the nodes
 } Edge;
 
@@ -47,8 +51,8 @@ void add_edge(int from, int to, const char *syscall) {
         fprintf(stderr, "Error: Maximum edges exceeded.\n");
         exit(1);
     }
-    edges[edge_count].from = from;
-    edges[edge_count].to = to;
+    edges[edge_count].parent = from;
+    edges[edge_count].child = to;
     strncpy(edges[edge_count].syscall, syscall, sizeof(edges[edge_count].syscall) - 1);
     edge_count++;
 }
@@ -133,7 +137,7 @@ int main() {
     }
     for (int i = 0; i < edge_count; i++) {
         fprintf(dot_file, "  %d -> %d [label=\"%s\"];\n",
-                edges[i].from, edges[i].to, edges[i].syscall);
+                edges[i].parent, edges[i].child, edges[i].syscall);
     }
     fprintf(dot_file, "}\n");
 

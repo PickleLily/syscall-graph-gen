@@ -87,7 +87,6 @@ void printGraph(FILE* output, Node* current, int layer, int i){
     }
 
     fprintf(output, "%d\n", current->sysCallNum);
-    // printf("i: %d: %d\n", i, current->sysCallNum);
     for(size_t i = 0; i < current->numChildren; i++){
         printGraph(output, current->children[i], layer + 1, i+1);
     }
@@ -129,51 +128,26 @@ int main(){
             printf("%s, %d\n", currentLine, findNum(currentLine));
         } else {
 
-                //Fill root node
-                if(root == NULL){
-                    root = makeNode(currentSysNum);
-                    current = root;
-                } else {
-                    //Handle way to stop repeated calls.
-                    //This should be done before every added node?
-
-                    /*
-                    Maybe make way for pairs to be studied?
-                    */
-
-
-                    if(currentSysNum == current->sysCallNum){
-                        // printf(" %d\n", compareNodes(setCurrentNode(currentSysNum, current), current));
-                        // current = setCurrentNode(currentSysNum, current);
-                    } else {
-                        //Otherwise we add a new node
-                        //And set that to current
-                        // setCurrentNode(currentSysNum, current);
-                        if(setCurrentNode(currentSysNum, current) != current){
-                            current = setCurrentNode(currentSysNum, current);
-                        }
-                        else {
-                            Node* newNode = makeNode(currentSysNum);
-                            addNode(current, newNode);
-                            current = newNode;
-                        }
+            //Fill root node
+            if(root == NULL){
+                root = makeNode(currentSysNum);
+                current = root;
+            }
+	//every node after root
+	    else {
+                if(currentSysNum != current->sysCallNum){
+                    if(setCurrentNode(currentSysNum, current) != current){
+                        current = setCurrentNode(currentSysNum, current);
                     }
-
+                    else {
+                        Node* newNode = makeNode(currentSysNum);
+                        addNode(current, newNode);
+                        current = newNode;
+                    }
                 }
+            }
         }
-
     }
-    
-    //Print graph
-
-    //Start at Root
-    //recursive function to call
-
-    //Feed the current node + childNum
-    //For current we can get how many children it has
-    //For root->numChildren
-    //Call print graph
     printGraph(fptr2, root, 0, 1);
-
 }
 
