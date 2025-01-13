@@ -15,3 +15,8 @@ Server:
 
 
 How to Run:
+
+
+	- open /etc/falco and edit the configuration file to change what variabled we are recording via falco
+		- edit the values.yaml file to capture more or less data from the falco script...
+

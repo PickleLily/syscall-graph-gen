@@ -1,0 +1,35 @@
+- rule: all nginx using proc.exe
+  desc: all
+  condition: proc.name in ("nginx", "nginx-worker") and not(syscall.type in (page_fault, epoll_wait, switch))
+  output: "Name=%proc.name Syscall=%evt.type Args=%evt.args"
+  priority: DEBUG
+  tags: [info]
+
+#- rule: track processes whose parent is nginx
+#  desc: all children?
+#  condition: proc.pexe in ("nginx", "nginx-worker") and not (syscall.type in (page_fault, epoll_wait, switch))
+#  output: "children %proc.name %evt.type"
+#  priority: DEBUG
+#  tags: [children]
+
+
+#- rule: simple process
+#  desc: log all syscalls in my c program
+#  condition: (proc.exe = ./a.out or proc.pexe = ./a.out) and not (evt.type in (page_fault, epoll_wait))
+#  output: "Syscall=%evt.type Args=%evt.args"
+#  priority: DEBUG
+#  tags: [testing]
+
+#- rule: pool-spawner
+#  desc: what who owns pool spawner
+#  condition: proc.name in ("pool-spawner")
+#  output: "pool-spawner: %proc.name %evt.type"
+#  priority: DEBUG
+#  tags: [pool-info]
+
+
+- rule: Monitor Child Processes
+  desc: Detect child processes spawned by specific programs 
+  condition: evt.type = execve and parent.proc.name = "nginx" and not proc.name in (nginx) 
+  output: "Child process spawned by nginx (child=%proc.name cmdline=%proc.cmdline)" 
+  priority: NOTICE tags: [process, monitoring]
