@@ -1,23 +1,20 @@
 #include <stdio.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
 #define MAX_NODES 1000
 #define MAX_EDGES 2000
 
 // Structures for Nodes and Edges
 typedef struct Node {
-    int sysCallNum;
     char name[256]; // Name of the object (e.g., file path, socket info)
-    int id;         // Unique identifier
+    int id; // Unique identifier
+    int isExt;
 } Node;
 
 typedef struct Edge {
-    int parent;       // ID of the source node
-    int child;        // ID of the destination node
-    int sysCallNum;
+    int from;       // ID of the source node
+    int to;         // ID of the destination node
     char syscall[64]; // The system call connecting the nodes
 } Edge;
 
@@ -30,7 +27,7 @@ int node_count = 0, edge_count = 0;
 int root_node_id = -1;
 
 // Function to find or add a node
-int find_or_add_node(const char *name) {
+int find_or_add_node(const char *name, int is_external) {
     for (int i = 0; i < node_count; i++) {
         if (strcmp(nodes[i].name, name) == 0) {
             return nodes[i].id;
@@ -41,18 +38,26 @@ int find_or_add_node(const char *name) {
         exit(1);
     }
     nodes[node_count].id = node_count;
+    nodes[node_count].isExt = is_external;
     strncpy(nodes[node_count].name, name, sizeof(nodes[node_count].name) - 1);
     return nodes[node_count++].id;
 }
 
 // Function to add an edge
 void add_edge(int from, int to, const char *syscall) {
+    for (int i = 0; i < edge_count; i++) {
+        if (edges[i].from == from && edges[i].to == to &&
+            strcmp(edges[i].syscall, syscall) == 0) {
+            // Duplicate edge found, do not add
+            return;
+        }
+    }	
     if (edge_count >= MAX_EDGES) {
         fprintf(stderr, "Error: Maximum edges exceeded.\n");
         exit(1);
     }
-    edges[edge_count].parent = from;
-    edges[edge_count].child = to;
+    edges[edge_count].from = from;
+    edges[edge_count].to = to;
     strncpy(edges[edge_count].syscall, syscall, sizeof(edges[edge_count].syscall) - 1);
     edge_count++;
 }
@@ -77,7 +82,7 @@ void parse_file_descriptor(const char *fd, char *file_path) {
 
 // Main function to parse Falco output and build the graph
 int main() {
-    FILE *file = fopen("input.txt", "r");
+    FILE *file = fopen("truncData.txt", "r");
     if (!file) {
         perror("Failed to open events file");
         return 1;
@@ -85,10 +90,11 @@ int main() {
 
     char line[1024];
     while (fgets(line, sizeof(line), file)) {
-
-		char t[64], type[64], name[64], syscall[64], args[1024];
-		sscanf(line, "%s %s Name=%s Syscall=%s Args=%[^\n]", t, type, name, syscall, args);
-
+        char syscall[64], args[512];
+	int localExtFlag = 0;
+        if (sscanf(line, "%*s %*s %*s Syscall=%s Args=%[^\n]", syscall, args) != 2) {
+            continue;
+        }
 
         // Extract root node from the first accept4 syscall
         if (root_node_id == -1 && strcmp(syscall, "accept4") == 0) {
@@ -97,27 +103,31 @@ int main() {
                 sscanf(args, "fd=%255[^ ]", fd); // Extract fd field
                 parse_file_descriptor(fd, fd);  // Extract file path from fd
             }
-            root_node_id = find_or_add_node(fd); // Use fd as root node
+            root_node_id = find_or_add_node(fd, 1); // Use fd as root node
             continue;
         }
 
         // Parse arguments for objects like files or sockets
         char object1[256] = "";
-        if (strstr(args, "path=")) {
-            sscanf(args, "path=%255s", object1); // Extract file path
-        } else if (strstr(args, "fd=")) {
+	char *path_start;
+        if (path_start = strstr(args, "path=")) {
+            sscanf(path_start, "path=%255s", object1); // Extract file path
+        } else if (path_start = strstr(args, "fd=")) {
             char fd[256];
-            sscanf(args, "fd=%255[^ ]", fd); // Extract fd field
+            sscanf(path_start, "fd=%255[^ ]", fd); // Extract fd field
             if (strstr(fd, "<f>")) {
                 parse_file_descriptor(fd, object1); // Extract file path if "<f>"
-            } else {
-                strncpy(object1, fd, 255); // Use fd as-is if not a file
+            } else if ((strstr(fd, "<u>")) || (strstr(fd, "<4t>"))){
+	        localExtFlag = 1;
+		strncpy(object1, fd, 255);
+	    }else {
+                continue;
             }
         }
 
         // Add edges if relevant objects are found
         if (strlen(object1) > 0 && root_node_id != -1) {
-            int to = find_or_add_node(object1);
+            int to = find_or_add_node(object1, localExtFlag);
             add_edge(root_node_id, to, syscall);
         }
     }
@@ -125,7 +135,7 @@ int main() {
     fclose(file);
 
     // Output the graph in DOT format
-    FILE *dot_file = fopen("../graphs/graph1a.dot", "w");
+    FILE *dot_file = fopen("graph.dot", "w");
     if (!dot_file) {
         perror("Failed to open DOT file");
         return 1;
@@ -133,11 +143,15 @@ int main() {
 
     fprintf(dot_file, "digraph nginx_syscalls {\n");
     for (int i = 0; i < node_count; i++) {
-        fprintf(dot_file, "  %d [label=\"%s\"];\n", nodes[i].id, nodes[i].name);
+        if (nodes[i].isExt) {
+            fprintf(dot_file, "  %d [label=\"%s\", shape=diamond];\n", nodes[i].id, nodes[i].name);
+        } else {
+            fprintf(dot_file, "  %d [label=\"%s\"];\n", nodes[i].id, nodes[i].name);
+        }
     }
     for (int i = 0; i < edge_count; i++) {
         fprintf(dot_file, "  %d -> %d [label=\"%s\"];\n",
-                edges[i].parent, edges[i].child, edges[i].syscall);
+                edges[i].from, edges[i].to, edges[i].syscall);
     }
     fprintf(dot_file, "}\n");
 
@@ -145,4 +159,3 @@ int main() {
     printf("Graph exported to graph.dot\n");
     return 0;
 }
-
