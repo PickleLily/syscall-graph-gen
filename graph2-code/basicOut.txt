@@ -1,0 +1,32 @@
+Name=nginx Syscall=epoll_wait Args=res=1
+Name=nginx Syscall=accept4 Args=fd=4(<4t>127.0.0.1:52612->127.0.0.1:82) tuple=127.0.0.1:52612->127.0.0.1:82 queuepct=0 queuelen=0 queuemax=511
+Name=nginx Syscall=epoll_ctl Args=
+Name=nginx Syscall=epoll_ctl Args=
+Name=nginx Syscall=epoll_wait Args=maxevents=512
+Name=nginx Syscall=epoll_wait Args=res=1
+Name=nginx Syscall=recvfrom Args=fd=4(<4t>127.0.0.1:52612->127.0.0.1:82) size=1024
+Name=nginx Syscall=recvfrom Args=res=573 data=GET / HTTP/1.1..Host: localhost:82..User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux  tuple=127.0.0.1:52612->127.0.0.1:82
+Name=nginx Syscall=newfstatat Args=
+Name=nginx Syscall=newfstatat Args=res=0 dirfd=-100(AT_FDCWD) path=/var/www/lilyTest/ flags=0
+Name=nginx Syscall=newfstatat Args=
+Name=nginx Syscall=newfstatat Args=res=0 dirfd=-100(AT_FDCWD) path=/var/www/lilyTest/ flags=0
+Name=nginx Syscall=newfstatat Args=
+Name=nginx Syscall=newfstatat Args=res=0 dirfd=-100(AT_FDCWD) path=/var/www/lilyTest/index.html flags=0
+Name=nginx Syscall=newfstatat Args=
+Name=nginx Syscall=newfstatat Args=res=0 dirfd=-100(AT_FDCWD) path=/var/www/lilyTest/index.html flags=0
+Name=nginx Syscall=openat Args=dirfd=-100(AT_FDCWD) name=/var/www/lilyTest/index.html flags=65(O_NONBLOCK|O_RDONLY) mode=0
+Name=nginx Syscall=openat Args=fd=15(<f>/var/www/lilyTest/index.html) dirfd=-100(AT_FDCWD) name=/var/www/lilyTest/index.html flags=65(O_NONBLOCK|O_RDONLY) mode=0 dev=802 ino=1618985
+Name=nginx Syscall=fstat Args=fd=15(<f>/var/www/lilyTest/index.html)
+Name=nginx Syscall=fstat Args=res=0
+Name=nginx Syscall=close Args=fd=15(<f>/var/www/lilyTest/index.html)
+Name=nginx Syscall=close Args=res=0
+Name=nginx Syscall=setsockopt Args=
+Name=nginx Syscall=setsockopt Args=res=0 fd=4(<4t>127.0.0.1:52612->127.0.0.1:82) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4
+Name=nginx Syscall=epoll_wait Args=maxevents=512
+Name=nginx Syscall=epoll_wait Args=res=1
+Name=nginx Syscall=recvfrom Args=fd=4(<4t>127.0.0.1:52612->127.0.0.1:82) size=1024
+Name=nginx Syscall=recvfrom Args=res=0 data=NULL tuple=127.0.0.1:52612->127.0.0.1:82
+Name=nginx Syscall=close Args=fd=4(<4t>127.0.0.1:52612->127.0.0.1:82)
+Name=nginx Syscall=close Args=res=0
+Name=nginx Syscall=epoll_wait Args=maxevents=512
+Name=nginx Syscall=fcntl Args=res=0(<f>/dev/null) fd=12(<4t>127.0.0.1:44338->127.0.0.1:80) cmd=5(F_SETFL)
