@@ -10,7 +10,6 @@ typedef struct Node {
     char PID[64]; // PID
     char args[1024]; // Name of the object (e.g., file path, socket info)
     int id; // Unique identifier
-    int isExt;
 } Node;
 
 typedef struct Edge {
@@ -29,42 +28,40 @@ int root_node_id = -1;
 
 
 // Function to find or add a node
-int find_or_add_node(const char *args, char PID[], int node_count) {
-    {
-    // if (node_count >= MAX_NODES) {
+int find_or_add_node(const char *args, char PID[], int *node_count) {  
+    for (int i = 0; i < *node_count; i++) {  
+        //if we see a matching argument break out of the loop...
+        if (strcmp(nodes[i].args, args) == 0) {
+            if(strcmp(args, "") != 0 ){
+                printf("repeated... %s\n", args);
+            }
+            return nodes[i].id;
+        }
+    }
+    //did NOT match anything
+    if(strcmp(args, "") != 0 ){
+        printf("%s\n", args);
+    }
+
+    // if (*node_count >= MAX_NODES) {
     //     fprintf(stderr, "Error: Maximum nodes exceeded.\n");
     //     exit(1);
     // }
 
-    // nodes[node_count].id = node_count;
-
-    // strncpy(nodes[node_count].args, args, sizeof(nodes[node_count].args) - 1);
-    // strncpy(nodes[node_count].PID, PID, sizeof(nodes[node_count].PID) - 1);
-
-    // return node_count + 1;
-    }
     
-    for (int i = 0; i < node_count; i++) {
-        if (strcmp(nodes[i].args, args) == 0 && strcmp(nodes[i].PID, PID) == 0) {
-            return nodes[i].id;
-        }
-    }
-    if (node_count >= MAX_NODES) {
-        fprintf(stderr, "Error: Maximum nodes exceeded.\n");
-        exit(1);
-    }
-    nodes[node_count].id = node_count;
-    strncpy(nodes[node_count].args, args, sizeof(nodes[node_count].args) - 1);
-    return nodes[node_count++].id;
+    nodes[*node_count].id = *node_count;
+    strncpy(nodes[*node_count].PID, PID, sizeof(nodes[*node_count].PID) - 1);
+    strncpy(nodes[*node_count].args, args, sizeof(nodes[*node_count].args) - 1);
+    *node_count = *node_count + 1;
+    return nodes[*node_count].id;
 }
+
 
 // Function to add an edge
 void add_edge(int from, int to, const char *syscall) {
     for (int i = 0; i < edge_count; i++) {
-        if (edges[i].from == from && edges[i].to == to &&
-            strcmp(edges[i].syscall, syscall) == 0) {
-            // Duplicate edge found, do not add
-            return;
+        if (edges[i].from == from && edges[i].to == to && strcmp(edges[i].syscall, syscall) == 0) {
+            return; // Duplicate edge found, do not add
         }
     }	
     if (edge_count >= MAX_EDGES) {
@@ -97,9 +94,6 @@ void parse_file_descriptor(const char *fd, char *file_path) {
 
 // Main function to parse Falco output and build the graph
 int main() {
-
-    int numberOfNodes = 0;
-    // open intermediate file
     FILE *file = fopen("intermediateOutput.txt", "r");
     if (!file) {
         perror("Failed to open events file");
@@ -107,11 +101,11 @@ int main() {
     }
 
     char line[1024];
+    int from_node = -1;
     while (fgets(line, sizeof(line), file)) {
 
-        char FD[1024]= "", syscall[1024] = "", args[1024] = "", ret[1024] = "", PID[1024] = "", filepath[1024] = "";
-
-        int matches = sscanf(line, "%s %s %[^\n]", syscall, PID, args);
+        char syscall[1024] = "", args[1024] = "", PID[1024] = "", filepath[1024] = "";
+        sscanf(line, "%s %s %[^\n]", syscall, PID, args);
 
 
         if (strstr(args, "fd=")) 
@@ -128,12 +122,15 @@ int main() {
             sscanf(args, "path=[^ ]", filepath);
         }
 
-        numberOfNodes = find_or_add_node(PID, filepath, numberOfNodes);
+
+        int to_node = find_or_add_node(filepath, PID, &node_count);
+
 
         // TODO --> beef up this functionality!!!
-        if(numberOfNodes > 0){
-            add_edge(numberOfNodes-1, numberOfNodes, syscall);
+        if(from_node != -1){
+            add_edge(from_node, to_node, syscall);
         }
+        from_node = to_node;
     }
 
     fclose(file);
@@ -145,7 +142,7 @@ int main() {
     
     fprintf(dot_file, "digraph nginx_syscalls {\n");
 
-    for (int i = 0; i < numberOfNodes; i++) {
+    for (int i = 0; i < node_count; i++) {
         fprintf(dot_file, "  %d [label=\"PID:%s %s\"];\n", nodes[i].id, nodes[i].args, nodes[i].PID);
     }
 
