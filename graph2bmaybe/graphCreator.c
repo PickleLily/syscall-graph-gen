@@ -29,18 +29,33 @@ int root_node_id = -1;
 
 
 // Function to find or add a node
-int add_node(const char *args, char PID[], int node_count) {
+int find_or_add_node(const char *args, char PID[], int node_count) {
+    {
+    // if (node_count >= MAX_NODES) {
+    //     fprintf(stderr, "Error: Maximum nodes exceeded.\n");
+    //     exit(1);
+    // }
+
+    // nodes[node_count].id = node_count;
+
+    // strncpy(nodes[node_count].args, args, sizeof(nodes[node_count].args) - 1);
+    // strncpy(nodes[node_count].PID, PID, sizeof(nodes[node_count].PID) - 1);
+
+    // return node_count + 1;
+    }
+    
+    for (int i = 0; i < node_count; i++) {
+        if (strcmp(nodes[i].args, args) == 0 && strcmp(nodes[i].PID, PID) == 0) {
+            return nodes[i].id;
+        }
+    }
     if (node_count >= MAX_NODES) {
         fprintf(stderr, "Error: Maximum nodes exceeded.\n");
         exit(1);
     }
-
     nodes[node_count].id = node_count;
-
     strncpy(nodes[node_count].args, args, sizeof(nodes[node_count].args) - 1);
-    strncpy(nodes[node_count].PID, PID, sizeof(nodes[node_count].PID) - 1);
-
-    return node_count + 1;
+    return nodes[node_count++].id;
 }
 
 // Function to add an edge
@@ -89,41 +104,46 @@ int main() {
     if (!file) {
         perror("Failed to open events file");
         return 1;
-    }else{
-        printf("intermediateOutput.txt opened successfully...\n");
     }
 
     char line[1024];
     while (fgets(line, sizeof(line), file)) {
 
-        char FD[1024]= "", syscall[1024] = "", args[1024] = "", ret[1024] = "", PID[1024] = "";
-    
-        int matches = sscanf(line, "%s %s %[^\n]", syscall, PID, args);
-        // printf("%s %s %s\n", syscall, PID, args);
+        char FD[1024]= "", syscall[1024] = "", args[1024] = "", ret[1024] = "", PID[1024] = "", filepath[1024] = "";
 
-        if(strcmp(args, "Return") != 0){
-            numberOfNodes = add_node(PID, args, numberOfNodes);
+        int matches = sscanf(line, "%s %s %[^\n]", syscall, PID, args);
+
+
+        if (strstr(args, "fd=")) 
+        {
+            sscanf(args, "fd=%255[^ ]", filepath);
+            parse_file_descriptor(filepath, filepath);  // Extract file path from fd
+        }
+        else if (strstr(args, "name="))
+        {
+            sscanf(args, "name=[^ ]", filepath); 
+        }
+        else if(strstr(args, "path="))
+        {
+            sscanf(args, "path=[^ ]", filepath);
         }
 
+        numberOfNodes = find_or_add_node(PID, filepath, numberOfNodes);
+
+        // TODO --> beef up this functionality!!!
         if(numberOfNodes > 0){
             add_edge(numberOfNodes-1, numberOfNodes, syscall);
         }
-
     }
 
     fclose(file);
-    // Output the graph in DOT format
     FILE *dot_file = fopen("../graphs/graph2b.dot", "w");
     if (!dot_file) {
-        perror("Failed to open DOT file");
+        perror("Failed to open DOT file\n");
         return 1;
-    }else{
-        printf("Successfully opened DOT file...\n");
     }
-
+    
     fprintf(dot_file, "digraph nginx_syscalls {\n");
-
-    printf("number of nodes: %d\n", numberOfNodes);
 
     for (int i = 0; i < numberOfNodes; i++) {
         fprintf(dot_file, "  %d [label=\"PID:%s %s\"];\n", nodes[i].id, nodes[i].args, nodes[i].PID);
@@ -135,6 +155,6 @@ int main() {
 
     fprintf(dot_file, "}\n");
     fclose(dot_file);
-    printf("Graph exported to graphs/graph2.dot\n");
+    printf("Graph exported to graphs/graph2.dot\n\n");
     return 0;
 }

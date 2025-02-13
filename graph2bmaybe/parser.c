@@ -127,32 +127,12 @@ int main(){
 	for(int i = 0; i < inputCount; i++){
 		{
 			char printable[5096]= "";
-			bool log = true;
 
 			// syscall, return, arg, fd
-			log = parseSyscall(inputs[i].syscall_name, inputs[i].returnValues, inputs[i].args, inputs[i].FD);
+			bool log = parseSyscall(inputs[i].syscall_name, inputs[i].returnValues, inputs[i].args, inputs[i].FD);
 
 			if(log == true){
-				snprintf(printable , 5096, "%s %s ", inputs[i].syscall_name, inputs[i].PID);
-
-				// // there is a relevant file descriptor...
-				// if(strcmp(inputs[i].FD, "<NA>") != 0 && strcmp(inputs[i].FD, "") != 0){
-				//     strcat(printable, inputs[i].FD);
-				// }
-				// strcat(printable, " *");
-	
-				// // there is a relevant return value
-				// if(strcmp(inputs[i].returnValues, "<NA>") != 0 && strcmp(inputs[i].returnValues, "") != 0 ){
-				// 	strcat(printable, inputs[i].returnValues);
-				// }
-				// strcat(printable, " *");
-	
-	
-				//always add the values for args and PID
-				if(strcmp(inputs[i].args , "") != 0 && strcmp(inputs[i].args , "Return:<NA>" ) != 0){
-					strcat(printable, inputs[i].args);
-				}
-	
+				snprintf(printable , 5096, "%s %s %s", inputs[i].syscall_name, inputs[i].PID, inputs[i].args);
 				fprintf(intermediateOutput, "%s\n", printable);
 			}
 		}	
