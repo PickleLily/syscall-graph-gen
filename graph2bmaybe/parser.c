@@ -46,8 +46,25 @@ Inputs* parseInput(int *inputCount){
 		char time[1024], type[1024], name[1024], FD[1024], syscall[1024], args[1024], returnVal[1024], PID[1024];
 		sscanf(line, "%s %s Name:%s FD:%s Syscall:%s Args:%[^:] :%[^:] :%s", time, type, name, FD, syscall, args, returnVal, PID);
 
+		char parsedArgs[1024];
+		// printf("%s\n", args);
+		size_t args_len = strlen(args);
+    	size_t args_copy_len = (args_len > 7) ? args_len - 7 : 0;
+		strncpy(parsedArgs, args, args_copy_len);
+		parsedArgs[args_copy_len] = '\0';
+		// printf("%s\n\n", parsedArgs);
+
+		char parsedReturn[1024];
+		// printf("%s\n", returnVal);
+		size_t ret_len = strlen(returnVal);
+    	size_t ret_copy_len = (ret_len > 3) ? ret_len - 3 : 0;
+		strncpy(parsedReturn, returnVal, ret_copy_len);
+		parsedReturn[ret_copy_len] = '\0';
+		// printf("%s\n\n", parsedReturn);
+
+
         // TODO --> change makeInput()???
-        Inputs i = makeInput(name, FD, syscall, args, returnVal, PID);
+        Inputs i = makeInput(name, FD, syscall, parsedArgs, parsedReturn, PID);
 
 		il[node] = i;
 		node++;
@@ -72,7 +89,7 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 		return false;
 	}
 	// chdir with <NA> does not touch a file path...
-	else if(strcmp(syscall, "chdir") == 0 && strcmp(returnValues, "<NA> PID") == 0)
+	else if(strcmp(syscall, "chdir") == 0 && strcmp(arguments, "") == 0)
 	{
 		return false;
 	}
@@ -87,7 +104,7 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 		return false;
 	}
 	// close with no arguments is a duplicate call...
-	else if(strcmp(syscall, "close") == 0 && strcmp(returnValues, "0 PID") == 0 )
+	else if(strcmp(syscall, "close") == 0 && strcmp(returnValues, "0 ") == 0 )
 	{
 		return false;
 	}

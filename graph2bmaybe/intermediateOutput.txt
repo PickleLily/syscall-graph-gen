@@ -1,50 +1,50 @@
-chdir 1801 res=0 path=/var/www/html/chat Return
-open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711 Return
-mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0 Return
-close 1801 fd=14(<f>/var/www/html/chat/read_log.php) Return
-open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715 Return
-close 1801 fd=14(<f>/var/www/log.html) Return
-chdir 1801 res=0 path=/ Return
-chdir 1801 res=0 path=/var/www/html/chat Return
-open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711 Return
-mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0 Return
-close 1801 fd=14(<f>/var/www/html/chat/read_log.php) Return
-open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715 Return
-close 1801 fd=14(<f>/var/www/log.html) Return
-chdir 1801 res=0 path=/ Return
-chdir 1801 res=0 path=/var/www/html/chat Return
-open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711 Return
-mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0 Return
-close 1801 fd=14(<f>/var/www/html/chat/read_log.php) Return
-open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715 Return
-close 1801 fd=14(<f>/var/www/log.html) Return
-chdir 1801 res=0 path=/ Return
-chdir 1801 res=0 path=/var/www/html/chat Return
-open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711 Return
-mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0 Return
-close 1801 fd=14(<f>/var/www/html/chat/read_log.php) Return
-open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715 Return
-close 1801 fd=14(<f>/var/www/log.html) Return
-chdir 1801 res=0 path=/ Return
-chdir 1801 res=0 path=/var/www/html/chat Return
-open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711 Return
-mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0 Return
-close 1801 fd=14(<f>/var/www/html/chat/read_log.php) Return
-open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715 Return
-close 1801 fd=14(<f>/var/www/log.html) Return
-chdir 1801 res=0 path=/ Return
-chdir 1801 res=0 path=/var/www/html/chat Return
-open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 Return
-open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711 Return
-mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0 Return
-close 1801 fd=14(<f>/var/www/html/chat/read_log.php) Return
+chdir 1801 res=0 path=/var/www/html/chat
+open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711
+mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0
+close 1801 fd=14(<f>/var/www/html/chat/read_log.php)
+open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715
+close 1801 fd=14(<f>/var/www/log.html)
+chdir 1801 res=0 path=/
+chdir 1801 res=0 path=/var/www/html/chat
+open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711
+mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0
+close 1801 fd=14(<f>/var/www/html/chat/read_log.php)
+open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715
+close 1801 fd=14(<f>/var/www/log.html)
+chdir 1801 res=0 path=/
+chdir 1801 res=0 path=/var/www/html/chat
+open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711
+mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0
+close 1801 fd=14(<f>/var/www/html/chat/read_log.php)
+open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715
+close 1801 fd=14(<f>/var/www/log.html)
+chdir 1801 res=0 path=/
+chdir 1801 res=0 path=/var/www/html/chat
+open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711
+mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0
+close 1801 fd=14(<f>/var/www/html/chat/read_log.php)
+open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715
+close 1801 fd=14(<f>/var/www/log.html)
+chdir 1801 res=0 path=/
+chdir 1801 res=0 path=/var/www/html/chat
+open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711
+mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0
+close 1801 fd=14(<f>/var/www/html/chat/read_log.php)
+open 1801 name=/var/www/log.html flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/log.html) name=/var/www/log.html flags=1(O_RDONLY) mode=0 dev=FC00 ino=532715
+close 1801 fd=14(<f>/var/www/log.html)
+chdir 1801 res=0 path=/
+chdir 1801 res=0 path=/var/www/html/chat
+open 1801 name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0
+open 1801 fd=14(<f>/var/www/html/chat/read_log.php) name=/var/www/html/chat/read_log.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=532711
+mmap 1801 addr=0 length=288 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/chat/read_log.php) offset=0
+close 1801 fd=14(<f>/var/www/html/chat/read_log.php)
