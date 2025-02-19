@@ -1,30 +1,32 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
 
-#define MAX_NODES 1000
-#define MAX_EDGES 2000
+// #define MAX_NODES 1000
+// #define MAX_EDGES 2000
 
 // Structures for Nodes and Edges
-typedef struct Node {
-    char PID[64]; // PID
-    char args[1024]; // Name of the object (e.g., file path, socket info)
-    int id; // Unique identifier
-} Node;
+// typedef struct Node {
+//     char PID[64]; // PID
+//     char args[1024]; // Name of the object (e.g., file path, socket info)
+//     int id; // Unique identifier
+// } Node;
 
-typedef struct Edge {
-    int from;       // ID of the source node
-    int to;         // ID of the destination node
-    char syscall[64]; // The system call connecting the nodes
-} Edge;
+// typedef struct Edge {
+//     int from;       // ID of the source node
+//     int to;         // ID of the destination node
+//     char syscall[64]; // The system call connecting the nodes
+// } Edge;
 
-// Global graph representation
-Node nodes[MAX_NODES];
-Edge edges[MAX_EDGES];
-int node_count = 0, edge_count = 0;
 
-// Global root node ID
-int root_node_id = -1;
+// TODO --> is that okay??? ??
+// // Global graph representation
+// Node nodes[MAX_NODES];
+// Edge edges[MAX_EDGES];
+// int node_count = 0, edge_count = 0;
+
+// // Global root node ID
+// int root_node_id = -1;
 
 
 // Function to find or add a node
@@ -66,31 +68,31 @@ void add_edge(int from, int to, const char *syscall) {
     edge_count++;
 }
 
-// Helper function to parse file descriptors with "<f>"
-void parse_file_descriptor(const char *fd, char *file_path) {
-    char *start = strstr(fd, "<f>");
-    if (start) {
-        start += 3; // Skip past "<f>"
-        char *end = strchr(start, ')');
-        if (end) {
-            size_t length = end - start;
-            strncpy(file_path, start, length);
-            file_path[length] = '\0'; // Null-terminate the extracted path
-        } else {
-            strncpy(file_path, "Unknown File", 255);
-        }
-    } else {
-        strncpy(file_path, fd, 255); // If no "<f>", use the entire fd string
-    }
-}
+// // Helper function to parse file descriptors with "<f>"
+// void parse_file_descriptor(const char *fd, char *file_path) {
+//     char *start = strstr(fd, "<f>");
+//     if (start) {
+//         start += 3; // Skip past "<f>"
+//         char *end = strchr(start, ')');
+//         if (end) {
+//             size_t length = end - start;
+//             strncpy(file_path, start, length);
+//             file_path[length] = '\0'; // Null-terminate the extracted path
+//         } else {
+//             strncpy(file_path, "Unknown File", 255);
+//         }
+//     } else {
+//         strncpy(file_path, fd, 255); // If no "<f>", use the entire fd string
+//     }
+// }
 
 // Main function to parse Falco output and build the graph
 int main() {
-    FILE *file = fopen("intermediateOutput.txt", "r");
-    if (!file) {
-        perror("Failed to open events file");
-        return 1;
-    }
+    // FILE *file = fopen("intermediateOutput.txt", "r");
+    // if (!file) {
+    //     perror("Failed to open events file");
+    //     return 1;
+    // }
 
     char line[1024];
     int from_node = -1;
@@ -98,7 +100,6 @@ int main() {
 
         char syscall[1024] = "", args[1024] = "", PID[1024] = "", filepath[1024] = "";
         sscanf(line, "%s %s %[^\n]", syscall, PID, args);
-
 
         if (strstr(args, "fd=")) 
         {
