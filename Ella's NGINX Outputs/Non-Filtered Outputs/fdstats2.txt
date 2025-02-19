@@ -1,0 +1,75 @@
+18:31:25.908018185: Informational Name:nginx FD:-1 Syscall:accept4/Event:accept4 Args:flags=0 Return:<NA> PID:1239
+18:31:25.908055804: Informational Name:nginx FD:7 Syscall:accept4/Event:accept4 Args:fd=7(<4t>192.168.86.141:57596->192.168.86.217:80) tuple=192.168.86.141:57596->192.168.86.217:80 queuepct=0 queuelen=1 queuemax=511 Return:7 PID:1239
+18:31:25.908069315: Informational Name:nginx FD:<NA> Syscall:epoll_ctl/Event:epoll_ctl Args: Return:<NA> PID:1239
+18:31:25.908075014: Informational Name:nginx FD:<NA> Syscall:epoll_ctl/Event:epoll_ctl Args: Return:<NA> PID:1239
+18:31:25.908081761: Informational Name:nginx FD:-1 Syscall:accept4/Event:accept4 Args:flags=0 Return:<NA> PID:1239
+18:31:25.908083585: Informational Name:nginx FD:11 Syscall:accept4/Event:accept4 Args:fd=11(<4t>192.168.86.141:57597->192.168.86.217:80) tuple=192.168.86.141:57597->192.168.86.217:80 queuepct=0 queuelen=0 queuemax=511 Return:11 PID:1239
+18:31:25.908085286: Informational Name:nginx FD:<NA> Syscall:epoll_ctl/Event:epoll_ctl Args: Return:<NA> PID:1239
+18:31:25.908086352: Informational Name:nginx FD:<NA> Syscall:epoll_ctl/Event:epoll_ctl Args: Return:<NA> PID:1239
+18:31:27.972905107: Informational Name:nginx FD:7 Syscall:recvfrom/Event:recvfrom Args:fd=7(<4t>192.168.86.141:57596->192.168.86.217:80) size=1024 Return:<NA> PID:1239
+18:31:27.972918806: Informational Name:nginx FD:7 Syscall:recvfrom/Event:recvfrom Args:res=560 data=GET / HTTP/1.1..Host: 192.168.86.217..Connection: keep-alive..Cache-Control: max tuple=192.168.86.141:57596->192.168.86.217:80 Return:560 PID:1239
+18:31:27.972944669: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:27.973014662: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/ flags=0 Return:0 PID:1239
+18:31:27.973016899: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:27.973037929: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/ flags=0 Return:0 PID:1239
+18:31:27.973039985: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:27.973058104: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=-2(ENOENT) dirfd=-100(AT_FDCWD) path=/var/www/html/index.html flags=0 Return:-2 PID:1239
+18:31:27.973059707: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:27.973079401: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html flags=0 Return:0 PID:1239
+18:31:27.973080387: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:27.973097360: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=-2(ENOENT) dirfd=-100(AT_FDCWD) path=/var/www/html/index.htm flags=0 Return:-2 PID:1239
+18:31:27.973098229: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:27.973116503: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/index.nginx-debian.html flags=0 Return:0 PID:1239
+18:31:27.973118980: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:27.973137940: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/index.nginx-debian.html flags=0 Return:0 PID:1239
+18:31:27.973141081: Informational Name:nginx FD:-1 Syscall:openat/Event:openat Args:dirfd=-100(AT_FDCWD) name=/var/www/html/index.nginx-debian.html flags=65(O_NONBLOCK|O_RDONLY) mode=0 Return:<NA> PID:1239
+18:31:27.973152711: Informational Name:nginx FD:12 Syscall:openat/Event:openat Args:fd=12(<f>/var/www/html/index.nginx-debian.html) dirfd=-100(AT_FDCWD) name=/var/www/html/index.nginx-debian.html flags=65(O_NONBLOCK|O_RDONLY) mode=0 dev=FC00 ino=3179 Return:12 PID:1239
+18:31:27.973153801: Informational Name:nginx FD:12 Syscall:fstat/Event:fstat Args:fd=12(<f>/var/www/html/index.nginx-debian.html) Return:<NA> PID:1239
+18:31:27.973154852: Informational Name:nginx FD:12 Syscall:fstat/Event:fstat Args:res=0 Return:0 PID:1239
+18:31:27.973170727: Informational Name:nginx FD:7 Syscall:writev/Event:writev Args:fd=7(<4t>192.168.86.141:57596->192.168.86.217:80) size=189 Return:<NA> PID:1239
+18:31:27.973685314: Informational Name:nginx FD:7 Syscall:writev/Event:writev Args:res=189 data=HTTP/1.1 304 Not Modified..Server: nginx/1.24.0 (Ubuntu)..Date: Fri, 07 Feb 2025 Return:189 PID:1239
+18:31:27.974062660: Informational Name:nginx FD:4 Syscall:write/Event:write Args:fd=4(<f>/var/log/nginx/access.log) size=203 Return:<NA> PID:1239
+18:31:27.974087601: Informational Name:nginx FD:4 Syscall:write/Event:write Args:res=203 data=192.168.86.141 - - [07/Feb/2025:18:31:27 +0000] "GET / HTTP/1.1" 304 0 "-" "Mozi Return:203 PID:1239
+18:31:27.974088787: Informational Name:nginx FD:12 Syscall:close/Event:close Args:fd=12(<f>/var/www/html/index.nginx-debian.html) Return:<NA> PID:1239
+18:31:27.974093134: Informational Name:nginx FD:12 Syscall:close/Event:close Args:res=0 Return:0 PID:1239
+18:31:27.974095912: Informational Name:nginx FD:<NA> Syscall:setsockopt/Event:setsockopt Args: Return:<NA> PID:1239
+18:31:27.974098615: Informational Name:nginx FD:-1 Syscall:setsockopt/Event:setsockopt Args:res=0 fd=7(<4t>192.168.86.141:57596->192.168.86.217:80) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4 Return:0 PID:1239
+18:31:37.637940037: Informational Name:nginx FD:-1 Syscall:accept4/Event:accept4 Args:flags=0 Return:<NA> PID:1239
+18:31:37.638014544: Informational Name:nginx FD:12 Syscall:accept4/Event:accept4 Args:fd=12(<4t>192.168.86.141:57613->192.168.86.217:80) tuple=192.168.86.141:57613->192.168.86.217:80 queuepct=0 queuelen=0 queuemax=511 Return:12 PID:1239
+18:31:37.638034905: Informational Name:nginx FD:<NA> Syscall:epoll_ctl/Event:epoll_ctl Args: Return:<NA> PID:1239
+18:31:37.638070451: Informational Name:nginx FD:<NA> Syscall:epoll_ctl/Event:epoll_ctl Args: Return:<NA> PID:1239
+18:31:37.638081695: Informational Name:nginx FD:12 Syscall:recvfrom/Event:recvfrom Args:fd=12(<4t>192.168.86.141:57613->192.168.86.217:80) size=1024 Return:<NA> PID:1239
+18:31:37.638123116: Informational Name:nginx FD:12 Syscall:recvfrom/Event:recvfrom Args:res=451 data=GET / HTTP/1.1..Host: 192.168.86.217..Connection: keep-alive..DNT: 1..Upgrade-In tuple=192.168.86.141:57613->192.168.86.217:80 Return:451 PID:1239
+18:31:37.638177094: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:37.638429394: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/ flags=0 Return:0 PID:1239
+18:31:37.638438718: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:37.638485121: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/ flags=0 Return:0 PID:1239
+18:31:37.638492639: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:37.638944011: Informational Name:nginx FD:-1/ Syscall:newfstatat/Event:newfstatat Args:res=-2(ENOENT) dirfd=-100(AT_FDCWD) path=/var/www/html/index.html flags=0 Return:-2 PID:1239
+18:31:37.638949740: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:37.638976434: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html flags=0 Return:0 PID:1239
+18:31:37.638978058: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:37.638997973: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=-2(ENOENT) dirfd=-100(AT_FDCWD) path=/var/www/html/index.htm flags=0 Return:-2 PID:1239
+18:31:37.638998865: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:37.639018009: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/index.nginx-debian.html flags=0 Return:0 PID:1239
+18:31:37.639022709: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:37.639040296: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/index.nginx-debian.html flags=0 Return:0 PID:1239
+18:31:37.639043925: Informational Name:nginx FD:-1 Syscall:openat/Event:openat Args:dirfd=-100(AT_FDCWD) name=/var/www/html/index.nginx-debian.html flags=65(O_NONBLOCK|O_RDONLY) mode=0 Return:<NA> PID:1239
+18:31:37.639055134: Informational Name:nginx FD:13 Syscall:openat/Event:openat Args:fd=13(<f>/var/www/html/index.nginx-debian.html) dirfd=-100(AT_FDCWD) name=/var/www/html/index.nginx-debian.html flags=65(O_NONBLOCK|O_RDONLY) mode=0 dev=FC00 ino=3179 Return:13 PID:1239
+18:31:37.639056449: Informational Name:nginx FD:13 Syscall:fstat/Event:fstat Args:fd=13(<f>/var/www/html/index.nginx-debian.html) Return:<NA> PID:1239
+18:31:37.639057835: Informational Name:nginx FD:13 Syscall:fstat/Event:fstat Args:res=0 Return:0 PID:1239
+18:31:37.639075626: Informational Name:nginx FD:13 Syscall:pread/Event:pread Args:fd=13(<f>/var/www/html/index.nginx-debian.html) size=615 pos=0 Return:<NA> PID:1239
+18:31:37.639103885: Informational Name:nginx FD:13 Syscall:pread/Event:pread Args:res=615 data=<!DOCTYPE html>.<html>.<head>.<title>Welcome to nginx!</title>.<style>.html { co fd=13(<f>/var/www/html/index.nginx-debian.html) size=615 pos=0 Return:615 PID:1239
+18:31:37.639155205: Informational Name:nginx FD:12 Syscall:writev/Event:writev Args:fd=12(<4t>192.168.86.141:57613->192.168.86.217:80) size=667 Return:<NA> PID:1239
+18:31:37.640034310: Informational Name:nginx FD:12 Syscall:writev/Event:writev Args:res=667 data=HTTP/1.1 200 OK..Server: nginx/1.24.0 (Ubuntu)..Date: Fri, 07 Feb 2025 18:31:37  Return:667 PID:1239
+18:31:37.642459091: Informational Name:nginx FD:4 Syscall:write/Event:write Args:fd=4(<f>/var/log/nginx/access.log) size=205 Return:<NA> PID:1239
+18:31:37.642474793: Informational Name:nginx FD:4 Syscall:write/Event:write Args:res=205 data=192.168.86.141 - - [07/Feb/2025:18:31:37 +0000] "GET / HTTP/1.1" 200 409 "-" "Mo Return:205 PID:1239
+18:31:37.642476240: Informational Name:nginx FD:13 Syscall:close/Event:close Args:fd=13(<f>/var/www/html/index.nginx-debian.html) Return:<NA> PID:1239
+18:31:37.642483453: Informational Name:nginx FD:13 Syscall:close/Event:close Args:res=0 Return:0 PID:1239
+18:31:37.642486572: Informational Name:nginx FD:<NA> Syscall:setsockopt/Event:setsockopt Args: Return:<NA> PID:1239
+18:31:37.642490868: Informational Name:nginx FD:-1 Syscall:setsockopt/Event:setsockopt Args:res=0 fd=12(<4t>192.168.86.141:57613->192.168.86.217:80) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4 Return:0 PID:1239
+18:31:39.440259320: Informational Name:nginx FD:12 Syscall:recvfrom/Event:recvfrom Args:fd=12(<4t>192.168.86.141:57613->192.168.86.217:80) size=1024 Return:<NA> PID:1239
+18:31:39.440268502: Informational Name:nginx FD:12 Syscall:recvfrom/Event:recvfrom Args:res=560 data=GET / HTTP/1.1..Host: 192.168.86.217..Connection: keep-alive..Cache-Control: max tuple=192.168.86.141:57613->192.168.86.217:80 Return:560 PID:1239
+18:31:39.440286761: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Return:<NA> PID:1239
+18:31:39.440441465: Informational Name:nginx FD:-1 Syscall:newfstatat/Event:newfstatat Args:res=0 dirfd=-100(AT_FDCWD) path=/var/www/html/ flags=0 Return:0 PID:1239
+18:31:39.440444297: Informational Name:nginx FD:<NA> Syscall:newfstatat/Event:newfstatat Args: Ret
