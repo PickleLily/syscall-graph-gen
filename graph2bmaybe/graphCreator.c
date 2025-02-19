@@ -32,23 +32,15 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
     for (int i = 0; i < *node_count; i++) {  
         //if we see a matching argument break out of the loop...
         if (strcmp(nodes[i].args, args) == 0) {
-            if(strcmp(args, "") != 0 ){
-                printf("repeated... %s\n", args);
-            }
             return nodes[i].id;
         }
     }
-    //did NOT match anything
-    if(strcmp(args, "") != 0 ){
-        printf("%s\n", args);
+
+    if (*node_count >= MAX_NODES) {
+        fprintf(stderr, "Error: Maximum nodes exceeded.\n");
+        exit(1);
     }
 
-    // if (*node_count >= MAX_NODES) {
-    //     fprintf(stderr, "Error: Maximum nodes exceeded.\n");
-    //     exit(1);
-    // }
-
-    
     nodes[*node_count].id = *node_count;
     strncpy(nodes[*node_count].PID, PID, sizeof(nodes[*node_count].PID) - 1);
     strncpy(nodes[*node_count].args, args, sizeof(nodes[*node_count].args) - 1);
@@ -125,11 +117,14 @@ int main() {
 
         int to_node = find_or_add_node(filepath, PID, &node_count);
 
-
-        // TODO --> beef up this functionality!!!
+        // this means that if NO nodes have been added we will not add an edge... only should occur 1x
         if(from_node != -1){
             add_edge(from_node, to_node, syscall);
         }
+        // // will not make edge without 2 nodes OR edges that self reference
+        // if(from_node != -1 && from_node != to_node){
+        //     add_edge(from_node, to_node, syscall);
+        // }
         from_node = to_node;
     }
 
@@ -143,7 +138,7 @@ int main() {
     fprintf(dot_file, "digraph nginx_syscalls {\n");
 
     for (int i = 0; i < node_count; i++) {
-        fprintf(dot_file, "  %d [label=\"PID:%s %s\"];\n", nodes[i].id, nodes[i].args, nodes[i].PID);
+        fprintf(dot_file, "  %d [label=\"PID:%s %s\"];\n", nodes[i].id, nodes[i].PID, nodes[i].args);
     }
 
     for (int i = 0; i < edge_count; i++) {
@@ -152,6 +147,6 @@ int main() {
 
     fprintf(dot_file, "}\n");
     fclose(dot_file);
-    printf("Graph exported to graphs/graph2.dot\n\n");
+    printf("Graph exported to graphs/graph2.dot\n");
     return 0;
 }

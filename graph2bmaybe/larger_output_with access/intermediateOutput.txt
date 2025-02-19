@@ -8,8 +8,12 @@ read 1982 res=471 data=GET /drupal/ HTTP/1.1..Host: 172.28.128.3..User-Agent: Mo
 mmap 1982 addr=0 length=8192 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 mmap 1982 addr=0 length=8192 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 chdir 1982 res=0 path=/var/www/html/
+open 1982 name=/var/www/html/drupal/index.php flags=1(O_RDONLY) 
+open 1982 fd=14(<f>/var/www/html/drupal/index.php) name=/var/www/html/drupal/index.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=529 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/drupal/index.php) of
 close 1982 fd=14(<f>/var/www/html/drupal/inde
+open 1982 name=/var/www/html/drupal/includes/bootstrap.inc flags=1(O_RDONLY) 
+open 1982 fd=14(<f>/var/www/html/drupal/includes/bootstrap.inc) name=/var/www/html/drupal/includes/bootstrap.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=102431 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/drupal/includes/bootstrap.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
@@ -24,15 +28,25 @@ access 1982 res=-2(ENOENT) name=/var/www/html/drupal/sites/28.128.3/settin
 access 1982 res=-2(ENOENT) name=/var/www/html/drupal/sites/128.3/settin
 access 1982 res=-2(ENOENT) name=/var/www/html/drupal/sites/3/settin
 access 1982 res=0 name=/var/www/html/drupal/sites/default/settin
+open 1982 name=/var/www/html/drupal/sites/default/settings.php flags=1(O_RDONLY) 
+open 1982 fd=14(<f>/var/www/html/drupal/sites/default/settings.php) name=/var/www/html/drupal/sites/default/settings.php flags=1(O_RDONLY) mode=0 dev=FC00 ino=1
 mmap 1982 addr=0 length=18261 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/drupal/sites/default/settings.php) of
 close 1982 fd=14(<f>/var/www/html/drupal/sites/default/setting
+open 1982 name=/var/www/html/drupal/includes/cache.inc flags=1(O_RDONLY) 
+open 1982 fd=14(<f>/var/www/html/drupal/includes/cache.inc) name=/var/www/html/drupal/includes/cache.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=17508 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/drupal/includes/cache.inc) of
 close 1982 fd=14(<f>/var/www/html/drupal/includes/cach
+open 1982 name=/var/www/html/drupal/includes/database/database.inc flags=1(O_RDONLY) 
+open 1982 fd=14(<f>/var/www/html/drupal/includes/database/database.inc) name=/var/www/html/drupal/includes/database/database.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=93001 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/drupal/includes/database/database.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=14(<f>/var/www/html/drupal/includes/database/databas
+open 1982 name=/var/www/html/drupal/includes/lock.inc flags=1(O_RDONLY) 
+open 1982 fd=14(<f>/var/www/html/drupal/includes/lock.inc) name=/var/www/html/drupal/includes/lock.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=9205 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/drupal/includes/lock.inc) of
 close 1982 fd=14(<f>/var/www/html/drupal/includes/loc
+open 1982 name=/var/www/html/drupal/includes/database/mysql/database.inc flags=1(O_RDONLY) 
+open 1982 fd=14(<f>/var/www/html/drupal/includes/database/mysql/database.inc) name=/var/www/html/drupal/includes/database/mysql/database.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=7778 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=14(<f>/var/www/html/drupal/includes/database/mysql/database.inc) of
 close 1982 fd=14(<f>/var/www/html/drupal/includes/database/mysql/databas
 socket 1982 domain=10(AF_INET6) type=2 p
@@ -83,6 +97,8 @@ recvfrom 1982 res=95 data=.serialized.?.........................variables...a:32
 recvfrom 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) siz
 recvfrom 1982 res=4803 data=an_url";s:1:"0";s:12:"comment_page";i:0;s:8:"cron_key";s:43:"onqAIuO6otCiEPL2YW2 tuple=127.0.0.1:3306->127.0.0.1
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
+open 1982 name=/var/www/html/drupal/includes/module.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/module.inc) name=/var/www/html/drupal/includes/module.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=36163 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/module.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/modul
 sendto 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) size=106 tupl
@@ -93,67 +109,109 @@ recvfrom 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) siz
 recvfrom 1982 res=507 data=....def.drupal.cache_bootstrap.cache_bootstrap.created.created.?...........F.... tuple=127.0.0.1:3306->127.0.0.1
 access 1982 res=0 name=modules/dblog/dblog.module(/var/www/html/drupal/modules/dblog/dblog.m
 access 1982 res=0 name=modules/overlay/overlay.module(/var/www/html/drupal/modules/overlay/overlay.m
+open 1982 name=/var/www/html/drupal/modules/dblog/dblog.module flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/modules/dblog/dblog.module) name=/var/www/html/drupal/modules/dblog/dblog.module flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=6908 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/modules/dblog/dblog.module) of
 close 1982 fd=15(<f>/var/www/html/drupal/modules/dblog/dblog.m
+open 1982 name=/var/www/html/drupal/modules/overlay/overlay.module flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/modules/overlay/overlay.module) name=/var/www/html/drupal/modules/overlay/overlay.module flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=33639 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/modules/overlay/overlay.module) of
 close 1982 fd=15(<f>/var/www/html/drupal/modules/overlay/overlay.m
 sendto 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) size=56 tupl
 sendto 1982 res=56 data=4....SELECT 1 FROM blocked_ips WHERE ip = '172.28.
 recvfrom 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) siz
 recvfrom 1982 res=50 data=..........def....1..?............................. tuple=127.0.0.1:3306->127.0.0.1
+open 1982 name=/var/www/html/drupal/includes/session.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/session.inc) name=/var/www/html/drupal/includes/session.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=16589 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/session.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/sessio
+open 1982 name=/var/www/html/drupal/includes/errors.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/errors.inc) name=/var/www/html/drupal/includes/errors.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=10539 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/errors.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/error
+open 1982 name=/var/www/html/drupal/includes/common.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/common.inc) name=/var/www/html/drupal/includes/common.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=290727 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/common.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/commo
+open 1982 name=/var/www/html/drupal/includes/path.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/path.inc) name=/var/www/html/drupal/includes/path.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=20538 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/path.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/pat
+open 1982 name=/var/www/html/drupal/includes/theme.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/theme.inc) name=/var/www/html/drupal/includes/theme.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=97675 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/theme.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/them
+open 1982 name=/var/www/html/drupal/includes/pager.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/pager.inc) name=/var/www/html/drupal/includes/pager.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=21807 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/pager.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/page
 sendto 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) size=101 tupl
 sendto 1982 res=101 data=a....SELECT cid, data, created, expire, serialized FROM cache_bootstrap WH
 recvfrom 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) siz
 recvfrom 1982 res=752 data=.....@....def.drupal.cache_bootstrap.cache_bootstrap.cid.cid.!.......@...B....de tuple=127.0.0.1:3306->127.0.0.1
+open 1982 name=/var/www/html/drupal/includes/database/select.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/database/select.inc) name=/var/www/html/drupal/includes/database/select.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=49282 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/database/select.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/database/selec
+open 1982 name=/var/www/html/drupal/includes/database/query.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/database/query.inc) name=/var/www/html/drupal/includes/database/query.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=55263 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/database/query.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/database/quer
+open 1982 name=/var/www/html/drupal/includes/menu.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/menu.inc) name=/var/www/html/drupal/includes/menu.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=132504 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/menu.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/men
+open 1982 name=/var/www/html/drupal/includes/tablesort.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/tablesort.inc) name=/var/www/html/drupal/includes/tablesort.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=7460 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/tablesort.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/tablesor
+open 1982 name=/var/www/html/drupal/includes/file.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/file.inc) name=/var/www/html/drupal/includes/file.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=84154 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/file.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/fil
+open 1982 name=/var/www/html/drupal/includes/stream_wrappers.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/stream_wrappers.inc) name=/var/www/html/drupal/includes/stream_wrappers.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=22579 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/stream_wrappers.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/stream_wrapper
+open 1982 name=/var/www/html/drupal/includes/unicode.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/unicode.inc) name=/var/www/html/drupal/includes/unicode.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=21231 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/unicode.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/unicod
+open 1982 name=/var/www/html/drupal/includes/image.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/image.inc) name=/var/www/html/drupal/includes/image.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=12137 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/image.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/imag
+open 1982 name=/var/www/html/drupal/includes/form.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/form.inc) name=/var/www/html/drupal/includes/form.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=182668 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/form.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/for
+open 1982 name=/var/www/html/drupal/includes/mail.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/mail.inc) name=/var/www/html/drupal/includes/mail.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=21628 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/mail.inc) of
 mmap 1982 addr=0 length=266240 prot=3(PROT_READ|PROT_WRITE) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/mai
+open 1982 name=/var/www/html/drupal/includes/actions.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/actions.inc) name=/var/www/html/drupal/includes/actions.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=13838 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/actions.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/action
+open 1982 name=/var/www/html/drupal/includes/ajax.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/ajax.inc) name=/var/www/html/drupal/includes/ajax.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=45330 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/ajax.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/aja
+open 1982 name=/var/www/html/drupal/includes/token.inc flags=1(O_RDONLY) 
+open 1982 fd=15(<f>/var/www/html/drupal/includes/token.inc) name=/var/www/html/drupal/includes/token.inc flags=1(O_RDONLY) mode=0 dev=FC00 ino=
 mmap 1982 addr=0 length=9799 prot=1(PROT_READ) flags=1(MAP_SHARED) fd=15(<f>/var/www/html/drupal/includes/token.inc) of
 close 1982 fd=15(<f>/var/www/html/drupal/includes/toke
 sendto 1982 fd=14(<4t>127.0.0.1:43361->127.0.0.1:3306) size=100 tupl

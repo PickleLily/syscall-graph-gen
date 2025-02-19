@@ -8,7 +8,7 @@ How to Run:
 
 Generating an output file:
 
-    - "dot -Tpng <graphName>.dot -o <outputName>.png"  
+    dot -Tpng <graphName>.dot -o <outputName>.png
 
 
 ** Each time you run falco you must reset it to fix the issues with dev/falco0:
