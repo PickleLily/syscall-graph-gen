@@ -97,49 +97,49 @@
 // }
 
 // // Helper method to parse file argument with "<f>"
-// void parseFileName(const char *args, char *outputArgs) {
-//     char *start = strstr(args, "<f>");
-//     if (start) {
-//         start += 3; // Skip past "<f>"
-//         char *end = strchr(start, ')');
-//         if (end) {
-//             size_t length = end - start;
-//             strncpy(outputArgs, start, length);
-//             outputArgs[length] = '\0'; // Null-terminate the extracted path
-//         } else {
-//             strncpy(outputArgs, "Unknown File", 255);
-//         }
-//     } else {
-//         strncpy(outputArgs, args, 255); // If no "<f>", use the entire fd string
-//     }
-// }
+void parseFileName(const char *args, char *outputArgs) {
+    char *start = strstr(args, "<f>");
+    if (start) {
+        start += 3; // Skip past "<f>"
+        char *end = strchr(start, ')');
+        if (end) {
+            size_t length = end - start;
+            strncpy(outputArgs, start, length);
+            outputArgs[length] = '\0'; // Null-terminate the extracted path
+        } else {
+            strncpy(outputArgs, "Unknown File", 255);
+        }
+    } else {
+        strncpy(outputArgs, args, 255); // If no "<f>", use the entire fd string
+    }
+}
 
 // // Helper method to parse socket tuple
-// void parseNetworkTuple(const char *args, char *outputArgs) {
-//     char *start = strstr(args, "tuple=");
-//     if (start) {
-//         start += 6; //Skip past tuple=
-//         char *end = strchr(start, ' ');
-//         if (end) {
-//             size_t length = end - start;
-//             strncpy(outputArgs, start, length);
-//             outputArgs[length] = '\0'; // Null-terminates extracted tuple
-//             } else {
-//                 strncpy(outputArgs, "Unknown tuple", 255);
-//             }
-//     } else {
-//         strncpy(outputArgs, args, 255); //If no tuple use entire fd string? -> may want to remove
-//     }
-// }
+void parseNetworkTuple(const char *args, char *outputArgs) {
+    char *start = strstr(args, "tuple=");
+    if (start) {
+        start += 6; //Skip past tuple=
+        char *end = strchr(start, ' ');
+        if (end) {
+            size_t length = end - start;
+            strncpy(outputArgs, start, length);
+            outputArgs[length] = '\0'; // Null-terminates extracted tuple
+            } else {
+                strncpy(outputArgs, "Unknown tuple", 255);
+            }
+    } else {
+        strncpy(outputArgs, args, 255); //If no tuple use entire fd string? -> may want to remove
+    }
+}
 
-// int formatFD(char *fdString) {
-//     if(strcmp(fdString, "<NA>") == 0){
-//         return -1;
-//     }
-//     long int output;
-//     output = strtol(fdString, NULL, 10);
-//     return output;
-// }
+int formatFD(char *fdString) {
+    if(strcmp(fdString, "<NA>") == 0){
+        return -1;
+    }
+    long int output;
+    output = strtol(fdString, NULL, 10);
+    return output;
+}
 
 // Main function to parse Falco output and build the graph
 int main() {

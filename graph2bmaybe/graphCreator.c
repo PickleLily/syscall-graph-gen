@@ -52,7 +52,7 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
 
 
 // Function to add an edge
-void add_edge(int from, int to, const char *syscall) {
+void add_edge(int from, int to, const char *syscall) 
     for (int i = 0; i < edge_count; i++) {
         if (edges[i].from == from && edges[i].to == to && strcmp(edges[i].syscall, syscall) == 0) {
             return; // Duplicate edge found, do not add

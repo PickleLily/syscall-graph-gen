@@ -10,24 +10,26 @@
 
 // Structures for Nodes and Edges
 typedef struct Node {
-    char PID[64]; // PID
-    char name[256]; // Name of the object (e.g., file path, socket info, subprocesses info?)
-    int fd; // The file descriptor
-    int graphNum; //Unique subgraph
+    char PID[64];         // PID
+    char args[256];       // Name of the object (e.g., file path, socket info, subprocesses info?)
+    int fd;               // The file descriptor
+    int graphNum;         //Unique subgraph
     char shape[128];
 } Node;
 
 typedef struct Edge {
     char from[256];       // name of the source node 
     char to[256];         // name of the destination node
-    int graphNum; //Unique subgraph
-    char syscall[64]; // The system call connecting the nodes
+    int graphNum;         //Unique subgraph
+    char syscall[64];     // The system call connecting the nodes
+    char edgeType[128];   //"dashed", "dotted" ,"solid", "invis", "bold"
 } Edge;
 
 // Subgraph representation
 typedef struct Subgraph {
-    int graphNum; //Unique subgraph number
-    int currentfd; //fd of the root accept4 node - not sure if we even need - shpuld this be current fd?
+    int graphNum;           //Unique subgraph number
+    int currentfd;          //fd of the root accept4 node - not sure if we even need - shpuld this be current fd?
+    int masterPID_ID;       //the Node ID of the process that starts interactions?
     Node* nodes[MAX_SUBNODES];
     Edge* edges[MAX_SUBEDGES];
     int node_count;
@@ -41,7 +43,69 @@ int graphNum = 0;
 Subgraph* graphs[MAX_SUBGRAPHS];
 
 // ---------------------Functions --------------------------------------------------------
+//  TODO --> add "regular line" status??
 
+void add_edge(int from, int to, const char *syscall) {
+    //get current subgraph
+    int subgraphID = graphNum;
+    Subgraph *graph = graphs[graphNum];
+    Edge *edges = graph->edges;
+
+    int lengthEdges = graph->edge_count;
+    
+    //check if edge exists
+    for (int i = 0; i < lengthEdges; i++) {
+        if (edges[i].from == from && edges[i].to == to && strcmp(edges[i].syscall, syscall) == 0) {
+            return; // Duplicate edge found, do not add
+        }
+    }	
+
+    //check max edges
+    if (lengthEdges >= MAX_SUBEDGES) {
+        fprintf(stderr, "Error: Maximum edges exceeded.\n");
+        exit(1);
+    }
+
+    graph->edge_count++;
+    strncpy(edges[lengthEdges].from, from, length(from));
+    strncpy(edges[lengthEdges].to , to, length(to));
+    strncpy(edges[lengthEdges].syscall, syscall, length(syscall));
+    strncpy(edges[lengthEdges].edgeType, "solid", length("solid"));
+}
+
+int find_or_add_node(const char *args, char PID[], int *node_count) {  
+    //get current subgraph
+    int subgraphID = graphNum;
+    Subgraph *graph = graphs[graphNum];
+    Node *nodes = graph->nodes;
+    int nodeCount = graph->node_count;
+
+    for (int i = 0; i < nodeCount; i++) {  
+        //if we see a matching argument break out of the loop...
+        if (strcmp(nodes[i].args, args) == 0) {
+            return nodes[i].fd;
+        }
+    }
+
+    if (nodeCount >= MAX_SUBNODES) {
+        fprintf(stderr, "Error: Maximum nodes exceeded.\n");
+        exit(1);
+    }
+
+    nodes[nodeCount].fd = node_count;
+    strncpy(nodes[nodeCount].PID, PID, sizeof(nodes[nodeCount].PID) - 1);
+    strncpy(nodes[nodeCount].args, args, sizeof(nodes[nodeCount].args) - 1);
+    graph->node_count++;
+    
+    return nodes[nodeCount].fd;
+}
+
+
+int getSubgraphFD(){
+    //go through the list of graphs globally
+    //check the currentfd of each subgraph and return that graphs graphNUM
+    //update the global graphNUM variable
+}
 
 // When supplied with fd of accept4 call, make new split graph
 void makeSubgraph(int fd, char *socketTuple) {
@@ -77,7 +141,7 @@ void makeSubgraph(int fd, char *socketTuple) {
 
     // Make remote node pointer
     Node* remote = (Node*)malloc(sizeof(Node));
-    strncpy(remote->name, socket1, sizeof(socket1)-1);
+    strncpy(remote->args, socket1, sizeof(socket1)-1);
     remote->fd = fd;
     remote->graphNum = graphNum;
     strncpy(remote->shape, "diamond", 7);
@@ -86,7 +150,7 @@ void makeSubgraph(int fd, char *socketTuple) {
 
     // Make local node
     Node* local = (Node*)malloc(sizeof(Node));
-    strncpy(local->name, socket2, sizeof(socket2)-1);
+    strncpy(local->args, socket2, sizeof(socket2)-1);
     local->fd = fd;
     local->graphNum = graphNum;
     strncpy(local->shape, "diamond", 7);
@@ -163,13 +227,11 @@ void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char
 }
 
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]){
-	//does NOT interact with a file...
-	// || strcmp(syscall, "access") == 0
+
 	if(strcmp(syscall, "rt_sigaction") == 0 || strcmp(syscall, "rt_sigprocmask") == 0 || strcmp(syscall, "brk") == 0 || strcmp(syscall, "munmap") == 0)
 	{
 		return false;
 	}
-	// chdir with <NA> does not touch a file path...
 	else if(strcmp(syscall, "chdir") == 0 && strcmp(arguments, "") == 0)
 	{
 		return false;
@@ -181,12 +243,10 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 	{
 		return false; 
 	}
-	// mmap with <NA> does not touch a file file path...
 	else if(strcmp(syscall, "mmap") == 0 && strcmp(FD, "<NA>") == 0)
 	{
 		return false;
 	}
-	// close with no arguments is a duplicate call...
 	else if(strcmp(syscall, "close") == 0 && (strcmp(returnValues, "0 ") == 0 || strcmp(arguments, "") == 0))
 	{
 		return false;
@@ -195,7 +255,6 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
     {
 		return false;
 	}
-    // Syscall:accept4 Args:flags=0 Return:<NA> PID:1239
     else if(strcmp(syscall, "accept4") == 0 && strcmp(returnValues, "<NA>") == 0 )
     {
         return false;    
@@ -216,21 +275,42 @@ main(){
     }
 
     char line[1024];
+    bool logging = false;
+
     //GET THE FULL LINE OF information...
     while (fgets(line, sizeof(line), file)) {
         
+        //store the arguments from the line
         char fdString[4], syscall[64], args[512], ret[5], PID[5];
         parseLine(line, fdString, syscall, args, ret, PID);
 
+        //make the FD an int
         int FD = formatFD(fdString);
 
-        // valid accept4 call
-        if(FD != -1 && strcmp(syscall, "accept4") == 0) {
-            parseNetworkTuple(args, args);
-            makeSubgraph(FD, args);
-            graphNum +=1;
-            continue;
-        } 
+        // if we have a file interacted with
+        if(FD != -1){
+            // if it is accept4
+            if(strcmp(syscall, "accept4") == 0) 
+            {
+                logging = true; //start logging -> we may be able to set this to just graphNum != 0
+                parseNetworkTuple(args, args);
+                makeSubgraph(FD, args);
+                graphNum +=1;
+                continue;
+            } 
+            // if it is any other syscall
+            else
+            {
+                if(logging){
+                    for(int i = 0; i < length(graphs)-1; i++) {
+                        if(graphs[i]->currentfd == FD){
+                            addEdge();
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
 }
