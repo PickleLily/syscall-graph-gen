@@ -101,10 +101,17 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
 }
 
 
-int getSubgraphFD(){
+int getSubgraphFD(int currentFD){
     //go through the list of graphs globally
-    //check the currentfd of each subgraph and return that graphs graphNUM
-    //update the global graphNUM variable
+    for(int i = 0; i < length(graphs); i ++){
+        Subgraph *g = graphs[i];
+
+        //check the currentfd of each subgraph and return that graphs graphNUM
+        if(currentFD == g->currentfd){
+            return g->graphNum;
+        }
+    }
+    return -1;
 }
 
 // When supplied with fd of accept4 call, make new split graph
