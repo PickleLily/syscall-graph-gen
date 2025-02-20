@@ -45,7 +45,7 @@ Subgraph* graphs[MAX_SUBGRAPHS];
 // ---------------------Functions --------------------------------------------------------
 //  TODO --> add "regular line" status??
 
-void add_edge(int from, int to, const char *syscall) {
+void add_edge(char from[], char to[], const char *syscall) {
     //get current subgraph
     int subgraphID = graphNum;
     Subgraph *graph = graphs[graphNum];
@@ -55,7 +55,7 @@ void add_edge(int from, int to, const char *syscall) {
     
     //check if edge exists
     for (int i = 0; i < lengthEdges; i++) {
-        if (edges[i].from == from && edges[i].to == to && strcmp(edges[i].syscall, syscall) == 0) {
+=        if (edges[i].from == from && edges[i].to == to && strcmp(edges[i].syscall, syscall) == 0) {
             return; // Duplicate edge found, do not add
         }
     }	
@@ -311,13 +311,11 @@ main(){
                 if(logging){
                     for(int i = 0; i < length(graphs)-1; i++) {
                         if(graphs[i]->currentfd == FD){
-                            addEdge();
+                            add_edge();
                         }
                     }
                 }
             }
         }
-
     }
-
 }
