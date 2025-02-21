@@ -102,7 +102,6 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
     return nodes[nodeCount]->fd;
 }
 
-
 int getSubgraphFD(int currentFD){
     //go through the list of graphs globally
     for(int i = 0; i < graphNum; i ++){
@@ -216,7 +215,6 @@ void parseFileName(const char *args, char *outputArgs) {
     }
 }
 
-
 // Helper method to parse socket tuple
 void parseNetworkTuple(const char *args, char *outputArgs) {
     char *start = strstr(args, "tuple=");
@@ -249,8 +247,10 @@ void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char
 {
     // ignore timestamp, Information and process name (%*s)
     // store the file desc. (the number), syscall name, arugment string, all return values, and the PID string!!
-    sscanf(line, "%*s %*s %*s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", FD, syscall, args, ret, PID);
-    // printf("%s", line);
+    char time[64];
+    char type[64];
+    char program[64];
+    sscanf(line, "%s %s Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
     return;
 }
 
@@ -309,7 +309,7 @@ int main(){
     while (fgets(line, sizeof(line), file)) {
         
         //store the arguments from the line
-        char fdString[4], syscall[64], args[512], ret[5], PID[5];
+        char fdString[4], syscall[64], args[1024], ret[64], PID[64];
         parseLine(line, fdString, syscall, args, ret, PID);
         // printf("%s\n", args);
 
@@ -333,7 +333,8 @@ int main(){
                 if(graphNum >= 0){
                     for(int i = 0; i < graphNum-1; i++) {
                         if(graphs[i]->currentfd == FD){
-                            //add_edge();
+                            printf("should add edge\n");
+                            // add_edge(from, to, syscall);
                         }
                     }
                 }
