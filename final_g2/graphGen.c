@@ -45,17 +45,26 @@ Subgraph* graphs[MAX_SUBGRAPHS];
 // ---------------------Functions --------------------------------------------------------
 //  TODO --> add "regular line" status??
 
+
+Subgraph* getSubgraph(int graphNum) {
+    return graphs[graphNum];
+}
+
 void add_edge(int from, int to, const char *syscall) {
     //get current subgraph
     int subgraphID = graphNum;
-    Subgraph *graph = graphs[graphNum];
-    Edge *edges = graph->edges;
+    Subgraph* graph = graphs[graphNum];
+    Edge **edges = graph->edges; // A list of edge pointers
 
     int lengthEdges = graph->edge_count;
     
     //check if edge exists
     for (int i = 0; i < lengthEdges; i++) {
-        if (edges[i].from == from && edges[i].to == to && strcmp(edges[i].syscall, syscall) == 0) {
+        // Ella's notes here: (Thank you AI gods) because edges is a pointer to a collection of pointers
+        // We have to dereference each pointer we work with
+        // Sorry for using so many pointers
+        // We don't need to derefence on strcmp because we're comparing it to another string pointer
+        if (*edges[i]->from == from && *edges[i]->to == to && strcmp(edges[i]->syscall, syscall) == 0) {
             return; // Duplicate edge found, do not add
         }
     }	
@@ -67,10 +76,16 @@ void add_edge(int from, int to, const char *syscall) {
     }
 
     graph->edge_count++;
-    strncpy(edges[lengthEdges].from, from, length(from));
-    strncpy(edges[lengthEdges].to , to, length(to));
-    strncpy(edges[lengthEdges].syscall, syscall, length(syscall));
-    strncpy(edges[lengthEdges].edgeType, "solid", length("solid"));
+    // Set temp values to avoid casting issues
+    // May be able to improve this
+    char tempFrom[256];
+    snprintf(tempFrom, sizeof(from), "%d", from);
+    strncpy(edges[lengthEdges]->from, tempFrom, sizeof(*edges[lengthEdges]->from)-1);
+    char tempTo[256];
+    snprintf(tempTo, sizeof(from), "%d", from);
+    strncpy(edges[lengthEdges]->to , tempTo, sizeof(*edges[lengthEdges]->from)-1);
+    strncpy(edges[lengthEdges]->syscall, syscall, strlen(syscall));
+    strncpy(edges[lengthEdges]->edgeType, "solid", strlen("solid"));
 }
 
 int find_or_add_node(const char *args, char PID[], int *node_count) {  
@@ -176,7 +191,6 @@ void makeSubgraph(int fd, char *socketTuple) {
     // Add to global list
     graphs[graphNum] = subgraph;
 }
-
 
 // Helper method to parse file argument with "<f>"
 void parseFileName(const char *args, char *outputArgs) {
@@ -312,6 +326,7 @@ main(){
                     for(int i = 0; i < length(graphs)-1; i++) {
                         if(graphs[i]->currentfd == FD){
                             addEdge();
+                            
                         }
                     }
                 }
