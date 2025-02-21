@@ -88,11 +88,11 @@ void add_edge(int from, int to, const char *syscall)
 
 // Main function to parse Falco output and build the graph
 int main() {
-    // FILE *file = fopen("intermediateOutput.txt", "r");
-    // if (!file) {
-    //     perror("Failed to open events file");
-    //     return 1;
-    // }
+    FILE *file = fopen("intermediateOutput.txt", "r");
+    if (!file) {
+        perror("Failed to open events file");
+        return 1;
+    }
 
     char line[1024];
     int from_node = -1;

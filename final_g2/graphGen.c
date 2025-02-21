@@ -46,6 +46,7 @@ Subgraph* graphs[MAX_SUBGRAPHS];
 //  TODO --> add "regular line" status??
 
 void add_edge(char from[], char to[], const char *syscall) {
+void add_edge(char from[], char to[], const char *syscall) {
     //get current subgraph
     int subgraphID = graphNum;
     Subgraph* graph = graphs[graphNum];
