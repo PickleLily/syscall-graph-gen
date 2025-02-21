@@ -139,6 +139,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
             strncpy(socket2, start, length);
             socket2[length] = '\0'; // Null-terminate the extracted socket
     }
+    printf("%s, %s\n\n", socket1, socket2);
 
     // Initialize subgraph
     Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
@@ -311,10 +312,10 @@ int main(){
         //store the arguments from the line
         char fdString[4], syscall[64], args[1024], ret[64], PID[64];
         parseLine(line, fdString, syscall, args, ret, PID);
-        // printf("%s\n", args);
+        // printf("%s\n", fdString);
 
         //make the FD an int
-        int FD = formatFD(args);
+        int FD = formatFD(fdString);
 
         // if we have a file interacted with
         if(FD != -1){
@@ -322,22 +323,24 @@ int main(){
             if(strcmp(syscall, "accept4") == 0) 
             {
                 graphNum +=1;
+                printf("Hit accept4\n");
                 //logging = true; //start logging -> we may be able to set this to just graphNum != 0
-                // parseNetworkTuple(args, args);
-                // makeSubgraph(FD, args, PID);
+                parseNetworkTuple(args, args);
+                printf("%s\n", args);
+                makeSubgraph(FD, args, PID);
                 continue;
             } 
             // if it is any other syscall
             else
             {
-                if(graphNum >= 0){
-                    for(int i = 0; i < graphNum-1; i++) {
-                        if(graphs[i]->currentfd == FD){
-                            printf("should add edge\n");
-                            // add_edge(from, to, syscall);
-                        }
-                    }
-                }
+                // if(graphNum >= 0){
+                //     for(int i = 0; i < graphNum-1; i++) {
+                //         if(graphs[i]->currentfd == FD){
+                //             printf("should add edge\n");
+                //             // add_edge(from, to, syscall);
+                //         }
+                //     }
+                // }
             }
         }
     }
