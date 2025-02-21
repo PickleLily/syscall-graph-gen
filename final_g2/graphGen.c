@@ -45,7 +45,7 @@ Subgraph* graphs[MAX_SUBGRAPHS];
 // ---------------------Functions --------------------------------------------------------
 //  TODO --> add "regular line" status??
 
-void add_edge(int from, int to, const char *syscall) {
+void add_edge(char from[], char to[], const char *syscall) {
     //get current subgraph
     int subgraphID = graphNum;
     Subgraph* graph = graphs[graphNum];
@@ -55,11 +55,9 @@ void add_edge(int from, int to, const char *syscall) {
     
     //check if edge exists
     for (int i = 0; i < lengthEdges; i++) {
-        // Ella's notes here: (Thank you AI gods) because edges is a pointer to a collection of pointers
-        // We have to dereference each pointer we work with
-        // Sorry for using so many pointers
-        // We don't need to derefence on strcmp because we're comparing it to another string pointer
-        if (*edges[i]->from == from && *edges[i]->to == to && strcmp(edges[i]->syscall, syscall) == 0) {
+        // Ella's (AI GODS) tips: If ever pulling an exact value out of a pointer we need to derefernce
+        // Now that these are also chars we dont need to worry about it
+        if (edges[i]->from == from && edges[i]->to == to && strcmp(edges[i]->syscall, syscall) == 0) {
             return; // Duplicate edge found, do not add
         }
     }	
@@ -71,14 +69,8 @@ void add_edge(int from, int to, const char *syscall) {
     }
 
     graph->edge_count++;
-    // Set temp values to avoid casting issues
-    // May be able to improve this
-    char tempFrom[256];
-    snprintf(tempFrom, sizeof(from), "%d", from);
-    strncpy(edges[lengthEdges]->from, tempFrom, sizeof(*edges[lengthEdges]->from)-1);
-    char tempTo[256];
-    snprintf(tempTo, sizeof(from), "%d", from);
-    strncpy(edges[lengthEdges]->to , tempTo, sizeof(*edges[lengthEdges]->from)-1);
+    strncpy(edges[lengthEdges]->from, from, sizeof(*edges[lengthEdges]->from)-1);
+    strncpy(edges[lengthEdges]->to , to, sizeof(*edges[lengthEdges]->from)-1);
     strncpy(edges[lengthEdges]->syscall, syscall, strlen(syscall));
     strncpy(edges[lengthEdges]->edgeType, "solid", strlen("solid"));
 }
@@ -113,7 +105,7 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
 
 int getSubgraphFD(int currentFD){
     //go through the list of graphs globally
-    for(int i = 0; i < length(graphs); i ++){
+    for(int i = 0; i < graphNum; i ++){
         Subgraph *g = graphs[i];
 
         //check the currentfd of each subgraph and return that graphs graphNUM
@@ -283,7 +275,7 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 }
 
 
-main(){
+int main(){
     FILE *file = fopen("events.txt", "r");
     if (!file) {
         perror("Failed to open events file");
@@ -318,16 +310,13 @@ main(){
             else
             {
                 if(logging){
-                    for(int i = 0; i < length(graphs)-1; i++) {
+                    for(int i = 0; i < graphNum-1; i++) {
                         if(graphs[i]->currentfd == FD){
-                            addEdge();
-                            
+                            //add_edge();
                         }
                     }
                 }
             }
         }
-
     }
-
 }
