@@ -102,7 +102,6 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
     return nodes[nodeCount]->fd;
 }
 
-
 int getSubgraphFD(int currentFD){
     //go through the list of graphs globally
     for(int i = 0; i < graphNum; i ++){
@@ -140,6 +139,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
             strncpy(socket2, start, length);
             socket2[length] = '\0'; // Null-terminate the extracted socket
     }
+    printf("%s, %s\n\n", socket1, socket2);
 
     // Initialize subgraph
     Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
@@ -171,14 +171,14 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     strncpy(networkedge->from, socket1, sizeof(socket1));
     strncpy(networkedge->to, socket2, sizeof(socket2));
     networkedge->graphNum = graphNum;
-    strncpy(networkedge->syscall, "accept4", strnlen("accept4"));
+    strncpy(networkedge->syscall, "accept4", strlen("accept4"));
     subgraph->edges[subgraph->edge_count] = networkedge;
     strncpy(networkedge->edgeType, "solid", strlen("solid"));
     subgraph->edge_count++;
 
     // Make PID node
     Node* pid = (Node*)malloc(sizeof(Node));
-    strncpy(pid->args, PID, strnlen(PID));
+    strncpy(pid->args, PID, strlen(PID));
     pid->fd = fd;
     strncpy(pid->shape, "rectangle", 10);
     subgraph->nodes[subgraph->node_count] = pid;
@@ -187,9 +187,9 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     // Connect PID node
     Edge* pidedge = (Edge*)malloc(sizeof(Edge));
     strncpy(pidedge->from, socket2, sizeof(socket2));
-    strncpy(pidedge->to, pid, sizeof(pid));
+    strncpy(pidedge->to, PID, sizeof(pid));
     pidedge->graphNum = graphNum;
-    strncpy(pidedge->syscall, "", strnlen(1));
+    strncpy(pidedge->syscall, "", 1);
     subgraph->edges[subgraph->edge_count] = pidedge;
     strncpy(pidedge->edgeType, "dashed", strlen("dashed"));
     subgraph->edge_count++;
@@ -215,7 +215,6 @@ void parseFileName(const char *args, char *outputArgs) {
         strncpy(outputArgs, args, 255); // If no "<f>", use the entire fd string
     }
 }
-
 
 // Helper method to parse socket tuple
 void parseNetworkTuple(const char *args, char *outputArgs) {
@@ -249,7 +248,10 @@ void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char
 {
     // ignore timestamp, Information and process name (%*s)
     // store the file desc. (the number), syscall name, arugment string, all return values, and the PID string!!
-    sscanf(line, "%*s %*s %*s FD:%[^,]  Syscall:%s Args:%[^,] Return:%[^,] PID:%[^\n]", FD, syscall, args, ret, PID);
+    char time[64];
+    char type[64];
+    char program[64];
+    sscanf(line, "%s %s Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
     return;
 }
 
@@ -308,8 +310,9 @@ int main(){
     while (fgets(line, sizeof(line), file)) {
         
         //store the arguments from the line
-        char fdString[4], syscall[64], args[512], ret[5], PID[5];
+        char fdString[4], syscall[64], args[1024], ret[64], PID[64];
         parseLine(line, fdString, syscall, args, ret, PID);
+        // printf("%s\n", fdString);
 
         //make the FD an int
         int FD = formatFD(fdString);
@@ -320,21 +323,24 @@ int main(){
             if(strcmp(syscall, "accept4") == 0) 
             {
                 graphNum +=1;
+                printf("Hit accept4\n");
                 //logging = true; //start logging -> we may be able to set this to just graphNum != 0
                 parseNetworkTuple(args, args);
+                printf("%s\n", args);
                 makeSubgraph(FD, args, PID);
                 continue;
             } 
             // if it is any other syscall
             else
             {
-                if(graphNum >= 0){
-                    for(int i = 0; i < graphNum-1; i++) {
-                        if(graphs[i]->currentfd == FD){
-                            //add_edge();
-                        }
-                    }
-                }
+                // if(graphNum >= 0){
+                //     for(int i = 0; i < graphNum-1; i++) {
+                //         if(graphs[i]->currentfd == FD){
+                //             printf("should add edge\n");
+                //             // add_edge(from, to, syscall);
+                //         }
+                //     }
+                // }
             }
         }
     }
