@@ -37,7 +37,7 @@ typedef struct Subgraph {
 } Subgraph;
 
 // Global graph ID
-int graphNum = 0;
+int graphNum = -1;
 
 // Global graph Reference
 Subgraph* graphs[MAX_SUBGRAPHS];
@@ -45,7 +45,6 @@ Subgraph* graphs[MAX_SUBGRAPHS];
 // ---------------------Functions --------------------------------------------------------
 //  TODO --> add "regular line" status??
 
-void add_edge(char from[], char to[], const char *syscall) {
 void add_edge(char from[], char to[], const char *syscall) {
     //get current subgraph
     int subgraphID = graphNum;
@@ -118,7 +117,7 @@ int getSubgraphFD(int currentFD){
 }
 
 // When supplied with fd of accept4 call, make new split graph
-void makeSubgraph(int fd, char *socketTuple) {
+void makeSubgraph(int fd, char *socketTuple, char *PID) {
     // Take global graph num, current fd of accept4, and arg information to build the Subgraph
     // Predefine the two sockets
 
@@ -168,12 +167,31 @@ void makeSubgraph(int fd, char *socketTuple) {
     subgraph->node_count++;
     
     //  Connect two
-    Edge* edge = (Edge*)malloc(sizeof(Edge));
-    strncpy(edge->from, socket1, sizeof(socket1));
-    strncpy(edge->to, socket2, sizeof(socket2));
-    edge->graphNum = graphNum;
-    strncpy(edge->syscall, "accept4", 7);
-    subgraph->edges[subgraph->edge_count] = edge;
+    Edge* networkedge = (Edge*)malloc(sizeof(Edge));
+    strncpy(networkedge->from, socket1, sizeof(socket1));
+    strncpy(networkedge->to, socket2, sizeof(socket2));
+    networkedge->graphNum = graphNum;
+    strncpy(networkedge->syscall, "accept4", strnlen("accept4"));
+    subgraph->edges[subgraph->edge_count] = networkedge;
+    strncpy(networkedge->edgeType, "solid", strlen("solid"));
+    subgraph->edge_count++;
+
+    // Make PID node
+    Node* pid = (Node*)malloc(sizeof(Node));
+    strncpy(pid->args, PID, strnlen(PID));
+    pid->fd = fd;
+    strncpy(pid->shape, "rectangle", 10);
+    subgraph->nodes[subgraph->node_count] = pid;
+    subgraph->node_count++;
+
+    // Connect PID node
+    Edge* pidedge = (Edge*)malloc(sizeof(Edge));
+    strncpy(pidedge->from, socket2, sizeof(socket2));
+    strncpy(pidedge->to, pid, sizeof(pid));
+    pidedge->graphNum = graphNum;
+    strncpy(pidedge->syscall, "", strnlen(1));
+    subgraph->edges[subgraph->edge_count] = pidedge;
+    strncpy(pidedge->edgeType, "dashed", strlen("dashed"));
     subgraph->edge_count++;
 
     // Add to global list
@@ -301,16 +319,16 @@ int main(){
             // if it is accept4
             if(strcmp(syscall, "accept4") == 0) 
             {
-                logging = true; //start logging -> we may be able to set this to just graphNum != 0
-                parseNetworkTuple(args, args);
-                makeSubgraph(FD, args);
                 graphNum +=1;
+                //logging = true; //start logging -> we may be able to set this to just graphNum != 0
+                parseNetworkTuple(args, args);
+                makeSubgraph(FD, args, PID);
                 continue;
             } 
             // if it is any other syscall
             else
             {
-                if(logging){
+                if(graphNum >= 0){
                     for(int i = 0; i < graphNum-1; i++) {
                         if(graphs[i]->currentfd == FD){
                             //add_edge();
