@@ -45,11 +45,6 @@ Subgraph* graphs[MAX_SUBGRAPHS];
 // ---------------------Functions --------------------------------------------------------
 //  TODO --> add "regular line" status??
 
-
-Subgraph* getSubgraph(int graphNum) {
-    return graphs[graphNum];
-}
-
 void add_edge(int from, int to, const char *syscall) {
     //get current subgraph
     int subgraphID = graphNum;
@@ -91,14 +86,14 @@ void add_edge(int from, int to, const char *syscall) {
 int find_or_add_node(const char *args, char PID[], int *node_count) {  
     //get current subgraph
     int subgraphID = graphNum;
-    Subgraph *graph = graphs[graphNum];
-    Node *nodes = graph->nodes;
+    Subgraph* graph = graphs[graphNum];
+    Node **nodes = graph->nodes;
     int nodeCount = graph->node_count;
 
     for (int i = 0; i < nodeCount; i++) {  
         //if we see a matching argument break out of the loop...
-        if (strcmp(nodes[i].args, args) == 0) {
-            return nodes[i].fd;
+        if (strcmp(nodes[i]->args, args) == 0) {
+            return nodes[i]->fd;
         }
     }
 
@@ -107,12 +102,12 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
         exit(1);
     }
 
-    nodes[nodeCount].fd = node_count;
-    strncpy(nodes[nodeCount].PID, PID, sizeof(nodes[nodeCount].PID) - 1);
-    strncpy(nodes[nodeCount].args, args, sizeof(nodes[nodeCount].args) - 1);
+    nodes[nodeCount]->fd = *node_count;
+    strncpy(nodes[nodeCount]->PID, PID, sizeof(nodes[nodeCount]->PID) - 1);
+    strncpy(nodes[nodeCount]->args, args, sizeof(nodes[nodeCount]->args) - 1);
     graph->node_count++;
     
-    return nodes[nodeCount].fd;
+    return nodes[nodeCount]->fd;
 }
 
 
