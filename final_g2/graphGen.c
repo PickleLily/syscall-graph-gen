@@ -198,39 +198,11 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     graphs[graphNum] = subgraph;
 }
 
-// Helper method to parse file argument with "<f>"
-void parseFileName(const char *args, char *outputArgs) {
-    char *start = strstr(args, "<f>");
-    if (start) {
-        start += 3; // Skip past "<f>"
-        char *end = strchr(start, ')');
-        if (end) {
-            size_t length = end - start;
-            strncpy(outputArgs, start, length);
-            outputArgs[length] = '\0'; // Null-terminate the extracted path
-        } else {
-            strncpy(outputArgs, "Unknown File", 255);
-        }
-    } else {
-        strncpy(outputArgs, args, 255); // If no "<f>", use the entire fd string
-    }
-}
-
-// Helper method to parse socket tuple
-void parseNetworkTuple(const char *args, char *outputArgs) {
-    char *start = strstr(args, "tuple=");
-    if (start) {
-        start += 6; //Skip past tuple=
-        char *end = strchr(start, ' ');
-        if (end) {
-            size_t length = end - start;
-            strncpy(outputArgs, start, length);
-            outputArgs[length] = '\0'; // Null-terminates extracted tuple
-            } else {
-                strncpy(outputArgs, "Unknown tuple", 255);
-            }
-    } else {
-        strncpy(outputArgs, args, 255); //If no tuple use entire fd string? -> may want to remove
+// Method for printing the graph list
+void printOutput() {
+    int i = 0;
+    while(graphs[i] != NULL) {
+        
     }
 }
 
@@ -242,6 +214,26 @@ int formatFD(char *fdString) {
     long int output;
     output = strtol(fdString, NULL, 10);
     return output;
+}
+
+// Helper method to parse arg information
+void parseArgs(const char *args, char *format, char *output) {
+    if(strcmp(format, "network socket") || strcmp(format, "file name")){
+        char *start = strstr(args, ">");
+        if (start) {
+            start += 1; //Skip past <f>=
+            char *end = strchr(start, ')');
+            if (end) {
+                size_t length = end - start;
+                strncpy(output, start, length);
+                output[length] = '\0'; // Null-terminates extracted tuple
+                } else {
+                    strncpy(output, "Unknown tuple", 255);
+                }
+        } else {
+            strncpy(output, args, 255); //If no tuple use entire fd string? -> may want to remove
+        }
+    }
 }
 
 void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char *PID)
@@ -325,8 +317,8 @@ int main(){
                 graphNum +=1;
                 printf("Hit accept4\n");
                 //logging = true; //start logging -> we may be able to set this to just graphNum != 0
-                parseNetworkTuple(args, args);
-                printf("%s\n", args);
+                parseArgs(args, "network socket", args);
+                // printf("%s\n", args);
                 makeSubgraph(FD, args, PID);
                 continue;
             } 
@@ -343,5 +335,43 @@ int main(){
                 // }
             }
         }
+    }
+}
+
+// ------------------------ The pit (old functions not being used) ----------------------------------------------------------------
+
+// Helper method to parse file argument with "<f>"
+void parseFileName(const char *args, char *outputArgs) {
+    char *start = strstr(args, "<f>");
+    if (start) {
+        start += 3; // Skip past "<f>"
+        char *end = strchr(start, ')');
+        if (end) {
+            size_t length = end - start;
+            strncpy(outputArgs, start, length);
+            outputArgs[length] = '\0'; // Null-terminate the extracted path
+        } else {
+            strncpy(outputArgs, "Unknown File", 255);
+        }
+    } else {
+        strncpy(outputArgs, args, 255); // If no "<f>", use the entire fd string
+    }
+}
+
+// Helper method to parse socket tuple
+void parseNetworkTuple(const char *args, char *outputArgs) {
+    char *start = strstr(args, "tuple=");
+    if (start) {
+        start += 6; //Skip past tuple=
+        char *end = strchr(start, ' ');
+        if (end) {
+            size_t length = end - start;
+            strncpy(outputArgs, start, length);
+            outputArgs[length] = '\0'; // Null-terminates extracted tuple
+            } else {
+                strncpy(outputArgs, "Unknown tuple", 255);
+            }
+    } else {
+        strncpy(outputArgs, args, 255); //If no tuple use entire fd string? -> may want to remove
     }
 }
