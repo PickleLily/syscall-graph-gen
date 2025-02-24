@@ -37,7 +37,7 @@ typedef struct Subgraph {
 } Subgraph;
 
 // Global graph ID
-int graphNum = 0;
+int graphNum = -1;
 
 // Global graph Reference
 Subgraph* graphs[MAX_SUBGRAPHS];
@@ -122,7 +122,7 @@ int getSubgraphFD(int currentFD){
 }
 
 // When supplied with fd of accept4 call, make new split graph
-void makeSubgraph(int fd, char *socketTuple) {
+void makeSubgraph(int fd, char *socketTuple, char *PID) {
     // Take global graph num, current fd of accept4, and arg information to build the Subgraph
     // Predefine the two sockets
 
@@ -145,6 +145,7 @@ void makeSubgraph(int fd, char *socketTuple) {
             strncpy(socket2, start, length);
             socket2[length] = '\0'; // Null-terminate the extracted socket
     }
+    printf("%s, %s\n\n", socket1, socket2);
 
     // Initialize subgraph
     Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
@@ -172,51 +173,42 @@ void makeSubgraph(int fd, char *socketTuple) {
     subgraph->node_count++;
     
     //  Connect two
-    Edge* edge = (Edge*)malloc(sizeof(Edge));
-    strncpy(edge->from, socket1, sizeof(socket1));
-    strncpy(edge->to, socket2, sizeof(socket2));
-    edge->graphNum = graphNum;
-    strncpy(edge->syscall, "accept4", 7);
-    subgraph->edges[subgraph->edge_count] = edge;
+    Edge* networkedge = (Edge*)malloc(sizeof(Edge));
+    strncpy(networkedge->from, socket1, sizeof(socket1));
+    strncpy(networkedge->to, socket2, sizeof(socket2));
+    networkedge->graphNum = graphNum;
+    strncpy(networkedge->syscall, "accept4", strlen("accept4"));
+    subgraph->edges[subgraph->edge_count] = networkedge;
+    strncpy(networkedge->edgeType, "solid", strlen("solid"));
+    subgraph->edge_count++;
+
+    // Make PID node
+    Node* pid = (Node*)malloc(sizeof(Node));
+    strncpy(pid->args, PID, strlen(PID));
+    pid->fd = fd;
+    strncpy(pid->shape, "rectangle", 10);
+    subgraph->nodes[subgraph->node_count] = pid;
+    subgraph->node_count++;
+
+    // Connect PID node
+    Edge* pidedge = (Edge*)malloc(sizeof(Edge));
+    strncpy(pidedge->from, socket2, sizeof(socket2));
+    strncpy(pidedge->to, PID, sizeof(pid));
+    pidedge->graphNum = graphNum;
+    strncpy(pidedge->syscall, "", 1);
+    subgraph->edges[subgraph->edge_count] = pidedge;
+    strncpy(pidedge->edgeType, "dashed", strlen("dashed"));
     subgraph->edge_count++;
 
     // Add to global list
     graphs[graphNum] = subgraph;
 }
 
-// Helper method to parse file argument with "<f>"
-void parseFileName(const char *args, char *outputArgs) {
-    char *start = strstr(args, "<f>");
-    if (start) {
-        start += 3; // Skip past "<f>"
-        char *end = strchr(start, ')');
-        if (end) {
-            size_t length = end - start;
-            strncpy(outputArgs, start, length);
-            outputArgs[length] = '\0'; // Null-terminate the extracted path
-        } else {
-            strncpy(outputArgs, "Unknown File", 255);
-        }
-    } else {
-        strncpy(outputArgs, args, 255); // If no "<f>", use the entire fd string
-    }
-}
-
-// Helper method to parse socket tuple
-void parseNetworkTuple(const char *args, char *outputArgs) {
-    char *start = strstr(args, "tuple=");
-    if (start) {
-        start += 6; //Skip past tuple=
-        char *end = strchr(start, ' ');
-        if (end) {
-            size_t length = end - start;
-            strncpy(outputArgs, start, length);
-            outputArgs[length] = '\0'; // Null-terminates extracted tuple
-            } else {
-                strncpy(outputArgs, "Unknown tuple", 255);
-            }
-    } else {
-        strncpy(outputArgs, args, 255); //If no tuple use entire fd string? -> may want to remove
+// Method for printing the graph list
+void printOutput() {
+    int i = 0;
+    while(graphs[i] != NULL) {
+        
     }
 }
 
@@ -230,6 +222,26 @@ int formatFD(char *fdString) {
     return output;
 }
 
+// Helper method to parse arg information
+void parseArgs(const char *args, char *format, char *output) {
+    if(strcmp(format, "network socket") || strcmp(format, "file name")){
+        char *start = strstr(args, ">");
+        if (start) {
+            start += 1; //Skip past <f>=
+            char *end = strchr(start, ')');
+            if (end) {
+                size_t length = end - start;
+                strncpy(output, start, length);
+                output[length] = '\0'; // Null-terminates extracted tuple
+                } else {
+                    strncpy(output, "Unknown tuple", 255);
+                }
+        } else {
+            strncpy(output, args, 255); //If no tuple use entire fd string? -> may want to remove
+        }
+    }
+}
+
 void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char *PID)
 {
     // ignore timestamp, Information and process name (%*s)
@@ -237,7 +249,7 @@ void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char
     char time[64];
     char type[64];
     char program[64];
-    sscanf(line, "%s %s Name:%s FD:%[^ ] Syscall:%[^ ] Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
+    sscanf(line, "%s %s Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
     return;
 }
 
@@ -298,6 +310,7 @@ int main(){
         //store the arguments from the line
         char fdString[4], syscall[64], args[1024], ret[64], PID[64];
         parseLine(line, fdString, syscall, args, ret, PID);
+        // printf("%s\n", fdString);
 
         //make the FD an int
         int FD = formatFD(fdString);
@@ -307,28 +320,64 @@ int main(){
             // if it is accept4
             if(strcmp(syscall, "accept4") == 0) 
             {
-                logging = true; //start logging -> we may be able to set this to just graphNum != 0
-                parseNetworkTuple(args, args);
-                makeSubgraph(FD, args);
                 graphNum +=1;
+                printf("Hit accept4\n");
+                //logging = true; //start logging -> we may be able to set this to just graphNum != 0
+                parseArgs(args, "network socket", args);
+                // printf("%s\n", args);
+                makeSubgraph(FD, args, PID);
                 continue;
             } 
             // if it is any other syscall
             else
             {
-                if(logging){
-                    for(int i = 0; i < graphNum-1; i++) {
-                        if(graphs[i]->currentfd == FD){
-                            int num_nodes = graphs[i]->node_count;
-
-                            printf("should add node (%s) & ", args);
-                            printf("edge (%s)\n", syscall);
-                            // find_or_add_node(args, PID, &num_nodes);
-                            // add_ege(from, to, syscall);
-                        }
-                    }
-                }
+                // if(graphNum >= 0){
+                //     for(int i = 0; i < graphNum-1; i++) {
+                //         if(graphs[i]->currentfd == FD){
+                //             printf("should add edge\n");
+                //             // add_edge(from, to, syscall);
+                //         }
+                //     }
+                // }
             }
         }
+    }
+}
+
+// ------------------------ The pit (old functions not being used) ----------------------------------------------------------------
+
+// Helper method to parse file argument with "<f>"
+void parseFileName(const char *args, char *outputArgs) {
+    char *start = strstr(args, "<f>");
+    if (start) {
+        start += 3; // Skip past "<f>"
+        char *end = strchr(start, ')');
+        if (end) {
+            size_t length = end - start;
+            strncpy(outputArgs, start, length);
+            outputArgs[length] = '\0'; // Null-terminate the extracted path
+        } else {
+            strncpy(outputArgs, "Unknown File", 255);
+        }
+    } else {
+        strncpy(outputArgs, args, 255); // If no "<f>", use the entire fd string
+    }
+}
+
+// Helper method to parse socket tuple
+void parseNetworkTuple(const char *args, char *outputArgs) {
+    char *start = strstr(args, "tuple=");
+    if (start) {
+        start += 6; //Skip past tuple=
+        char *end = strchr(start, ' ');
+        if (end) {
+            size_t length = end - start;
+            strncpy(outputArgs, start, length);
+            outputArgs[length] = '\0'; // Null-terminates extracted tuple
+            } else {
+                strncpy(outputArgs, "Unknown tuple", 255);
+            }
+    } else {
+        strncpy(outputArgs, args, 255); //If no tuple use entire fd string? -> may want to remove
     }
 }
