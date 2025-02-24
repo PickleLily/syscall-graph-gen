@@ -75,11 +75,14 @@ void add_edge(char from[], char to[], const char *syscall) {
     strncpy(edges[lengthEdges]->edgeType, "solid", strlen("solid"));
 }
 
+
+//  MAKE this take in a subgraph instead...
 int find_or_add_node(const char *args, char PID[], int *node_count) {  
     //get current subgraph
     int subgraphID = graphNum;
     Subgraph* graph = graphs[graphNum];
     Node **nodes = graph->nodes;
+    //TODO --> this is segfaulting...
     int nodeCount = graph->node_count;
 
     for (int i = 0; i < nodeCount; i++) {  
@@ -87,6 +90,7 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
         if (strcmp(nodes[i]->args, args) == 0) {
             return nodes[i]->fd;
         }
+        printf("found node\n");
     }
 
     if (nodeCount >= MAX_SUBNODES) {
@@ -98,6 +102,8 @@ int find_or_add_node(const char *args, char PID[], int *node_count) {
     strncpy(nodes[nodeCount]->PID, PID, sizeof(nodes[nodeCount]->PID) - 1);
     strncpy(nodes[nodeCount]->args, args, sizeof(nodes[nodeCount]->args) - 1);
     graph->node_count++;
+
+    printf("found node\n");
     
     return nodes[nodeCount]->fd;
 }
@@ -313,8 +319,12 @@ int main(){
                 if(logging){
                     for(int i = 0; i < graphNum-1; i++) {
                         if(graphs[i]->currentfd == FD){
-                            printf("should add edge\n");
-                            // add_edge(from, to, syscall);
+                            int num_nodes = graphs[i]->node_count;
+
+                            printf("should add node (%s) & ", args);
+                            printf("edge (%s)\n", syscall);
+                            // find_or_add_node(args, PID, &num_nodes);
+                            // add_ege(from, to, syscall);
                         }
                     }
                 }
