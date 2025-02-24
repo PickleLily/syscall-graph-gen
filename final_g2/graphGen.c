@@ -2,7 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+// --------------------TODO Area---------------------------------------------------------
+/*
+    TODO --> the master PID is being set as the PID passed in... SHOULD we create one for each network tuple?
+        Should we use the incoming IP addr. as our MASTER PID
 
+
+
+
+*/
 // --------------------SET UP---------------------------------------------------------
 #define MAX_SUBNODES 100
 #define MAX_SUBEDGES 1000
@@ -15,11 +23,12 @@ typedef struct Node {
     int fd;               // The file descriptor
     int graphNum;         //Unique subgraph
     char shape[128];
+    int nodeID;
 } Node;
 
 typedef struct Edge {
-    char from[256];       // name of the source node 
-    char to[256];         // name of the destination node
+    int from;       // name of the source node 
+    int to;         // name of the destination node
     int graphNum;         //Unique subgraph
     char syscall[64];     // The system call connecting the nodes
     char edgeType[128];   //"dashed", "dotted" ,"solid", "invis", "bold"
@@ -121,16 +130,25 @@ int getSubgraphFD(int currentFD){
     return -1;
 }
 
+Subgraph* initialize_subgraph(int fd, char *PID){
+    Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
+    subgraph->graphNum = graphNum;
+    subgraph->currentfd = fd;
+    subgraph->node_count = 0;
+    subgraph->edge_count = 0;
+    //TODO --> change this
+    subgraph->masterPID_ID = atoi(PID);
+    return subgraph;
+}
+
 // When supplied with fd of accept4 call, make new split graph
 void makeSubgraph(int fd, char *socketTuple, char *PID) {
     // Take global graph num, current fd of accept4, and arg information to build the Subgraph
     // Predefine the two sockets
 
-
-    // TODO --> change this to use strstr()?  & match with "->"
-
     char socket1[56];
     char socket2[56];
+
     char *end = strchr(socketTuple, '-');
     if (end) {
         size_t length = end - socketTuple;
@@ -148,11 +166,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     printf("%s, %s\n\n", socket1, socket2);
 
     // Initialize subgraph
-    Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
-    subgraph->graphNum = graphNum;
-    subgraph->currentfd = fd;
-    subgraph->node_count = 0;
-    subgraph->edge_count = 0;
+    Subgraph* subgraph = initialize_subgraph(fd, PID);
 
     // Make remote node pointer
     Node* remote = (Node*)malloc(sizeof(Node));
@@ -161,7 +175,9 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     remote->graphNum = graphNum;
     strncpy(remote->shape, "diamond", 7);
     subgraph->nodes[subgraph->node_count] = remote;
+    remote->nodeID = graphs[graphNum]->node_count;
     subgraph->node_count++;
+    // TODO find_or_add_node();
 
     // Make local node
     Node* local = (Node*)malloc(sizeof(Node));
@@ -170,17 +186,25 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     local->graphNum = graphNum;
     strncpy(local->shape, "diamond", 7);
     subgraph->nodes[subgraph->node_count] = local;
+    remote->nodeID = graphs[graphNum]->node_count;
     subgraph->node_count++;
+    // TODO  find_or_add_node();
+
     
     //  Connect two
     Edge* networkedge = (Edge*)malloc(sizeof(Edge));
-    strncpy(networkedge->from, socket1, sizeof(socket1));
-    strncpy(networkedge->to, socket2, sizeof(socket2));
+    // strncpy(networkedge->from, socket1, sizeof(socket1));
+    // strncpy(networkedge->to, socket2, sizeof(socket2));
+    networkedge->from = remote->nodeID;
+    networkedge->to = local->nodeID;
+
     networkedge->graphNum = graphNum;
     strncpy(networkedge->syscall, "accept4", strlen("accept4"));
     subgraph->edges[subgraph->edge_count] = networkedge;
     strncpy(networkedge->edgeType, "solid", strlen("solid"));
     subgraph->edge_count++;
+
+    // TODO add_edge();
 
     // Make PID node
     Node* pid = (Node*)malloc(sizeof(Node));
@@ -208,14 +232,17 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
 // TODO --> simple output... NOT sure if this is what we actually want to be printed...
 void printOutput() {
     int i, j = 0;
-    while(graphs[i] != NULL) {
-        printf("Graph %d:\n", graphs[i]->graphNum);
-        while(graphs[i]->nodes[j] != NULL){
-            printf("     %s\n", graphs[i]->nodes[j]->fd);
-            j++;
+    for(int i = 0 ; i < graphNum; i ++){
+
+        for(int j = 0 ; j < graphs[i]->node_count; j ++){
+            printf("node:%s\n", graphs[i]->nodes[j]->args);
         }
-        i++;
+        for(int j = 0 ; j < graphs[i]->edge_count; j ++){
+            printf("edge: %s from:%s to:%s\n",graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->from, graphs[i]->edges[j]->to);
+        }
+
     }
+
 }
 
 // returns the FD as a int (aka fd=13<...>)
@@ -300,6 +327,52 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 }
 
 
+void printSubgraphs(){
+    printf("%d subgraphs created\n", graphNum);
+    for(int i = 0; i < graphNum; i++){
+        printf("graph %d Master PID: %d\n",i,graphs[graphNum]->masterPID_ID);
+        printf("nodes: %d    edges: %d\n\n",graphs[graphNum]->node_count, graphs[graphNum]->edge_count);
+    }
+}
+
+// Helper method to parse socket tuple
+void createDOT(){
+    for(int i = 0; i < graphNum; i++){ //for every subgraph
+
+        // open new dot file with unique name
+        char path[1024];
+        sprintf(path, "./graphs/graph%d.dot", i);
+        printf("%s", path);
+        FILE *dot_file = fopen(path, "w");
+
+        if (!dot_file) {
+            perror("Failed to open DOT file\n");
+            return;
+        }
+
+        //print the setup info:
+        fprintf(dot_file, "digraph nginx_syscalls {\n");
+
+
+        // add all of the nodes
+        for(int j = 0; j < graphs[graphNum]->node_count; j++){
+            fprintf(dot_file, "  %d [label=\"%s\"];\n", j, graphs[i]->nodes[j]->args);
+        }
+        // add all of the edges
+        for(int j = 0; j < graphs[graphNum]->edge_count; j++){
+            fprintf(dot_file, "  %d -> %d [label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall);
+        }
+
+
+        //print the shutdown info:
+        fprintf(dot_file, "}\n");
+        fclose(dot_file);
+        printf("Graph exported to %s\n", path);
+
+    }
+}
+
+
 int main(){
     FILE *file = fopen("events.txt", "r");
     if (!file) {
@@ -322,14 +395,10 @@ int main(){
 
         // if we have a file interacted with
         if(FD != -1){
-            // NONE of the syscalls are being tracked correctly...
-            printf()
             // if it is accept4
-            if(strcmp(syscall, "accept4 ") == 0) 
+            if(strcmp(syscall, "accept4") == 0) 
             {
-                graphNum +=1;
-                printf("Hit accept4\n");
-                //logging = true; //start logging -> we may be able to set this to just graphNum != 0
+                graphNum +=1;                
                 parseArgs(args, "network socket", args);
                 makeSubgraph(FD, args, PID);
                 continue;
@@ -337,17 +406,21 @@ int main(){
             // if it is any other syscall
             else
             {
-                // if(graphNum >= 0){
+                if(graphNum >= 0){
+                    // printf("graph %d: %s\n", graphNum, syscall);
                 //     for(int i = 0; i < graphNum-1; i++) {
                 //         if(graphs[i]->currentfd == FD){
                 //             printf("should add edge\n");
                 //             // add_edge(from, to, syscall);
                 //         }
                 //     }
-                // }
+                }
             }
         }
     }
+    printSubgraphs();
+    printOutput();
+    createDOT();
 }
 
 // ------------------------ The pit (old functions not being used) ----------------------------------------------------------------
