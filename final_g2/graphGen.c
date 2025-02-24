@@ -205,10 +205,16 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
 }
 
 // Method for printing the graph list
+// TODO --> simple output... NOT sure if this is what we actually want to be printed...
 void printOutput() {
-    int i = 0;
+    int i, j = 0;
     while(graphs[i] != NULL) {
-        
+        printf("Graph %d:\n", graphs[i]->graphNum);
+        while(graphs[i]->nodes[j] != NULL){
+            printf("     %s\n", graphs[i]->nodes[j]->fd);
+            j++;
+        }
+        i++;
     }
 }
 
@@ -249,7 +255,7 @@ void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char
     char time[64];
     char type[64];
     char program[64];
-    sscanf(line, "%s %s Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
+    sscanf(line, "%s %s Name:%s FD:%[^ ] Syscall:%[^ ] Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
     return;
 }
 
@@ -310,21 +316,21 @@ int main(){
         //store the arguments from the line
         char fdString[4], syscall[64], args[1024], ret[64], PID[64];
         parseLine(line, fdString, syscall, args, ret, PID);
-        // printf("%s\n", fdString);
 
         //make the FD an int
         int FD = formatFD(fdString);
 
         // if we have a file interacted with
         if(FD != -1){
+            // NONE of the syscalls are being tracked correctly...
+            printf()
             // if it is accept4
-            if(strcmp(syscall, "accept4") == 0) 
+            if(strcmp(syscall, "accept4 ") == 0) 
             {
                 graphNum +=1;
                 printf("Hit accept4\n");
                 //logging = true; //start logging -> we may be able to set this to just graphNum != 0
                 parseArgs(args, "network socket", args);
-                // printf("%s\n", args);
                 makeSubgraph(FD, args, PID);
                 continue;
             } 
