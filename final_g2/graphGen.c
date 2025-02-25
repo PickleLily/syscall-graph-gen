@@ -52,70 +52,6 @@ int graphNum = -1;
 Subgraph* graphs[MAX_SUBGRAPHS];
 
 // ---------------------Functions --------------------------------------------------------
-//  TODO --> add "regular line" status??
-
-void add_edge(char from[], char to[], const char *syscall) {
-    //get current subgraph
-    int subgraphID = graphNum;
-    Subgraph* graph = graphs[graphNum];
-    Edge **edges = graph->edges; // A list of edge pointers
-
-    int lengthEdges = graph->edge_count;
-    
-    //check if edge exists
-    for (int i = 0; i < lengthEdges; i++) {
-        // Ella's (AI GODS) tips: If ever pulling an exact value out of a pointer we need to derefernce
-        // Now that these are also chars we dont need to worry about it
-        if (edges[i]->from == from && edges[i]->to == to && strcmp(edges[i]->syscall, syscall) == 0) {
-            return; // Duplicate edge found, do not add
-        }
-    }	
-
-    //check max edges
-    if (lengthEdges >= MAX_SUBEDGES) {
-        fprintf(stderr, "Error: Maximum edges exceeded.\n");
-        exit(1);
-    }
-
-    graph->edge_count++;
-    strncpy(edges[lengthEdges]->from, from, sizeof(*edges[lengthEdges]->from)-1);
-    strncpy(edges[lengthEdges]->to , to, sizeof(*edges[lengthEdges]->from)-1);
-    strncpy(edges[lengthEdges]->syscall, syscall, strlen(syscall));
-    strncpy(edges[lengthEdges]->edgeType, "solid", strlen("solid"));
-}
-
-
-//  MAKE this take in a subgraph instead...
-int find_or_add_node(const char *args, char PID[], int *node_count) {  
-    //get current subgraph
-    int subgraphID = graphNum;
-    Subgraph* graph = graphs[graphNum];
-    Node **nodes = graph->nodes;
-    //TODO --> this is segfaulting...
-    int nodeCount = graph->node_count;
-
-    for (int i = 0; i < nodeCount; i++) {  
-        //if we see a matching argument break out of the loop...
-        if (strcmp(nodes[i]->args, args) == 0) {
-            return nodes[i]->fd;
-        }
-        printf("found node\n");
-    }
-
-    if (nodeCount >= MAX_SUBNODES) {
-        fprintf(stderr, "Error: Maximum nodes exceeded.\n");
-        exit(1);
-    }
-
-    nodes[nodeCount]->fd = *node_count;
-    strncpy(nodes[nodeCount]->PID, PID, sizeof(nodes[nodeCount]->PID) - 1);
-    strncpy(nodes[nodeCount]->args, args, sizeof(nodes[nodeCount]->args) - 1);
-    graph->node_count++;
-
-    printf("found node\n");
-    
-    return nodes[nodeCount]->fd;
-}
 
 int getSubgraphFD(int currentFD){
     //go through the list of graphs globally
@@ -136,7 +72,6 @@ Subgraph* initialize_subgraph(int fd, char *PID){
     subgraph->currentfd = fd;
     subgraph->node_count = 0;
     subgraph->edge_count = 0;
-    //TODO --> change this
     subgraph->masterPID_ID = atoi(PID);
     return subgraph;
 }
@@ -145,10 +80,8 @@ Subgraph* initialize_subgraph(int fd, char *PID){
 void makeSubgraph(int fd, char *socketTuple, char *PID) {
     // Take global graph num, current fd of accept4, and arg information to build the Subgraph
     // Predefine the two sockets
-
     char socket1[56];
     char socket2[56];
-
     char *end = strchr(socketTuple, '-');
     if (end) {
         size_t length = end - socketTuple;
@@ -163,10 +96,16 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
             strncpy(socket2, start, length);
             socket2[length] = '\0'; // Null-terminate the extracted socket
     }
-    printf("%s, %s\n\n", socket1, socket2);
+    printf("%s, %s\n", socket1, socket2);
 
     // Initialize subgraph
     Subgraph* subgraph = initialize_subgraph(fd, PID);
+    int currentGraphNum = graphNum;
+    graphs[currentGraphNum] = subgraph;
+
+    // segmentation fault...
+    int numNodes = graphs[currentGraphNum]->node_count;
+    int numEdges = graphs[currentGraphNum]->edge_count;
 
     // Make remote node pointer
     Node* remote = (Node*)malloc(sizeof(Node));
@@ -188,7 +127,8 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     subgraph->nodes[subgraph->node_count] = local;
     remote->nodeID = graphs[graphNum]->node_count;
     subgraph->node_count++;
-    // TODO  find_or_add_node();
+
+    // find_or_add_node(socket2, PID, subgraph->node_count);
 
     
     //  Connect two
@@ -212,12 +152,16 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     pid->fd = fd;
     strncpy(pid->shape, "rectangle", 10);
     subgraph->nodes[subgraph->node_count] = pid;
+    pid->nodeID = subgraph->node_count;
     subgraph->node_count++;
 
     // Connect PID node
     Edge* pidedge = (Edge*)malloc(sizeof(Edge));
-    strncpy(pidedge->from, socket2, sizeof(socket2));
-    strncpy(pidedge->to, PID, sizeof(pid));
+    pidedge->from = local->nodeID;
+    pidedge->to = pid->nodeID;
+    // strncpy(pidedge->from, socket2, sizeof(socket2));
+    // strncpy(pidedge->to, PID, sizeof(pid));
+
     pidedge->graphNum = graphNum;
     strncpy(pidedge->syscall, "", 1);
     subgraph->edges[subgraph->edge_count] = pidedge;
@@ -238,11 +182,9 @@ void printOutput() {
             printf("node:%s\n", graphs[i]->nodes[j]->args);
         }
         for(int j = 0 ; j < graphs[i]->edge_count; j ++){
-            printf("edge: %s from:%s to:%s\n",graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->from, graphs[i]->edges[j]->to);
+            printf("edge: %s from:%d to:%d\n",graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->from, graphs[i]->edges[j]->to);
         }
-
     }
-
 }
 
 // returns the FD as a int (aka fd=13<...>)
@@ -326,8 +268,8 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 	}
 }
 
-
 void printSubgraphs(){
+
     printf("%d subgraphs created\n", graphNum);
     for(int i = 0; i < graphNum; i++){
         printf("graph %d Master PID: %d\n",i,graphs[graphNum]->masterPID_ID);
@@ -337,6 +279,7 @@ void printSubgraphs(){
 
 // Helper method to parse socket tuple
 void createDOT(){
+
     for(int i = 0; i < graphNum; i++){ //for every subgraph
 
         // open new dot file with unique name
@@ -356,7 +299,7 @@ void createDOT(){
 
         // add all of the nodes
         for(int j = 0; j < graphs[graphNum]->node_count; j++){
-            fprintf(dot_file, "  %d [label=\"%s\"];\n", j, graphs[i]->nodes[j]->args);
+            fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
         }
         // add all of the edges
         for(int j = 0; j < graphs[graphNum]->edge_count; j++){
@@ -372,8 +315,8 @@ void createDOT(){
     }
 }
 
-
 int main(){
+
     FILE *file = fopen("events.txt", "r");
     if (!file) {
         perror("Failed to open events file");
@@ -459,4 +402,67 @@ void parseNetworkTuple(const char *args, char *outputArgs) {
     } else {
         strncpy(outputArgs, args, 255); //If no tuple use entire fd string? -> may want to remove
     }
+}
+
+
+void add_edge(int from, int to, const char *syscall) {
+    //get current subgraph
+    int subgraphID = graphNum;
+    Subgraph* graph = graphs[graphNum];
+    Edge **edges = graph->edges; // A list of edge pointers
+
+    int lengthEdges = graph->edge_count;
+    
+    //check if edge exists
+    for (int i = 0; i < lengthEdges; i++) {
+        // Ella's (AI GODS) tips: If ever pulling an exact value out of a pointer we need to derefernce
+        // Now that these are also chars we dont need to worry about it
+        if (edges[i]->from == from && edges[i]->to == to && strcmp(edges[i]->syscall, syscall) == 0) {
+            return; // Duplicate edge found, do not add
+        }
+    }	
+
+    //check max edges
+    if (lengthEdges >= MAX_SUBEDGES) {
+        fprintf(stderr, "Error: Maximum edges exceeded.\n");
+        exit(1);
+    }
+
+    graph->edge_count++;
+    edges[lengthEdges]->from = from;
+    edges[lengthEdges]->to = to;
+    strncpy(edges[lengthEdges]->syscall, syscall, strlen(syscall));
+    strncpy(edges[lengthEdges]->edgeType, "solid", strlen("solid"));
+}
+
+int find_or_add_node(const char *args, char PID[], char shape[]) {  
+    
+    // //get current subgraph
+    // int subgraphID = graphNum;
+    // Subgraph* graph = graphs[graphNum];
+    
+    // //TODO --> this is segfaulting...
+    // int nodeCount = graph->node_count;
+
+    // for (int i = 0; i < nodeCount; i++) {  
+    //     //if we see a matching argument break out of the loop...
+    //     if (strcmp(graph->nodes[i]->args, args) == 0) {
+    //         return graph->nodes[i]->fd;
+    //     }
+    //     printf("found node\n");
+    // }
+
+    // if (nodeCount >= MAX_SUBNODES) {
+    //     fprintf(stderr, "Error: Maximum nodes exceeded.\n");
+    //     exit(1);
+    // }
+
+    // graph->nodes[nodeCount]->fd = *node_count;
+    // strncpy(nodes[nodeCount]->PID, PID, sizeof(nodes[nodeCount]->PID) - 1);
+    // strncpy(nodes[nodeCount]->args, args, sizeof(nodes[nodeCount]->args) - 1);
+    // graph->node_count++;
+
+    // printf("found node\n");
+    
+    // return nodes[nodeCount]->fd;
 }

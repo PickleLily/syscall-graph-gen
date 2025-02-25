@@ -1,7 +1,7 @@
 digraph nginx_syscalls {
-  0 [label="192.168.86.141:56788"];
-  1 [label="192.168.86.217:80"];
-  2 [label="1239"];
-  -178547440 -> -178547184 [label="accept4"];
-  -178546256 -> -178546000 [label=""];
+  0 [label="192.168.86.141:56788" shape=diamond];
+  1 [label="192.168.86.217:80" shape=diamond];
+  2 [label="1239" shape=rectangle];
+  1 -> 0 [label="accept4"];
+  0 -> 2 [label=""];
 }
