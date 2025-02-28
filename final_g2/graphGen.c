@@ -172,7 +172,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     strncpy(remote->args, socket1, sizeof(socket1)-1);
     remote->fd = fd;
     remote->graphNum = graphNum;
-    strncpy(remote->shape, "diamond", 7);
+    strncpy(remote->shape, "diamond", sizeof("diamond"));
     subgraph->nodes[subgraph->node_count] = remote;
     remote->nodeID = graphs[graphNum]->node_count;
     subgraph->node_count++;
@@ -182,10 +182,12 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     strncpy(local->args, socket2, sizeof(socket2)-1);
     local->fd = fd;
     local->graphNum = graphNum;
-    strncpy(local->shape, "diamond", 7);
+    strncpy(local->shape, "diamond", sizeof("diamond"));
     subgraph->nodes[subgraph->node_count] = local;
     remote->nodeID = graphs[graphNum]->node_count;
     subgraph->node_count++;
+
+    //printf("++ SHAPE IS: %s ++", graphs[graphNum]->nodes[1]->shape);
     
     //  Connect two
     Edge* networkedge = (Edge*)malloc(sizeof(Edge));
@@ -193,16 +195,16 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     networkedge->to = local->nodeID;
 
     networkedge->graphNum = graphNum;
-    strncpy(networkedge->syscall, "accept4", strlen("accept4"));
+    strncpy(networkedge->syscall, "accept4", sizeof("accept4"));
     subgraph->edges[subgraph->edge_count] = networkedge;
-    strncpy(networkedge->edgeType, "solid", strlen("solid"));
+    strncpy(networkedge->edgeType, "solid", sizeof("solid"));
     subgraph->edge_count++;
 
     // Make PID node
     Node* pid = (Node*)malloc(sizeof(Node));
     strncpy(pid->args, PID, strlen(PID));
     pid->fd = fd;
-    strncpy(pid->shape, "rectangle", 10);
+    strncpy(pid->shape, "rectangle", sizeof("rectangle"));
     subgraph->nodes[subgraph->node_count] = pid;
     pid->nodeID = subgraph->node_count;
     subgraph->node_count++;
@@ -215,7 +217,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     pidedge->graphNum = graphNum;
     strncpy(pidedge->syscall, "", 1);
     subgraph->edges[subgraph->edge_count] = pidedge;
-    strncpy(pidedge->edgeType, "dashed", strlen("dashed"));
+    strncpy(pidedge->edgeType, "dashed", sizeof("dashed"));
     subgraph->edge_count++;
 
     // Add to global list
@@ -325,26 +327,33 @@ void printSubgraphMetadata(){
 }
 
 // Helper method to parse socket tuple
+// TODO Have this make all graphs as subgraphs within same larger file
 void createDOT(){
+    
+    // Open dot file
+    // open new dot file with unique name - generated randomly
+    int randomVal = rand();
+    char path[1024];
+    sprintf(path, "./graphs/graph-%d.dot",randomVal);
+    printf("Created graph %s", path);
+    FILE *dot_file = fopen(path, "w");
+
+    if (!dot_file) {
+        perror("Failed to open DOT file\n");
+        return;
+    }
+
+    // After new dotfile has been successfully made:
+    //print the setup info:
+    fprintf(dot_file, "digraph nginx_syscalls {\n");
 
     for(int i = 0; i < graphNum; i++){ //for every subgraph
+
+        // Init subgraph
+        fprintf(dot_file, "subgraph subgraph_%d {\n", i);
         
-        // open new dot file with unique name
-        char path[1024];
-        sprintf(path, "./graphs/graph%d.dot", i);
-        printf("%s", path);
-        FILE *dot_file = fopen(path, "w");
-
-        if (!dot_file) {
-            perror("Failed to open DOT file\n");
-            return;
-        }
-
-        //print the setup info:
-        fprintf(dot_file, "digraph nginx_syscalls {\n");
 
         // add all of the nodes
-        
         for(int j = 0; j < graphs[i]->node_count; j++){
             Node* n = graphs[i]->nodes[j];
             fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
@@ -353,15 +362,17 @@ void createDOT(){
         Edge** e = graphs[i]->edges;
         // add all of the edges
         for(int j = 0; j < graphs[i]->edge_count; j++){
-            fprintf(dot_file, "  %d -> %d [label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall);
+            fprintf(dot_file, "  %d -> %d [label=\"%s\" style=%s];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->edgeType);
         }
 
-        //print the shutdown info:
+        // Close subgraph
         fprintf(dot_file, "}\n");
-        fclose(dot_file);
-        printf("Graph exported to %s\n", path);
-
     }
+            
+    //print the shutdown info:
+    fprintf(dot_file, "}\n");
+    fclose(dot_file);
+    printf("Graph exported to %s\n", path);
 }
 
 int main(){
@@ -400,7 +411,7 @@ int main(){
             else
             {
                 if(graphNum >= 0){
-                    number_of_subgraph_nodes =  number_of_subgraph_nodes+1;
+                    number_of_subgraph_nodes+=1;
                     int newNode = find_or_add_node(args, PID, "ellipse");
                     add_edge(2, newNode, syscall);
                 }
