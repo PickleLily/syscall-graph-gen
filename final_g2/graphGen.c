@@ -55,6 +55,16 @@ void add_edge(int from, int to, const char *syscall) {
     graph->edge_count++;
 }
 
+void update_edge(int edge, const char *newcall) {
+    int subgraphID = graphNum;
+    Subgraph* graph = graphs[graphNum];
+
+    //Update edge (denoted by edgenum for now) with new syscall
+    Edge* temp = graph->edges[edge];
+    strncpy(temp->syscall, newcall, sizeof(newcall));
+    strncpy(temp->edgeType, "solid", sizeof("solid"));
+}
+
 // TODO --> this is not secure...
 int find_or_add_node(const char *args, char PID[], char shape[]) {  
     //get current subgraph
@@ -218,8 +228,11 @@ int formatFD(char *fdString) {
 }
 
 // Helper method to parse arg information
-void parseArgs(const char *args, char *format, char *output) {
-    if(strcmp(format, "network socket") || strcmp(format, "file name")){
+void parseArgs(const char *args, char *output) {
+    char *res = strstr(args, "res");
+    if (res) {
+        strncpy(output, "Unknown tuple", 255);
+    } else {
         char *start = strstr(args, ">");
         if (start) {
             start += 1; //Skip past <f>=
@@ -231,9 +244,9 @@ void parseArgs(const char *args, char *format, char *output) {
                 } else {
                     strncpy(output, "Unknown tuple", 255);
                 }
-        } else {
-            strncpy(output, args, 255); //If no tuple use entire fd string? -> may want to remove
-        }
+            } else {
+                strncpy(output, "Unknown tuple", 255); //If no tuple use entire fd string? -> may want to remove
+            }
     }
 }
 
@@ -303,7 +316,7 @@ void createDOT(char* setting){
     //Delimited by setting
     if(strcmp("individual", setting) == 0){
 
-        for(int i = 0; i < graphNum; i++){ //for every subgraph
+        for(int i = 0; i <= graphNum; i++){ //for every subgraph
         
             // open new dot file with unique name
             char path[1024];
@@ -339,7 +352,7 @@ void createDOT(char* setting){
     
         }
 
-    } else if(strcmp("combined", setting) == 0) {
+    } else if(strcmp("together", setting) == 0) {
         // Open dot file
         // open new dot file with unique name - generated randomly
         int randomVal = rand();
@@ -357,7 +370,7 @@ void createDOT(char* setting){
         //print the setup info:
         fprintf(dot_file, "digraph nginx_syscalls {\n");
 
-        for(int i = 0; i < graphNum; i++){ //for every subgraph
+        for(int i = 0; i <= graphNum; i++){ //for every subgraph
 
             // Init subgraph
             fprintf(dot_file, "subgraph cluster_%d {\n", i);
@@ -381,6 +394,50 @@ void createDOT(char* setting){
         }
 
         fprintf(dot_file, "}\n");
+    } else if(strcmp("overlaid", setting) == 0) {
+        // Open dot file
+        // open new dot file with unique name - generated randomly
+        int randomVal = rand();
+        char path[1024];
+        sprintf(path, "./graphs/graph-%d.dot",randomVal);
+        printf("Created graph %s", path);
+        FILE *dot_file = fopen(path, "w");
+
+        if (!dot_file) {
+            perror("Failed to open DOT file\n");
+            return;
+        }
+
+        // After new dotfile has been successfully made:
+        //print the setup info:
+        fprintf(dot_file, "digraph nginx_syscalls {\n");
+
+        for(int i = 0; i <= graphNum; i++){ //for every subgraph
+
+            // Init subgraph
+            fprintf(dot_file, "subgraph cluster_%d {\n", i);
+        
+            // add all of the nodes
+            for(int j = 0; j < graphs[i]->node_count; j++){
+                Node* n = graphs[i]->nodes[j];
+                fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
+            }
+    
+            Edge** e = graphs[i]->edges;
+            // add all of the edges
+            for(int j = 0; j < graphs[i]->edge_count; j++){
+                fprintf(dot_file, "  %d -> %d [label=\"%s\" style=%s];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->edgeType);
+            }
+
+            // Close subgraph
+            fprintf(dot_file, "}\n");
+            // Insert another enter for readability
+            fprintf(dot_file, "\n");
+        }
+
+        fprintf(dot_file, "}\n");
+    } else {
+        createDOT("individual");
     }
 }
 
@@ -411,7 +468,7 @@ int main(){
             if(strcmp(syscall, "accept4") == 0) 
             {
                 graphNum +=1;                
-                parseArgs(args, "network socket", args);
+                parseArgs(args, args);
                 makeSubgraph(FD, args, PID);
                 number_of_subgraph_nodes = 0;
                 continue;
@@ -424,13 +481,19 @@ int main(){
                     number_of_subgraph_nodes+=1;
                     
                     // Parse args
-                    // parseArgs(args, "file name", args);
-                    int newNode = find_or_add_node(args, PID, "ellipse");
-                    add_edge(2, newNode, syscall);
+                    parseArgs(args, args);
+                    if(strcmp("Unknown tuple", args) != 0) {
+                        if(strcmp("recvfrom", syscall) == 0) {
+                            update_edge(1, syscall);
+                        } else {
+                            int newNode = find_or_add_node(args, PID, "ellipse");
+                            add_edge(2, newNode, syscall);
+                        }
+                    }
                 }
             }
         }
     }
     printSubgraphMetadata();
-    createDOT("combined");
+    createDOT("together");
 }
