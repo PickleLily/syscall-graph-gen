@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "graphGen.h"
 // --------------------TODO Area---------------------------------------------------------
 /*
     TODO --> the master PID is being set as the PID passed in... SHOULD we create one for each network tuple?
@@ -15,35 +16,6 @@
 #define MAX_SUBNODES 100
 #define MAX_SUBEDGES 1000
 #define MAX_SUBGRAPHS 100
-
-// Structures for Nodes and Edges
-typedef struct Node {
-    char PID[64];         // PID
-    char args[256];       // Name of the object (e.g., file path, socket info, subprocesses info?)
-    int fd;               // The file descriptor
-    int graphNum;         //Unique subgraph
-    char shape[128];
-    int nodeID;
-} Node;
-
-typedef struct Edge {
-    int from;       // name of the source node 
-    int to;         // name of the destination node
-    int graphNum;         //Unique subgraph
-    char syscall[64];     // The system call connecting the nodes
-    char edgeType[128];   //"dashed", "dotted" ,"solid", "invis", "bold"
-} Edge;
-
-// Subgraph representation
-typedef struct Subgraph {
-    int graphNum;           //Unique subgraph number
-    int currentfd;          //fd of the root accept4 node - not sure if we even need - shpuld this be current fd?
-    int masterPID_ID;       //the Node ID of the process that starts interactions?
-    Node* nodes[MAX_SUBNODES];
-    Edge* edges[MAX_SUBEDGES];
-    int node_count;
-    int edge_count;
-} Subgraph;
 
 // Global graph ID
 int graphNum = -1;
@@ -202,7 +174,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
 
     // Make PID node
     Node* pid = (Node*)malloc(sizeof(Node));
-    strncpy(pid->args, PID, strlen(PID));
+    strncpy(pid->args, PID, sizeof(PID));
     pid->fd = fd;
     strncpy(pid->shape, "rectangle", sizeof("rectangle"));
     subgraph->nodes[subgraph->node_count] = pid;
@@ -367,6 +339,8 @@ void createDOT(){
 
         // Close subgraph
         fprintf(dot_file, "}\n");
+        // Insert another enter for readability
+        fprintf(dot_file, "\n");
     }
             
     //print the shutdown info:
@@ -411,7 +385,11 @@ int main(){
             else
             {
                 if(graphNum >= 0){
+                    // Increment nodes
                     number_of_subgraph_nodes+=1;
+                    
+                    // Parse args
+                    // parseArgs(args, "file name", args);
                     int newNode = find_or_add_node(args, PID, "ellipse");
                     add_edge(2, newNode, syscall);
                 }
