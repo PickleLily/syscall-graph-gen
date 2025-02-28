@@ -156,10 +156,8 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     local->graphNum = graphNum;
     strncpy(local->shape, "diamond", sizeof("diamond"));
     subgraph->nodes[subgraph->node_count] = local;
-    remote->nodeID = graphs[graphNum]->node_count;
+    local->nodeID = graphs[graphNum]->node_count;
     subgraph->node_count++;
-
-    //printf("++ SHAPE IS: %s ++", graphs[graphNum]->nodes[1]->shape);
     
     //  Connect two
     Edge* networkedge = (Edge*)malloc(sizeof(Edge));
@@ -300,53 +298,90 @@ void printSubgraphMetadata(){
 
 // Helper method to parse socket tuple
 // TODO Have this make all graphs as subgraphs within same larger file
-void createDOT(){
-    
-    // Open dot file
-    // open new dot file with unique name - generated randomly
-    int randomVal = rand();
-    char path[1024];
-    sprintf(path, "./graphs/graph-%d.dot",randomVal);
-    printf("Created graph %s", path);
-    FILE *dot_file = fopen(path, "w");
+void createDOT(char* setting){
 
-    if (!dot_file) {
-        perror("Failed to open DOT file\n");
-        return;
-    }
+    //Delimited by setting
+    if(strcmp("individual", setting) == 0){
 
-    // After new dotfile has been successfully made:
-    //print the setup info:
-    fprintf(dot_file, "digraph nginx_syscalls {\n");
-
-    for(int i = 0; i < graphNum; i++){ //for every subgraph
-
-        // Init subgraph
-        fprintf(dot_file, "subgraph subgraph_%d {\n", i);
+        for(int i = 0; i < graphNum; i++){ //for every subgraph
         
-
-        // add all of the nodes
-        for(int j = 0; j < graphs[i]->node_count; j++){
-            Node* n = graphs[i]->nodes[j];
-            fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
-        }
-
-        Edge** e = graphs[i]->edges;
-        // add all of the edges
-        for(int j = 0; j < graphs[i]->edge_count; j++){
-            fprintf(dot_file, "  %d -> %d [label=\"%s\" style=%s];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->edgeType);
-        }
-
-        // Close subgraph
-        fprintf(dot_file, "}\n");
-        // Insert another enter for readability
-        fprintf(dot_file, "\n");
-    }
+            // open new dot file with unique name
+            char path[1024];
+            sprintf(path, "./graphs/graph%d.dot", i);
+            printf("%s", path);
+            FILE *dot_file = fopen(path, "w");
+    
+            if (!dot_file) {
+                perror("Failed to open DOT file\n");
+                return;
+            }
+    
+            //print the setup info:
+            fprintf(dot_file, "digraph nginx_syscalls {\n");
+    
+            // add all of the nodes
             
-    //print the shutdown info:
-    fprintf(dot_file, "}\n");
-    fclose(dot_file);
-    printf("Graph exported to %s\n", path);
+            for(int j = 0; j < graphs[i]->node_count; j++){
+                Node* n = graphs[i]->nodes[j];
+                fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
+            }
+    
+            Edge** e = graphs[i]->edges;
+            // add all of the edges
+            for(int j = 0; j < graphs[i]->edge_count; j++){
+                fprintf(dot_file, "  %d -> %d [label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall);
+            }
+    
+            //print the shutdown info:
+            fprintf(dot_file, "}\n");
+            fclose(dot_file);
+            printf("Graph exported to %s\n", path);
+    
+        }
+
+    } else if(strcmp("combined", setting) == 0) {
+        // Open dot file
+        // open new dot file with unique name - generated randomly
+        int randomVal = rand();
+        char path[1024];
+        sprintf(path, "./graphs/graph-%d.dot",randomVal);
+        printf("Created graph %s", path);
+        FILE *dot_file = fopen(path, "w");
+
+        if (!dot_file) {
+            perror("Failed to open DOT file\n");
+            return;
+        }
+
+        // After new dotfile has been successfully made:
+        //print the setup info:
+        fprintf(dot_file, "digraph nginx_syscalls {\n");
+
+        for(int i = 0; i < graphNum; i++){ //for every subgraph
+
+            // Init subgraph
+            fprintf(dot_file, "subgraph cluster_%d {\n", i);
+        
+            // add all of the nodes
+            for(int j = 0; j < graphs[i]->node_count; j++){
+                Node* n = graphs[i]->nodes[j];
+                fprintf(dot_file, "  %d%d [label=\"%s\" shape=%s];\n", j, i, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
+            }
+    
+            Edge** e = graphs[i]->edges;
+            // add all of the edges
+            for(int j = 0; j < graphs[i]->edge_count; j++){
+                fprintf(dot_file, "  %d%d -> %d%d [label=\"%s\" style=%s];\n", graphs[i]->edges[j]->from, i, graphs[i]->edges[j]->to, i, graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->edgeType);
+            }
+
+            // Close subgraph
+            fprintf(dot_file, "}\n");
+            // Insert another enter for readability
+            fprintf(dot_file, "\n");
+        }
+
+        fprintf(dot_file, "}\n");
+    }
 }
 
 int main(){
@@ -397,5 +432,5 @@ int main(){
         }
     }
     printSubgraphMetadata();
-    createDOT();
+    createDOT("combined");
 }
