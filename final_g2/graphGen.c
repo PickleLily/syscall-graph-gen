@@ -55,7 +55,11 @@ void add_edge(int from, int to, const char *syscall) {
 
     // If we just added close, return fd to original PID FD, PID will always be node 3 (2)
     if(strcmp(syscall, "close") == 0) {
-        graph->currentfd = graph->nodes[0]->fd;
+        if (graph->currentfd == graph->nodes[0]->fd) {
+            graph->currentfd = -1; //Never touch graph again
+        } else {
+            graph->currentfd = graph->nodes[0]->fd;
+        }
     }
 }
 
