@@ -83,7 +83,6 @@ int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shap
     strcat(tuple, "->");
     strncat(tuple, graph->nodes[1]->args, strlen(graph->nodes[1]->args)+1);
     if (strcmp(tuple, args) == 0) {
-        printf("%s\n", tuple);
         return 1;
     }
 
@@ -521,7 +520,7 @@ int main(){
                         // If the file descriptor is brand new (its either -1)
                         // Do not change current graph, add node and edge
                         if(tempCurrentGraph == -1) {
-                            printf("!!!! %d !!!!\n", FD);
+
                             int newNode = find_or_add_node(FD, args, PID, "ellipse");
                             add_edge(2, newNode, syscall);
                         // If the file descriptor has been run into before, we update the current graph and add an edge
