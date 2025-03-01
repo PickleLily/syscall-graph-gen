@@ -1,35 +1,38 @@
 digraph nginx_syscalls {
-subgraph subgraph_0 {
-  0 [label="192.168.86.141:56788" shape=diamond];
-  1 [label="192.168.86.217:80" shape=diamond];
-  2 [label="1239ers\ELLADU~1\AppData\Local\Temp" shape=rectangle];
-  1 -> 1936026729 [label="accept4" style=solid];
-  1936026729 -> 2 [label="" style=dashed];
+subgraph cluster_0 {
+  00 [label="192.168.86.141:56788" shape=diamond];
+  10 [label="192.168.86.217:80" shape=diamond];
+  20 [label="1239" shape=rectangle];
+  30 [label="/var/www/html/index.nginx-debian.html" shape=ellipse];
+  00 -> 10 [label="accept4" style=solid];
+  10 -> 20 [label="recvfrom" style=solid];
+  20 -> 30 [label="openat" style=solid];
+  20 -> 30 [label="fstat" style=solid];
+  20 -> 10 [label="writev" style=solid];
+  20 -> 30 [label="close" style=solid];
 }
-subgraph subgraph_1 {
-  0 [label="192.168.86.141:56789" shape=diamond];
-  1 [label="192.168.86.217:80" shape=diamond];
-  2 [label="1239" shape=rectangle];
-  3 [label="fd=7(<4t>192.168.86.141:56788->192.168.86.217:80) size=1024" shape=ellipse];
-  4 [label="res=560 data=GET / HTTP/1.1..Host: 192.168.86.217..Connection: keep-alive..Cache-Control: max tuple=192.168.86.141:56788->192.168.86.217:80" shape=ellipse];
-  5 [label="fd=12(<f>/var/www/html/index.nginx-debian.html) dirfd=-100(AT_FDCWD) name=/var/www/html/index.nginx-debian.html flags=65(O_NONBLOCK|O_RDONLY) mode=0 dev=FC00 ino=3179" shape=ellipse];
-  6 [label="fd=12(<f>/var/www/html/index.nginx-debian.html)" shape=ellipse];
-  7 [label="res=0" shape=ellipse];
-  8 [label="fd=7(<4t>192.168.86.141:56788->192.168.86.217:80) size=189" shape=ellipse];
-  9 [label="res=189 data=HTTP/1.1 304 Not Modified..Server: nginx/1.24.0 (Ubuntu)..Date: Fri" shape=ellipse];
-  10 [label="fd=4(<f>/var/log/nginx/access.log) size=203" shape=ellipse];
-  11 [label="res=203 data=192.168.86.141 - - [07/Feb/2025:17:48:25 +0000] "GET / HTTP/1.1" 304 0 "-" "Mozi" shape=ellipse];
-  1 -> 0 [label="accept4" style=solid];
-  0 -> 2 [label="" style=dashed];
-  2 -> 3 [label="recvfrom" style=solid];
-  2 -> 4 [label="recvfrom" style=solid];
-  2 -> 5 [label="openat" style=solid];
-  2 -> 6 [label="fstat" style=solid];
-  2 -> 7 [label="fstat" style=solid];
-  2 -> 8 [label="writev" style=solid];
-  2 -> 9 [label="writev" style=solid];
-  2 -> 10 [label="write" style=solid];
-  2 -> 11 [label="write" style=solid];
-  2 -> 0 [label="close" style=solid];
+
+subgraph cluster_1 {
+  01 [label="192.168.86.141:56789" shape=diamond];
+  11 [label="192.168.86.217:80" shape=diamond];
+  21 [label="1239" shape=rectangle];
+  01 -> 11 [label="accept4" style=solid];
+  11 -> 21 [label="" style=dashed];
 }
+
+subgraph cluster_2 {
+  02 [label="192.168.86.141:56797" shape=diamond];
+  12 [label="192.168.86.217:80" shape=diamond];
+  22 [label="1239" shape=rectangle];
+  32 [label="/var/www/html/index.nginx-debian.html" shape=ellipse];
+  02 -> 12 [label="accept4" style=solid];
+  12 -> 22 [label="recvfrom" style=solid];
+  22 -> 32 [label="openat" style=solid];
+  22 -> 32 [label="fstat" style=solid];
+  22 -> 32 [label="pread" style=solid];
+  22 -> 12 [label="writev" style=solid];
+  22 -> 32 [label="close" style=solid];
+  22 -> 12 [label="close" style=solid];
+}
+
 }
