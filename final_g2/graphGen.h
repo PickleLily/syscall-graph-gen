@@ -3,7 +3,6 @@
 #define GRAPHGEN_H
 
 // Structs 
-// Structures for Nodes and Edges
 typedef struct Node {
     char PID[64];         // PID
     char args[256];       // Name of the object (e.g., file path, socket info, subprocesses info?)
@@ -32,22 +31,22 @@ typedef struct Subgraph {
     int edge_count;
 } Subgraph;
 
-int getSubgraphFD(int currentFD);
-Subgraph* initialize_subgraph(int fd, char *PID);
-void makeSubgraph(int fd, char *socketTuple, char *PID);
-
 // Functions
-void add_edge(int from, int to, const char *syscall);
 int find_or_add_node(const char *args, char PID[], char shape[]);
+void add_edge(int from, int to, const char *syscall);
 
-void printOutput();
-int formatFD(char *fdString);
-void parseArgs(const char *args, char *format, char *output);
+void parseArgs(const char *args, char *output);
 void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char *PID);
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]);
+void parseNetworkTuple(char args[], char from[], char to[]);
+int formatFD(char *fdString);
+
+Subgraph* initialize_subgraph(int fd, char *PID);
+void makeSubgraph(int fd, char *socketTuple, char *PID);
+int getSubgraphFD(int currentFD);
 void printSubgraphMetadata();
+
+void printOutput();
 void createDOT();
-
-
 
 #endif /* GRAPHGEN_H */

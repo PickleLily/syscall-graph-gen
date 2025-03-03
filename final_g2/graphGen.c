@@ -23,6 +23,10 @@ int graphNum = -1;
 // Global graph Reference
 Subgraph* graphs[MAX_SUBGRAPHS];
 
+//global from & to in network tuple --> update this for each line we track
+int globalFrom = 2; //default to be the Partent process ID (will always be 2)
+int globalTo = -1;
+
 // ---------------------Functions --------------------------------------------------------
 
 void add_edge(int from, int to, const char *syscall) {
@@ -441,6 +445,22 @@ void createDOT(char* setting){
     }
 }
 
+void parseNetworkTuple(const char *arguments, char *from, char *to){
+    //look for the end of the arrow signifying a connection between two IP's
+    char *start = strstr(arguments, ">");
+    if(start){
+        int socket2start = start + 1;
+        int socket2end = length(&arguments);
+
+        int socket1start = 0;
+        int socket1end = start - 1;
+        strncpy(from, arguments[socket1start]);
+        strncpy(to);
+    }
+    return;
+}
+
+
 int main(){
 
     FILE *file = fopen("events.txt", "r");
@@ -464,14 +484,14 @@ int main(){
 
         // if we have a file interacted with
         if(FD != -1){
+            parseArgs(args, args);
+
             // if it is accept4
             if(strcmp(syscall, "accept4") == 0) 
             {
                 graphNum +=1;                
-                parseArgs(args, args);
                 makeSubgraph(FD, args, PID);
                 number_of_subgraph_nodes = 0;
-                continue;
             } 
             // if it is any other syscall
             else
@@ -479,15 +499,18 @@ int main(){
                 if(graphNum >= 0){
                     // Increment nodes
                     number_of_subgraph_nodes+=1;
-                    
-                    // Parse args
-                    parseArgs(args, args);
+
                     if(strcmp("Unknown tuple", args) != 0) {
                         if(strcmp("recvfrom", syscall) == 0) {
                             update_edge(1, syscall);
                         } else {
-                            int newNode = find_or_add_node(args, PID, "ellipse");
-                            add_edge(2, newNode, syscall);
+                            char from[128];
+                            char to[128];
+                            parseNetworkTuple(args, from, to);
+                            int destinationNode = find_or_add_node(to, PID, "ellipse");
+                            int originNode = find_or_add_node(from, PID, "ellipse");
+
+                                add_edge(originNode, destinationNode, syscall);
                         }
                     }
                 }

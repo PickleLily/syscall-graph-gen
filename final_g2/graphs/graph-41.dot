@@ -2,9 +2,9 @@ digraph nginx_syscalls {
 subgraph subgraph_0 {
   0 [label="192.168.86.141:56788" shape=diamond];
   1 [label="192.168.86.217:80" shape=diamond];
-  2 [label="1239ers\ELLADU~1\AppData\Local\Temp" shape=rectangle];
-  1 -> 1936026729 [label="accept4" style=solid];
-  1936026729 -> 2 [label="" style=dashed];
+  2 [label="1239OX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\" shape=rectangle];
+  1 -> 977485166 [label="accept4" style=solid];
+  977485166 -> 2 [label="" style=dashed];
 }
 subgraph subgraph_1 {
   0 [label="192.168.86.141:56789" shape=diamond];
