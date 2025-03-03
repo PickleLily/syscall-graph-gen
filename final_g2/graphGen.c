@@ -17,22 +17,18 @@
 #define MAX_SUBEDGES 1000
 #define MAX_SUBGRAPHS 100
 
-// Global graph ID
-int graphNum = -1;
-
 // Global graph Reference
 Subgraph* graphs[MAX_SUBGRAPHS];
+int totalGraphs = -1;
+int currentGraph = -1;
 
-//global from & to in network tuple --> update this for each line we track
-int globalFrom = 2; //default to be the Partent process ID (will always be 2)
-int globalTo = -1;
 
 // ---------------------Functions --------------------------------------------------------
 
 void add_edge(int from, int to, const char *syscall) {
     //get current subgraph
-    int subgraphID = graphNum;
-    Subgraph* graph = graphs[graphNum];
+    int subgraphID = currentGraph;
+    Subgraph* graph = graphs[currentGraph];
 
     //check if edge exists
     for (int i = 0; i < graph->edge_count; i++) {
@@ -42,7 +38,6 @@ void add_edge(int from, int to, const char *syscall) {
             return; // Duplicate edge found, do not add
         }
     }	
-
     //check max edges
     if (graph->edge_count >= MAX_SUBEDGES) {
         fprintf(stderr, "Error: Maximum edges exceeded.\n");
@@ -52,35 +47,54 @@ void add_edge(int from, int to, const char *syscall) {
     Edge* newEdge = (Edge*)malloc(sizeof(Edge));
     newEdge->from = from;
     newEdge->to = to;
-    newEdge->graphNum = graphNum;
-    strncpy(newEdge->syscall, syscall, strlen(syscall));
-    strncpy(newEdge->edgeType, "solid", strlen("solid"));
+    newEdge->graphNum = currentGraph;
+    strncpy(newEdge->syscall, syscall, strlen(syscall)+1);
+    strncpy(newEdge->edgeType, "solid", strlen("solid")+1);
     graph->edges[graph->edge_count] = newEdge;
     graph->edge_count++;
+
+    // If we just added close, return fd to original PID FD, PID will always be node 3 (2)
+    if(strcmp(syscall, "close") == 0) {
+        if (graph->currentfd == graph->nodes[0]->fd) {
+            graph->currentfd = -1; //Never touch graph again
+        } else {
+            graph->currentfd = graph->nodes[0]->fd;
+        }
+    }
 }
 
-void update_edge(int edge, const char *newcall) {
-    int subgraphID = graphNum;
-    Subgraph* graph = graphs[graphNum];
+void update_edge(int edge, char *newcall) {
+    int subgraphID = currentGraph;
+    Subgraph* graph = graphs[currentGraph];
 
     //Update edge (denoted by edgenum for now) with new syscall
     Edge* temp = graph->edges[edge];
-    strncpy(temp->syscall, newcall, sizeof(newcall));
-    strncpy(temp->edgeType, "solid", sizeof("solid"));
+    strncpy(temp->syscall, newcall, strlen(newcall)+1);
+    strncpy(temp->edgeType, "solid", 6);
 }
 
 // TODO --> this is not secure...
-int find_or_add_node(const char *args, char PID[], char shape[]) {  
+int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shape[]) {  
     //get current subgraph
-    int subgraphID = graphNum;
-    Subgraph* graph = graphs[graphNum];
+    int subgraphID = currentGraph;
+    Subgraph* graph = graphs[currentGraph];
     
     int nodeCount = graph->node_count;
 
-    for (int i = 0; i < nodeCount; i++) {  
+    // Check if network tuple
+    char tuple[256];
+    strncpy(tuple, graph->nodes[0]->args, strlen(graph->nodes[0]->args)+1);
+    strcat(tuple, "->");
+    strncat(tuple, graph->nodes[1]->args, strlen(graph->nodes[1]->args)+1);
+    if (strcmp(tuple, args) == 0) {
+        return 1;
+    }
+
+    for (int i = 2; i < nodeCount; i++) {  
         //if we see a matching argument break out of the loop...
+        // Need to adapt to find the tuple instance
         if (strcmp(graph->nodes[i]->args, args) == 0) {
-            return graph->nodes[i]->fd;
+            return i;
         }
     }
 
@@ -90,33 +104,43 @@ int find_or_add_node(const char *args, char PID[], char shape[]) {
     }
 
     Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->graphNum = graphNum;
-    newNode->nodeID = graphs[graphNum]->node_count;
-    strncpy(newNode->args, args, sizeof(newNode->args) - 1);
+    // newNode->graphNum = currentGraph;
+    newNode->nodeID = graphs[currentGraph]->node_count;
     strncpy(newNode->PID, PID, sizeof(newNode->PID) - 1);
+    strncpy(newNode->args, args, sizeof(newNode->args) - 1);
+    newNode->fd = fileDescriptor;
     strncpy(newNode->shape, "ellipse", sizeof("ellipse"));
     graph->nodes[graph->node_count] = newNode;
-    graph->node_count++;  
+    graph->node_count++; 
+    graph->currentfd = fileDescriptor;
 
     return newNode->nodeID;
 }
 
-int getSubgraphFD(int currentFD){
+int getSubgraphFD(int currentFD) {
     //go through the list of graphs globally
-    for(int i = 0; i < graphNum; i ++){
-        Subgraph *g = graphs[i];
-
+    for(int i = 0; i <= totalGraphs; i ++){
         //check the currentfd of each subgraph and return that graphs graphNUM
-        if(currentFD == g->currentfd){
-            return g->graphNum;
+        if(currentFD == graphs[i]->currentfd){
+            return graphs[i]->graphNum;
         }
     }
+    // If we do not encounter this fd, assume we are at a point where the last call happened to come from this graph (MASSIVE ASSUMPTION YEAH)
+    // Else do nothing
     return -1;
+}
+
+int getNodeFD(int currentFD) {
+    for(int i = 1; i < graphs[currentGraph]->node_count; i++) {
+        if (graphs[currentGraph]->nodes[i]->fd == currentFD) {
+            return i;
+        }
+    }
 }
 
 Subgraph* initialize_subgraph(int fd, char *PID){
     Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
-    subgraph->graphNum = graphNum;
+    subgraph->graphNum = currentGraph;
     subgraph->currentfd = fd;
     subgraph->node_count = 0;
     subgraph->edge_count = 0;
@@ -147,7 +171,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
 
     // Initialize subgraph
     Subgraph* subgraph = initialize_subgraph(fd, PID);
-    int currentGraphNum = graphNum;
+    int currentGraphNum = currentGraph;
     graphs[currentGraphNum] = subgraph;
 
     int numNodes = graphs[currentGraphNum]->node_count;
@@ -157,20 +181,20 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     Node* remote = (Node*)malloc(sizeof(Node));
     strncpy(remote->args, socket1, sizeof(socket1)-1);
     remote->fd = fd;
-    remote->graphNum = graphNum;
+    // remote->graphNum = currentGraph;
     strncpy(remote->shape, "diamond", sizeof("diamond"));
     subgraph->nodes[subgraph->node_count] = remote;
-    remote->nodeID = graphs[graphNum]->node_count;
+    remote->nodeID = graphs[currentGraph]->node_count;
     subgraph->node_count++;
 
     // Make local node
     Node* local = (Node*)malloc(sizeof(Node));
     strncpy(local->args, socket2, sizeof(socket2)-1);
     local->fd = fd;
-    local->graphNum = graphNum;
+    // local->graphNum = currentGraph;
     strncpy(local->shape, "diamond", sizeof("diamond"));
     subgraph->nodes[subgraph->node_count] = local;
-    local->nodeID = graphs[graphNum]->node_count;
+    local->nodeID = graphs[currentGraph]->node_count;
     subgraph->node_count++;
     
     //  Connect two
@@ -178,7 +202,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     networkedge->from = remote->nodeID;
     networkedge->to = local->nodeID;
 
-    networkedge->graphNum = graphNum;
+    networkedge->graphNum = currentGraph;
     strncpy(networkedge->syscall, "accept4", sizeof("accept4"));
     subgraph->edges[subgraph->edge_count] = networkedge;
     strncpy(networkedge->edgeType, "solid", sizeof("solid"));
@@ -198,19 +222,19 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     pidedge->from = local->nodeID;
     pidedge->to = pid->nodeID;
 
-    pidedge->graphNum = graphNum;
+    pidedge->graphNum = currentGraph;
     strncpy(pidedge->syscall, "", 1);
     subgraph->edges[subgraph->edge_count] = pidedge;
     strncpy(pidedge->edgeType, "dashed", sizeof("dashed"));
     subgraph->edge_count++;
 
     // Add to global list
-    graphs[graphNum] = subgraph;
+    graphs[currentGraph] = subgraph;
 }
 
 void printOutput() {
     int i, j = 0;
-    for(int i = 0 ; i < graphNum; i ++){
+    for(int i = 0 ; i < totalGraphs; i ++){
 
         for(int j = 0 ; j < graphs[i]->node_count; j ++){
             printf("node:%s\n", graphs[i]->nodes[j]->args);
@@ -298,6 +322,10 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
     {
         return false;    
     }
+    else if(strcmp(syscall, "write") == 0 )
+    {
+        return false;    
+    }
 	// This is a system call that HAS information...
 	else
 	{
@@ -306,10 +334,10 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 }
 
 void printSubgraphMetadata(){
-    printf("%d subgraphs created\n", graphNum);
-    for(int i = 0; i < graphNum; i++){
-        printf("graph %d Master PID: %d\n",i,graphs[graphNum]->masterPID_ID);
-        printf("nodes: %d    edges: %d\n\n",graphs[graphNum]->node_count, graphs[graphNum]->edge_count);
+    printf("%d subgraphs created\n", totalGraphs+1);
+    for(int i = 0; i <= totalGraphs; i++){
+        printf("graph %d Master PID: %d\n", i , graphs[i]->masterPID_ID);
+        printf("nodes: %d    edges: %d\n\n", graphs[i]->node_count, graphs[i]->edge_count);
     }
 }
 
@@ -320,7 +348,7 @@ void createDOT(char* setting){
     //Delimited by setting
     if(strcmp("individual", setting) == 0){
 
-        for(int i = 0; i <= graphNum; i++){ //for every subgraph
+        for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
         
             // open new dot file with unique name
             char path[1024];
@@ -374,7 +402,7 @@ void createDOT(char* setting){
         //print the setup info:
         fprintf(dot_file, "digraph nginx_syscalls {\n");
 
-        for(int i = 0; i <= graphNum; i++){ //for every subgraph
+        for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
 
             // Init subgraph
             fprintf(dot_file, "subgraph cluster_%d {\n", i);
@@ -416,7 +444,7 @@ void createDOT(char* setting){
         //print the setup info:
         fprintf(dot_file, "digraph nginx_syscalls {\n");
 
-        for(int i = 0; i <= graphNum; i++){ //for every subgraph
+        for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
 
             // Init subgraph
             fprintf(dot_file, "subgraph cluster_%d {\n", i);
@@ -478,39 +506,54 @@ int main(){
         //store the arguments from the line
         char fdString[4], syscall[64], args[1024], ret[64], PID[64];
         parseLine(line, fdString, syscall, args, ret, PID);
-
         //make the FD an int
         int FD = formatFD(fdString);
 
         // if we have a file interacted with
-        if(FD != -1){
-            parseArgs(args, args);
-
+        if(FD != -1 && parseSyscall(syscall, ret, args, PID)){
             // if it is accept4
             if(strcmp(syscall, "accept4") == 0) 
             {
-                graphNum +=1;                
+                totalGraphs = totalGraphs + 1;
+                currentGraph = totalGraphs;   
+                printf("There are now: %d graphs\n", totalGraphs);             
+                parseArgs(args, args);
                 makeSubgraph(FD, args, PID);
                 number_of_subgraph_nodes = 0;
             } 
             // if it is any other syscall
             else
             {
-                if(graphNum >= 0){
+                if(totalGraphs >= 0){
                     // Increment nodes
                     number_of_subgraph_nodes+=1;
 
+                    // printf("I am syscall:%s with args:%s and i have fd:%d, and the current graphs fd is:%d\n", syscall, args, FD, graphs[currentGraph]->currentfd);
+                    
+                    // Parse args
+                    parseArgs(args, args);
                     if(strcmp("Unknown tuple", args) != 0) {
-                        if(strcmp("recvfrom", syscall) == 0) {
-                            update_edge(1, syscall);
-                        } else {
-                            char from[128];
-                            char to[128];
-                            parseNetworkTuple(args, from, to);
-                            int destinationNode = find_or_add_node(to, PID, "ellipse");
-                            int originNode = find_or_add_node(from, PID, "ellipse");
+                        // See if we need to modify current graph
+                        int tempCurrentGraph = getSubgraphFD(FD);
 
-                                add_edge(originNode, destinationNode, syscall);
+                        // If the file descriptor is brand new (its either -1)
+                        // Do not change current graph, add node and edge
+                        if(tempCurrentGraph == -1) {
+
+                            int newNode = find_or_add_node(FD, args, PID, "ellipse");
+                            add_edge(2, newNode, syscall);
+                        // If the file descriptor has been run into before, we update the current graph and add an edge
+                        } else if (tempCurrentGraph != -1) {
+                                currentGraph = tempCurrentGraph; // Should put us on the correct subgraph
+                                // See if this is recvfrom (we will need to modify this later)
+                                if(strcmp("recvfrom", syscall) == 0) {
+                                    update_edge(1, syscall);
+                                } else {
+                                    // Get current fd node 
+                                    int node = getNodeFD(FD);
+                                    add_edge(2, node, syscall);
+
+                                }
                         }
                     }
                 }

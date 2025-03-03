@@ -7,7 +7,7 @@ typedef struct Node {
     char PID[64];         // PID
     char args[256];       // Name of the object (e.g., file path, socket info, subprocesses info?)
     int fd;               // The file descriptor
-    int graphNum;         //Unique subgraph
+    // int graphNum;         //Unique subgraph
     char shape[128];
     int nodeID;
 } Node;
@@ -32,9 +32,13 @@ typedef struct Subgraph {
 } Subgraph;
 
 // Functions
-int find_or_add_node(const char *args, char PID[], char shape[]);
 void add_edge(int from, int to, const char *syscall);
-
+void update_edge(int edge, char *newcall);
+int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shape[]);
+int getSubgraphFD(int currentFD);
+int getNodeFD(int currentFD);
+void printOutput();
+int formatFD(char *fdString);
 void parseArgs(const char *args, char *output);
 void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char *PID);
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]);
@@ -48,5 +52,7 @@ void printSubgraphMetadata();
 
 void printOutput();
 void createDOT();
+void createDOT(char* setting);
+
 
 #endif /* GRAPHGEN_H */
