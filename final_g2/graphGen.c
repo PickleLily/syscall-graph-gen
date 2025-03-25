@@ -285,7 +285,7 @@ void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char
     char time[64];
     char type[64];
     char program[64];
-    sscanf(line, "%s %s Name:%s FD:%[^ ] Syscall:%[^ ] Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
+    sscanf(line, "%s %s Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
     return;
 }
 
@@ -358,6 +358,7 @@ void createDOT(char* setting){
     
             if (!dot_file) {
                 perror("Failed to open DOT file\n");
+                printf("%s\n", path);
                 return;
             }
     
@@ -389,7 +390,7 @@ void createDOT(char* setting){
         // open new dot file with unique name - generated randomly
         int randomVal = rand();
         char path[1024];
-        sprintf(path, "./graphs/graph-%d.dot",randomVal);
+        sprintf(path, "./graphs/graph-%d.dot",24);
         printf("Created graph %s", path);
         FILE *dot_file = fopen(path, "w");
 
@@ -473,25 +474,25 @@ void createDOT(char* setting){
     }
 }
 
-void parseNetworkTuple(const char *arguments, char *from, char *to){
-    //look for the end of the arrow signifying a connection between two IP's
-    char *start = strstr(arguments, ">");
-    if(start){
-        int socket2start = start + 1;
-        int socket2end = length(&arguments);
+// void parseNetworkTuple(const char *arguments, char *from, char *to){
+//     //look for the end of the arrow signifying a connection between two IP's
+//     char *start = strstr(arguments, ">");
+//     if(start){
+//         int socket2start = start + 1;
+//         int socket2end = length(&arguments);
 
-        int socket1start = 0;
-        int socket1end = start - 1;
-        strncpy(from, arguments[socket1start]);
-        strncpy(to);
-    }
-    return;
-}
+//         int socket1start = 0;
+//         int socket1end = start - 1;
+//         strncpy(from, arguments[socket1start]);
+//         strncpy(to);
+//     }
+//     return;
+// }
 
 
 int main(){
 
-    FILE *file = fopen("events.txt", "r");
+    FILE *file = fopen("event2.txt", "r");
     if (!file) {
         perror("Failed to open events file");
         return 1;
