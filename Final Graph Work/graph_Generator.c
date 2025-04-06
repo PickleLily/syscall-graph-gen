@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 #include "graph_Generator.h"
 // --------------------TODO Area---------------------------------------------------------
 /*
@@ -352,7 +353,7 @@ void createDOT(char* setting){
         
             // open new dot file with unique name
             char path[1024];
-            sprintf(path, "./graphs/graph%d.dot", i);
+            sprintf(path, "./Dot Files/graph%d.dot", i);
             printf("%s", path);
             FILE *dot_file = fopen(path, "w");
     
@@ -388,9 +389,9 @@ void createDOT(char* setting){
     } else if(strcmp("together", setting) == 0) {
         // Open dot file
         // open new dot file with unique name - generated randomly
-        int randomVal = rand();
+        time_t instance;
         char path[1024];
-        sprintf(path, "./graphs/graph-%d.dot",24);
+        sprintf(path, "./Dot Files/graph-%d.dot", &instance);
         printf("Created graph %s", path);
         FILE *dot_file = fopen(path, "w");
 
@@ -432,7 +433,7 @@ void createDOT(char* setting){
         // open new dot file with unique name - generated randomly
         int randomVal = rand();
         char path[1024];
-        sprintf(path, "./graphs/graph-%d.dot",randomVal);
+        sprintf(path, "./Dot Files/graph-%d.dot",randomVal);
         printf("Created graph %s", path);
         FILE *dot_file = fopen(path, "w");
 
