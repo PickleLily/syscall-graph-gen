@@ -1,19 +1,26 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "UCRT64",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\msys64\\ucrt64\\include"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\Users\\lilyb\\MSYS2\\mingw64\\bin\\gcc.exe",
+            "compilerPath": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
-            "intelliSenseMode": "windows-gcc-x64"
+            "intelliSenseMode": "windows-gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "C:\\msys64\\ucrt64\\include"
+                ]
+            }
         }
     ],
     "version": 4
