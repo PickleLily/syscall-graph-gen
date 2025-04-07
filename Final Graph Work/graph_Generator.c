@@ -358,12 +358,20 @@ void createDOT(char* setting){
 
     //Delimited by setting
     if(strcmp("individual", setting) == 0){
+        //Make a subdirectory for all these graphs
+        char makeCommand[256];
+        time_t instance;
+        sprintf(makeCommand, "mkdir \".\\Dot Files\\%d\"", &instance);
+        if (system(makeCommand) == -1){ // Try the command
+            perror("Could not make subdirectory for graphs");
+        }
+        printf("Success!");
 
         for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
         
             // open new dot file with unique name
             char path[1024];
-            sprintf(path, "./Dot Files/graph%d.dot", i);
+            sprintf(path, ".\\Dot Files\\%d\\graph%d.dot", &instance, i);
             printf("%s", path);
             FILE *dot_file = fopen(path, "w");
     
@@ -573,5 +581,5 @@ int main(){
         }
     }
     printSubgraphMetadata();
-    createDOT("together");
+    createDOT("individual");
 }
