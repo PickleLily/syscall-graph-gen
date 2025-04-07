@@ -361,6 +361,7 @@ void createDOT(char* setting){
         //Make a subdirectory for all these graphs
         char makeCommand[256];
         time_t instance;
+        instance = time(NULL);
         sprintf(makeCommand, "mkdir \".\\Dot Files\\%d\"", &instance);
         if (system(makeCommand) == -1){ // Try the command
             perror("Could not make subdirectory for graphs");

@@ -23,7 +23,6 @@ void main(int argc, char *argv[]){
             // printf("%s\n", folderName);
             if (directory == NULL) {
                 perror("Cannot find folder");  // If the directory can't be opened, print an error
-            return;
             } else {
                 char makeDirectory[256];
                 sprintf(makeDirectory, " mkdir .\\Graphs\\%s", folderName + strlen(folderName) - 10); // Same identifier
