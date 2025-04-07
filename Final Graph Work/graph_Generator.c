@@ -286,7 +286,17 @@ void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char
     char time[64];
     char type[64];
     char program[64];
-    sscanf(line, "%s %s Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", time, type, program, FD, syscall, args, ret, PID);
+    // Create cases for occurance
+    // TODO -> Make this more neat/refined if possible? IDk
+        // Do we possibly want to start grabbbing NAME out of this?
+    // We want to essentially ignore up to FD
+    if(sscanf(line, "%*[^N]Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", program, FD, syscall, args, ret, PID) != 6) {
+        // Try for less objects:
+        if(sscanf(line, "%*[^F]FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", FD, syscall, args, ret, PID) != 5) {
+            // Set values manually?
+        }
+    }
+    // printf("%s %s %s %s %s %s\n", program, FD, syscall, args, ret, PID);
     return;
 }
 

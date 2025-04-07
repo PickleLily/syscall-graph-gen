@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
         // Give user feedback on if command was successful
         if(system(moveCommand) == -1){
             // Try Windows version
-            sprintf(otherMoveCommand, "move %s ./Graphs", png);
+            sprintf(otherMoveCommand, "move .\\%s ./Graphs", png);
             if(system(otherMoveCommand) == -1){
                 perror("Could not execute move");
             }
