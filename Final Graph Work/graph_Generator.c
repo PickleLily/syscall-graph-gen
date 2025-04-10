@@ -10,6 +10,8 @@
         Should we use the incoming IP addr. as our MASTER PID
 
 
+    Potentially refine parseLine further
+
 
 
 */
@@ -27,43 +29,46 @@ int currentGraph = -1;
 // ---------------------Functions --------------------------------------------------------
 
 void add_edge(int from, int to, const char *syscall) {
-    //get current subgraph
-    int subgraphID = currentGraph;
+    // Get current subgraph as temp val
     Subgraph* graph = graphs[currentGraph];
 
-    //check if edge exists
-    for (int i = 0; i < graph->edge_count; i++) {
-        // Ella's (AI GODS) tips: If ever pulling an exact value out of a pointer we need to derefernce
-        // Now that these are also chars we dont need to worry about it
-        if (graph->edges[i]->from == from && graph->edges[i]->to == to && strcmp(graph->edges[i]->syscall, syscall) == 0) {
-            return; // Duplicate edge found, do not add
-        }
-    }	
-    //check max edges
+    // Check max edges -> Default termination end case
     if (graph->edge_count >= MAX_SUBEDGES) {
         fprintf(stderr, "Error: Maximum edges exceeded.\n");
         exit(1);
     }
 
+    // Check if edge already exists
+    // TODO -> Try to make this more cost efficient but unsure if can be done
+    for (int i = 0; i < graph->edge_count; i++) {
+        // Duplicate edge found, do not add
+        if (graph->edges[i]->from == from && graph->edges[i]->to == to && strcmp(graph->edges[i]->syscall, syscall) == 0) {
+            return;
+        }
+    }	
+
+    // Else create new edge
     Edge* newEdge = (Edge*)malloc(sizeof(Edge));
     newEdge->from = from;
     newEdge->to = to;
     newEdge->graphNum = currentGraph;
     strncpy(newEdge->syscall, syscall, strlen(syscall)+1);
-    strncpy(newEdge->edgeType, "solid", strlen("solid")+1);
+    strncpy(newEdge->edgeType, "solid", strlen("solid")+1); // Do we want to make this more variable IDK
     graph->edges[graph->edge_count] = newEdge;
     graph->edge_count++;
 
     // If we just added close, return fd to original PID FD, PID will always be node 3 (2)
     if(strcmp(syscall, "close") == 0) {
         if (graph->currentfd == graph->nodes[0]->fd) {
-            graph->currentfd = -1; //Never touch graph again
+            graph->currentfd = -1; //TODO We cannot do this, we need to have ability to make subgraphs with multiple parts!
         } else {
             graph->currentfd = graph->nodes[0]->fd;
         }
     }
 }
 
+// Explicit function for reassigning temp connection between network socket and PID to full connection
+// TODO -> May want to actually hard code this below and just do this within Main?
 void update_edge(int edge, char *newcall) {
     int subgraphID = currentGraph;
     Subgraph* graph = graphs[currentGraph];
@@ -74,7 +79,7 @@ void update_edge(int edge, char *newcall) {
     strncpy(temp->edgeType, "solid", 6);
 }
 
-// TODO --> this is not secure...
+// TODO --> this is not secure... why?
 int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shape[]) {  
     //get current subgraph
     int subgraphID = currentGraph;
@@ -233,19 +238,6 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     graphs[currentGraph] = subgraph;
 }
 
-void printOutput() {
-    int i, j = 0;
-    for(int i = 0 ; i < totalGraphs; i ++){
-
-        for(int j = 0 ; j < graphs[i]->node_count; j ++){
-            printf("node:%s\n", graphs[i]->nodes[j]->args);
-        }
-        for(int j = 0 ; j < graphs[i]->edge_count; j ++){
-            printf("edge: %s from:%d to:%d\n",graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->from, graphs[i]->edges[j]->to);
-        }
-    }
-}
-
 // returns the FD as a int (aka fd=13<...>)
 int formatFD(char *fdString) {
     if(strcmp(fdString, "<NA>") == 0){
@@ -279,25 +271,30 @@ void parseArgs(const char *args, char *output) {
     }
 }
 
-void parseLine(char line[], char *FD, char *syscall, char *args, char *ret, char *PID)
+bool parseLine(char line[], int *FD, char *syscall, char *args, char *ret, char *PID)
 {
-    // ignore timestamp, Information and process name (%*s)
-    // store the file desc. (the number), syscall name, arugment string, all return values, and the PID string!!
-    char time[64];
-    char type[64];
-    char program[64];
-    // Create cases for occurance
+    // To fix issue of variable lines in Falco output and to only continue on with valid syscall lines, reducing the number of operations necessary overall
+        // We assign temporary values of the FD, Syscall, Args, Return Val, and PID
+        // Upon a successful read we then update the foreign values'
+        // Values that may instictively be assigned to ints are instead stored as char arrays to better standardize potential outliers
+        // char fdString[4], syscallString[64], argsString[1024], retString[64], pidString[64], program[64];
+    // Upon a failure: Not 5-valid inputs, invalid FD
+        // We default the FD to -1 to fall through subsequent checks in the program
+    
     // TODO -> Make this more neat/refined if possible? IDk
-        // Do we possibly want to start grabbbing NAME out of this?
-    // We want to essentially ignore up to FD
-    if(sscanf(line, "%*[^N]Name:%s FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", program, FD, syscall, args, ret, PID) != 6) {
-        // Try for less objects:
-        if(sscanf(line, "%*[^F]FD:%[^,], Syscall:%[^,], Args:%[^,], Return:%[^,], PID:%[^\n]", FD, syscall, args, ret, PID) != 5) {
-            // Set values manually?
-        }
+        // Do we possibly want to start grabbing NAME out of this?
+        // Also potentially exclude other erroneous FDs here
+    char fdString[4];
+    if((sscanf(line, "%*[^F]FD:%4[^,], Syscall:%64[^,], Args:%1024[^,], Return:%64[^,], PID:%64[^\n]", fdString, syscall, args, ret, PID) != 5)
+        || (strncmp(fdString, "-1", 4) == 0) || (strncmp(fdString, "<NA>", 4) == 0)) {
+        *FD = -1;
+        return false;
+    } else {
+        long int output;
+        output = strtol(fdString, NULL, 10);
+        *FD = output;
+        return true;
     }
-    // printf("%s %s %s %s %s %s\n", program, FD, syscall, args, ret, PID);
-    return;
 }
 
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]){
@@ -362,6 +359,7 @@ void createDOT(char* setting){
         char makeCommand[256];
         time_t instance;
         instance = time(NULL);
+
         sprintf(makeCommand, "mkdir \".\\Dot Files\\%d\"", &instance);
         if (system(makeCommand) == -1){ // Try the command
             perror("Could not make subdirectory for graphs");
@@ -494,22 +492,6 @@ void createDOT(char* setting){
     }
 }
 
-// void parseNetworkTuple(const char *arguments, char *from, char *to){
-//     //look for the end of the arrow signifying a connection between two IP's
-//     char *start = strstr(arguments, ">");
-//     if(start){
-//         int socket2start = start + 1;
-//         int socket2end = length(&arguments);
-
-//         int socket1start = 0;
-//         int socket1end = start - 1;
-//         strncpy(from, arguments[socket1start]);
-//         strncpy(to);
-//     }
-//     return;
-// }
-
-
 int main(){
 
     FILE *file = fopen("./Falco Trace Files/TestEvents.txt", "r");
@@ -524,14 +506,15 @@ int main(){
     //GET THE FULL LINE OF information...
     while (fgets(line, sizeof(line), file)) {
         
-        //store the arguments from the line
-        char fdString[4], syscall[64], args[1024], ret[64], PID[64];
-        parseLine(line, fdString, syscall, args, ret, PID);
-        //make the FD an int
-        int FD = formatFD(fdString);
+        //Store the arguments from the line
+        // TODO Maybe combine the parseline & FD checker into one?
+        char syscall[64], args[1024], ret[64], PID[64];
+        int FD;
+        if(parseLine(line, &FD, syscall, args, ret, PID)) {
+
 
         // if we have a file interacted with
-        if(FD != -1 && parseSyscall(syscall, ret, args, PID)){
+        if(parseSyscall(syscall, ret, args, PID)){
             // if it is accept4
             if(strcmp(syscall, "accept4") == 0) 
             {
@@ -580,7 +563,49 @@ int main(){
                 }
             }
         }
+        }
     }
     printSubgraphMetadata();
     createDOT("individual");
 }
+
+
+
+
+
+
+
+/*  Retired Code
+
+// Print the output of each graph --> Depricated
+void printOutput() {
+    int i, j = 0;
+    for(int i = 0 ; i < totalGraphs; i ++){
+
+        for(int j = 0 ; j < graphs[i]->node_count; j ++){
+            printf("node:%s\n", graphs[i]->nodes[j]->args);
+        }
+        for(int j = 0 ; j < graphs[i]->edge_count; j ++){
+            printf("edge: %s from:%d to:%d\n",graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->from, graphs[i]->edges[j]->to);
+        }
+    }
+}
+
+// Deedicated network tuple parsing function
+void parseNetworkTuple(const char *arguments, char *from, char *to){
+    //look for the end of the arrow signifying a connection between two IP's
+    char *start = strstr(arguments, ">");
+    if(start){
+        int socket2start = start + 1;
+        int socket2end = length(&arguments);
+
+        int socket1start = 0;
+        int socket1end = start - 1;
+        strncpy(from, arguments[socket1start]);
+        strncpy(to);
+    }
+    return;
+}
+
+
+*/
