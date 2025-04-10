@@ -37,21 +37,20 @@ void update_edge(int edge, char *newcall);
 int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shape[]);
 int getSubgraphFD(int currentFD);
 int getNodeFD(int currentFD);
-int formatFD(char *fdString);
 void parseArgs(const char *args, char *output);
 bool parseLine(char line[], int *FD, char *syscall, char *args, char *ret, char *PID);
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]);
-void parseNetworkTuple(char args[], char from[], char to[]);
-int formatFD(char *fdString);
 
 Subgraph* initialize_subgraph(int fd, char *PID);
 void makeSubgraph(int fd, char *socketTuple, char *PID);
 int getSubgraphFD(int currentFD);
 void printSubgraphMetadata();
-
-void printOutput();
-void createDOT();
 void createDOT(char* setting);
 
+// Retired functions
+// int formatFD(char *fdString);
+// void parseNetworkTuple(char args[], char from[], char to[]);
+// void printOutput();
+// void createDOT();
 
 #endif /* GRAPHGEN_H */

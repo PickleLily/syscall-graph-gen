@@ -11,7 +11,15 @@
 
 
     Potentially refine parseLine further
+    Make sure memory management is efficient
+        Try to dynamically start freeing up space so things can be more efficient
+            1. We need to have a better way of storing the valid/nonvalid graphs
+            2. We need to try to cut back on data being stored to limit size
+            3. We should be dumping (not maintaining/printing) graphs that are not valid
+                These are graphs that never got a solid connector between the network tuple and the PID
 
+    Change update-edge to dynamically remove and add back the edge and make sure its the correct title?
+        It seems we're generating some graphs with more than 2 edges (one solid one not) that actually are valid graphs
 
 
 */
@@ -238,16 +246,6 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     graphs[currentGraph] = subgraph;
 }
 
-// returns the FD as a int (aka fd=13<...>)
-int formatFD(char *fdString) {
-    if(strcmp(fdString, "<NA>") == 0){
-        return -1;
-    }
-    long int output;
-    output = strtol(fdString, NULL, 10);
-    return output;
-}
-
 // Helper method to parse arg information
 void parseArgs(const char *args, char *output) {
     char *res = strstr(args, "res");
@@ -297,6 +295,7 @@ bool parseLine(char line[], int *FD, char *syscall, char *args, char *ret, char 
     }
 }
 
+// Method for filtering out additional lines that, while valid, do not contain data we can work with
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]){
 
 	if(strcmp(syscall, "rt_sigaction") == 0 || strcmp(syscall, "rt_sigprocmask") == 0 || strcmp(syscall, "brk") == 0 || strcmp(syscall, "munmap") == 0)
@@ -506,26 +505,24 @@ int main(){
     //GET THE FULL LINE OF information...
     while (fgets(line, sizeof(line), file)) {
         
-        //Store the arguments from the line
-        // TODO Maybe combine the parseline & FD checker into one?
+        // Parse the syscalls from the line to our mapped values if the input is valid
+        // Then check to ensure the valid values are what we are interested in
+        // If both conditions are met, proceed
         char syscall[64], args[1024], ret[64], PID[64];
         int FD;
-        if(parseLine(line, &FD, syscall, args, ret, PID)) {
+        if(parseLine(line, &FD, syscall, args, ret, PID) && parseSyscall(syscall, ret, args, PID)) {
 
-
-        // if we have a file interacted with
-        if(parseSyscall(syscall, ret, args, PID)){
-            // if it is accept4
-            if(strcmp(syscall, "accept4") == 0) 
-            {
+            // At each accept4 we want to start new subgraph
+            if(strcmp(syscall, "accept4") == 0) {
                 totalGraphs = totalGraphs + 1;
                 currentGraph = totalGraphs;   
-                printf("There are now: %d graphs\n", totalGraphs);             
+                // printf("There are now: %d graphs\n", totalGraphs);  // Used for debugging           
                 parseArgs(args, args);
                 makeSubgraph(FD, args, PID);
                 number_of_subgraph_nodes = 0;
             } 
-            // if it is any other syscall
+
+            // At any other system call we want to modify the graph we are currently working on
             else
             {
                 if(totalGraphs >= 0){
@@ -563,7 +560,6 @@ int main(){
                 }
             }
         }
-        }
     }
     printSubgraphMetadata();
     createDOT("individual");
@@ -577,7 +573,7 @@ int main(){
 
 /*  Retired Code
 
-// Print the output of each graph --> Depricated
+Print the output of each graph --> Depricated
 void printOutput() {
     int i, j = 0;
     for(int i = 0 ; i < totalGraphs; i ++){
@@ -591,7 +587,7 @@ void printOutput() {
     }
 }
 
-// Deedicated network tuple parsing function
+Dedicated network tuple parsing function
 void parseNetworkTuple(const char *arguments, char *from, char *to){
     //look for the end of the arrow signifying a connection between two IP's
     char *start = strstr(arguments, ">");
@@ -605,6 +601,17 @@ void parseNetworkTuple(const char *arguments, char *from, char *to){
         strncpy(to);
     }
     return;
+}
+
+Method for returning the FD as an int (aka fd=13<...>)
+Was retired due to inclusion within original input checking step
+int formatFD(char *fdString) {
+    if(strcmp(fdString, "<NA>") == 0){
+        return -1;
+    }
+    long int output;
+    output = strtol(fdString, NULL, 10);
+    return output;
 }
 
 
