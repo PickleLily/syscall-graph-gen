@@ -69,6 +69,7 @@ void add_edge(int from, int to, const char *syscall) {
     if(strcmp(syscall, "close") == 0) {
         if (graph->currentfd == graph->nodes[0]->fd) {
             graph->currentfd = -1; //TODO We cannot do this, we need to have ability to make subgraphs with multiple parts!
+            graph->isValid = -1;
         } else {
             graph->currentfd = graph->nodes[0]->fd;
         }
@@ -77,14 +78,14 @@ void add_edge(int from, int to, const char *syscall) {
 
 // Explicit function for reassigning temp connection between network socket and PID to full connection
 // TODO -> May want to actually hard code this below and just do this within Main?
-void update_edge(int edge, char *newcall) {
+void update_edge(int edge, char *newcall, char *edge_type) {
     int subgraphID = currentGraph;
     Subgraph* graph = graphs[currentGraph];
 
     //Update edge (denoted by edgenum for now) with new syscall
     Edge* temp = graph->edges[edge];
     strncpy(temp->syscall, newcall, strlen(newcall)+1);
-    strncpy(temp->edgeType, "solid", 6);
+    strncpy(temp->edgeType, edge_type, strlen(edge_type)+1);
 }
 
 // TODO --> this is not secure... why?
@@ -135,7 +136,7 @@ int getSubgraphFD(int currentFD) {
     //go through the list of graphs globally
     for(int i = 0; i <= totalGraphs; i ++){
         //check the currentfd of each subgraph and return that graphs graphNUM
-        if(currentFD == graphs[i]->currentfd){
+        if(currentFD == graphs[i]->currentfd && graphs[i]->isValid == 0){
             return graphs[i]->graphNum;
         }
     }
@@ -155,6 +156,7 @@ int getNodeFD(int currentFD) {
 Subgraph* initialize_subgraph(int fd, char *PID){
     Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
     subgraph->graphNum = currentGraph;
+    subgraph->isValid = 0;
     subgraph->currentfd = fd;
     subgraph->node_count = 0;
     subgraph->edge_count = 0;
@@ -246,30 +248,36 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     graphs[currentGraph] = subgraph;
 }
 
-// Helper method to parse arg information
+// Method to parse arg information into the file descriptor itself
 void parseArgs(const char *args, char *output) {
-    char *res = strstr(args, "res");
+    char *res = strstr(args, "res"); // Means the argument is a return value system call
     if (res) {
-        strncpy(output, "Unknown tuple", 255);
+        strncpy(output, "Unknown tuple\0", 255); // Delimit
     } else {
+        // Skip the end of the fd delimiter
         char *start = strstr(args, ">");
         if (start) {
-            start += 1; //Skip past <f>=
+            start += 1; // Skip past <f>=
+            // See if we terminate the external () with ')'
             char *end = strchr(start, ')');
             if (end) {
                 size_t length = end - start;
-                strncpy(output, start, length);
-                output[length] = '\0'; // Null-terminates extracted tuple
-                } else {
-                    strncpy(output, "Unknown tuple", 255);
+                strncpy(output, start, length); // Copy what we currently have
+                output[length] = '\0'; // Terminate the rest of this string pre-emptively
+                char *innerParenth = strstr(output, "("); // We then have to catch any potential inner parenthesis
+                if(innerParenth) {
+                    strncat(output, ")\0", 2); // Close out the parenthesis and adds the null delimiter
                 }
             } else {
-                strncpy(output, "Unknown tuple", 255); //If no tuple use entire fd string? -> may want to remove
+                strncpy(output, "Unknown tuple", 255);
             }
+        } else {
+            strncpy(output, "Unknown tuple", 255); //If no tuple use entire fd string? -> may want to remove
+        }
     }
 }
 
-bool parseLine(char line[], int *FD, char *syscall, char *args, char *ret, char *PID)
+bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *PID)
 {
     // To fix issue of variable lines in Falco output and to only continue on with valid syscall lines, reducing the number of operations necessary overall
         // We assign temporary values of the FD, Syscall, Args, Return Val, and PID
@@ -285,20 +293,20 @@ bool parseLine(char line[], int *FD, char *syscall, char *args, char *ret, char 
     char fdString[4];
     if((sscanf(line, "%*[^F]FD:%4[^,], Syscall:%64[^,], Args:%1024[^,], Return:%64[^,], PID:%64[^\n]", fdString, syscall, args, ret, PID) != 5)
         || (strncmp(fdString, "-1", 4) == 0) || (strncmp(fdString, "<NA>", 4) == 0)) {
-        *FD = -1;
+        FD = -1;
         return false;
     } else {
         long int output;
         output = strtol(fdString, NULL, 10);
-        *FD = output;
+        FD = output;
+        printf("%d, %s, %s, %s, %s\n", FD, syscall, args, ret, PID);
         return true;
     }
 }
 
 // Method for filtering out additional lines that, while valid, do not contain data we can work with
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]){
-
-	if(strcmp(syscall, "rt_sigaction") == 0 || strcmp(syscall, "rt_sigprocmask") == 0 || strcmp(syscall, "brk") == 0 || strcmp(syscall, "munmap") == 0)
+	if(strcmp(syscall, "rt_sigaction") == 0 || strcmp(syscall, "rt_sigprocmask") ==  0 || strcmp(syscall, "brk") == 0 || strcmp(syscall, "munmap") == 0)
 	{
 		return false;
 	}
@@ -351,26 +359,24 @@ void printSubgraphMetadata(){
 // Helper method to parse socket tuple
 // TODO Have this make all graphs as subgraphs within same larger file
 void createDOT(char* setting){
+    // Grab time to serve as naming convention
+    time_t instance;
+    instance = time(NULL);
 
     //Delimited by setting
     if(strcmp("individual", setting) == 0){
         //Make a subdirectory for all these graphs
         char makeCommand[256];
-        time_t instance;
-        instance = time(NULL);
 
-        sprintf(makeCommand, "mkdir \".\\Dot Files\\%d\"", &instance);
+        sprintf(makeCommand, "mkdir \".\\Dot Files\\Timestamp_%d\"", &instance);
         if (system(makeCommand) == -1){ // Try the command
             perror("Could not make subdirectory for graphs");
         }
-        printf("Success!");
-
         for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
         
             // open new dot file with unique name
             char path[1024];
-            sprintf(path, ".\\Dot Files\\%d\\graph%d.dot", &instance, i);
-            printf("%s", path);
+            sprintf(path, ".\\Dot Files\\Timestamp_%d\\graph%d.dot", &instance, i);
             FILE *dot_file = fopen(path, "w");
     
             if (!dot_file) {
@@ -387,27 +393,28 @@ void createDOT(char* setting){
             for(int j = 0; j < graphs[i]->node_count; j++){
                 Node* n = graphs[i]->nodes[j];
                 fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
+                // printf("  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
             }
     
             Edge** e = graphs[i]->edges;
             // add all of the edges
             for(int j = 0; j < graphs[i]->edge_count; j++){
-                fprintf(dot_file, "  %d -> %d [label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall);
+                fprintf(dot_file, "  %d -> %d [style=\"%s\", label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
+                // printf("  %d -> %d [style=\"%s\", label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
             }
     
             //print the shutdown info:
             fprintf(dot_file, "}\n");
             fclose(dot_file);
-            printf("Graph exported to %s\n", path);
+            // printf("Graph exported to %s\n", path);
     
         }
 
     } else if(strcmp("together", setting) == 0) {
         // Open dot file
         // open new dot file with unique name - generated randomly
-        time_t instance;
         char path[1024];
-        sprintf(path, "./Dot Files/graph-%d.dot", &instance);
+        sprintf(path, "./Dot Files/Timestamp_%d.dot", &instance);
         printf("Created graph %s", path);
         FILE *dot_file = fopen(path, "w");
 
@@ -447,9 +454,8 @@ void createDOT(char* setting){
     } else if(strcmp("overlaid", setting) == 0) {
         // Open dot file
         // open new dot file with unique name - generated randomly
-        int randomVal = rand();
         char path[1024];
-        sprintf(path, "./Dot Files/graph-%d.dot",randomVal);
+        sprintf(path, "./Dot Files/Timestamp_%d.dot", &instance);
         printf("Created graph %s", path);
         FILE *dot_file = fopen(path, "w");
 
@@ -489,6 +495,7 @@ void createDOT(char* setting){
     } else {
         createDOT("individual");
     }
+    printf("Printed graph(s): %d", &instance);
 }
 
 int main(){
@@ -510,7 +517,7 @@ int main(){
         // If both conditions are met, proceed
         char syscall[64], args[1024], ret[64], PID[64];
         int FD;
-        if(parseLine(line, &FD, syscall, args, ret, PID) && parseSyscall(syscall, ret, args, PID)) {
+        if(parseLine(line, FD, syscall, args, ret, PID) && parseSyscall(syscall, ret, args, PID)) {
 
             // At each accept4 we want to start new subgraph
             if(strcmp(syscall, "accept4") == 0) {
@@ -539,16 +546,17 @@ int main(){
 
                         // If the file descriptor is brand new (its either -1)
                         // Do not change current graph, add node and edge
-                        if(tempCurrentGraph == -1) {
+                        if(tempCurrentGraph == -1) { //TODO
 
                             int newNode = find_or_add_node(FD, args, PID, "ellipse");
                             add_edge(2, newNode, syscall);
                         // If the file descriptor has been run into before, we update the current graph and add an edge
                         } else if (tempCurrentGraph != -1) {
                                 currentGraph = tempCurrentGraph; // Should put us on the correct subgraph
-                                // See if this is recvfrom (we will need to modify this later)
-                                if(strcmp("recvfrom", syscall) == 0) {
-                                    update_edge(1, syscall);
+                                
+                                // See if this is the first connection to this graph (Making it a Full Graph)
+                                if(strcmp("dashed", graphs[currentGraph]->edges[1]->edgeType) == 0) { //TODO Connect()
+                                    update_edge(1, syscall, "solid");
                                 } else {
                                     // Get current fd node 
                                     int node = getNodeFD(FD);
@@ -561,7 +569,7 @@ int main(){
             }
         }
     }
-    printSubgraphMetadata();
+    // printSubgraphMetadata();
     createDOT("individual");
 }
 
