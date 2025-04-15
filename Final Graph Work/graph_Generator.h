@@ -4,7 +4,6 @@
 
 // Structs 
 typedef struct Node {
-    char PID[64];         // PID
     char args[256];       // Name of the object (e.g., file path, socket info, subprocesses info?)
     int fd;               // The file descriptor
     // int graphNum;         //Unique subgraph
@@ -33,9 +32,12 @@ typedef struct Subgraph {
 } Subgraph;
 
 // Functions
-void add_edge(int from, int to, const char *syscall);
+void* createStruct(size_t structSize);
+Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph);
+Edge* createEdge(int to, int from, int graphNum, char* syscall, char* edgeType, Subgraph* subgraph);
+void add_edge(int from, int to, char *syscall);
 void update_edge(int edge, char *newcall, char *edge_type);
-int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shape[]);
+int find_or_add_node(int fileDescriptor, char *args, char PID[], char shape[]);
 int getSubgraphFD(int currentFD);
 int getNodeFD(int currentFD);
 void parseArgs(const char *args, char *output);

@@ -36,7 +36,43 @@ int currentGraph = -1;
 
 // ---------------------Functions --------------------------------------------------------
 
-void add_edge(int from, int to, const char *syscall) {
+// Used to streamline the number of times malloc must be called for structs
+void* createStruct(size_t structSize) {
+    void* ptr = malloc(structSize);
+    if(ptr == NULL) {
+        fprintf(stderr, "Failed to allocate struct space");
+        exit(EXIT_FAILURE);
+    } else {
+        return ptr;
+    }
+}
+
+Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph) {
+    Node* newNode = (Node*)createStruct(sizeof(Node));
+    strncpy(newNode->args, args, strnlen(args, 256)+1);
+    newNode->fd = fd;
+    strncpy(newNode->shape, shape, strnlen(shape, 128)+1);
+    newNode->nodeID = nodeID;
+    printf("Made node %s\n", newNode->args);
+    subgraph->nodes[subgraph->node_count] = newNode;
+    subgraph->node_count++;
+    return newNode;
+}
+
+Edge* createEdge(int to, int from, int graphNum, char* syscall, char* edgeType, Subgraph* subgraph) {
+    Edge *newEdge = (Edge*)createStruct(sizeof(Edge));
+    newEdge->from = from;
+    newEdge->to = to;
+    newEdge->graphNum = currentGraph;
+    strncpy(newEdge->syscall, syscall, strnlen(syscall, 64)+1);
+    strncpy(newEdge->edgeType, edgeType, strnlen(edgeType, 128)+1); // Do we want to make this more variable IDK
+    subgraph->edges[subgraph->edge_count] = newEdge;
+    subgraph->edge_count++;
+    return newEdge;
+}
+
+// Default create Node, Edge, & Subgraph
+void add_edge(int from, int to, char *syscall) {
     // Get current subgraph as temp val
     Subgraph* graph = graphs[currentGraph];
 
@@ -55,15 +91,8 @@ void add_edge(int from, int to, const char *syscall) {
         }
     }	
 
-    // Else create new edge
-    Edge* newEdge = (Edge*)malloc(sizeof(Edge));
-    newEdge->from = from;
-    newEdge->to = to;
-    newEdge->graphNum = currentGraph;
-    strncpy(newEdge->syscall, syscall, strlen(syscall)+1);
-    strncpy(newEdge->edgeType, "solid", strlen("solid")+1); // Do we want to make this more variable IDK
-    graph->edges[graph->edge_count] = newEdge;
-    graph->edge_count++;
+    // TODO Else create new edge
+    Edge* newEdge = createEdge(to, from, currentGraph, syscall, "solid", graph);
 
     // If we just added close, return fd to original PID FD, PID will always be node 3 (2)
     if(strcmp(syscall, "close") == 0) {
@@ -89,7 +118,7 @@ void update_edge(int edge, char *newcall, char *edge_type) {
 }
 
 // TODO --> this is not secure... why?
-int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shape[]) {  
+int find_or_add_node(int fileDescriptor, char *args, char PID[], char shape[]) {  
     //get current subgraph
     int subgraphID = currentGraph;
     Subgraph* graph = graphs[currentGraph];
@@ -99,7 +128,7 @@ int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shap
     // Check if network tuple
     char tuple[256];
     strncpy(tuple, graph->nodes[0]->args, strlen(graph->nodes[0]->args)+1);
-    strcat(tuple, "->");
+    strncat(tuple, "->", 3);
     strncat(tuple, graph->nodes[1]->args, strlen(graph->nodes[1]->args)+1);
     if (strcmp(tuple, args) == 0) {
         return 1;
@@ -118,15 +147,8 @@ int find_or_add_node(int fileDescriptor, const char *args, char PID[], char shap
         exit(1);
     }
 
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    // newNode->graphNum = currentGraph;
-    newNode->nodeID = graphs[currentGraph]->node_count;
-    strncpy(newNode->PID, PID, sizeof(newNode->PID) - 1);
-    strncpy(newNode->args, args, sizeof(newNode->args) - 1);
-    newNode->fd = fileDescriptor;
-    strncpy(newNode->shape, "ellipse", sizeof("ellipse"));
-    graph->nodes[graph->node_count] = newNode;
-    graph->node_count++; 
+    Node* newNode = createNode(args, fileDescriptor, "ellipse", graphs[currentGraph]->node_count, graph);
+    // Update the currentFD we'll be looking for
     graph->currentfd = fileDescriptor;
 
     return newNode->nodeID;
@@ -154,7 +176,7 @@ int getNodeFD(int currentFD) {
 }
 
 Subgraph* initialize_subgraph(int fd, char *PID){
-    Subgraph* subgraph = (Subgraph*)malloc(sizeof(Subgraph));
+    Subgraph* subgraph = (Subgraph*)createStruct(sizeof(Subgraph));
     subgraph->graphNum = currentGraph;
     subgraph->isValid = 0;
     subgraph->currentfd = fd;
@@ -187,65 +209,22 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
 
     // Initialize subgraph
     Subgraph* subgraph = initialize_subgraph(fd, PID);
-    int currentGraphNum = currentGraph;
-    graphs[currentGraphNum] = subgraph;
-
-    int numNodes = graphs[currentGraphNum]->node_count;
-    int numEdges = graphs[currentGraphNum]->edge_count;
+    graphs[currentGraph] = subgraph;
 
     // Make remote node pointer
-    Node* remote = (Node*)malloc(sizeof(Node));
-    strncpy(remote->args, socket1, sizeof(socket1)-1);
-    remote->fd = fd;
-    // remote->graphNum = currentGraph;
-    strncpy(remote->shape, "diamond", sizeof("diamond"));
-    subgraph->nodes[subgraph->node_count] = remote;
-    remote->nodeID = graphs[currentGraph]->node_count;
-    subgraph->node_count++;
+    Node* remote = createNode(socket1, fd, "diamond", subgraph->node_count, subgraph);
 
     // Make local node
-    Node* local = (Node*)malloc(sizeof(Node));
-    strncpy(local->args, socket2, sizeof(socket2)-1);
-    local->fd = fd;
-    // local->graphNum = currentGraph;
-    strncpy(local->shape, "diamond", sizeof("diamond"));
-    subgraph->nodes[subgraph->node_count] = local;
-    local->nodeID = graphs[currentGraph]->node_count;
-    subgraph->node_count++;
+    Node* local = createNode(socket2, fd, "diamond", subgraph->node_count, subgraph);
     
     //  Connect two
-    Edge* networkedge = (Edge*)malloc(sizeof(Edge));
-    networkedge->from = remote->nodeID;
-    networkedge->to = local->nodeID;
-
-    networkedge->graphNum = currentGraph;
-    strncpy(networkedge->syscall, "accept4", sizeof("accept4"));
-    subgraph->edges[subgraph->edge_count] = networkedge;
-    strncpy(networkedge->edgeType, "solid", sizeof("solid"));
-    subgraph->edge_count++;
+    Edge* networkedge = createEdge(local->nodeID, remote->nodeID, currentGraph, "accept4", "solid", subgraph);
 
     // Make PID node
-    Node* pid = (Node*)malloc(sizeof(Node));
-    strncpy(pid->args, PID, sizeof(PID));
-    pid->fd = fd;
-    strncpy(pid->shape, "rectangle", sizeof("rectangle"));
-    subgraph->nodes[subgraph->node_count] = pid;
-    pid->nodeID = subgraph->node_count;
-    subgraph->node_count++;
+    Node* pid = createNode(PID, fd, "rectangle", subgraph->node_count, subgraph);
 
     // Connect PID node
-    Edge* pidedge = (Edge*)malloc(sizeof(Edge));
-    pidedge->from = local->nodeID;
-    pidedge->to = pid->nodeID;
-
-    pidedge->graphNum = currentGraph;
-    strncpy(pidedge->syscall, "", 1);
-    subgraph->edges[subgraph->edge_count] = pidedge;
-    strncpy(pidedge->edgeType, "dashed", sizeof("dashed"));
-    subgraph->edge_count++;
-
-    // Add to global list
-    graphs[currentGraph] = subgraph;
+    Edge* pidedge = createEdge(pid->nodeID, local->nodeID, currentGraph, "", "dashed", subgraph);
 }
 
 // Method to parse arg information into the file descriptor itself
@@ -259,7 +238,7 @@ void parseArgs(const char *args, char *output) {
         if (start) {
             start += 1; // Skip past <f>=
             // See if we terminate the external () with ')'
-            char *end = strchr(start, ')');
+            char *end = strchr(start, ')'); //TODO Make sure is secure
             if (end) {
                 size_t length = end - start;
                 strncpy(output, start, length); // Copy what we currently have
@@ -299,7 +278,7 @@ bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *
         long int output;
         output = strtol(fdString, NULL, 10);
         FD = output;
-        printf("%d, %s, %s, %s, %s\n", FD, syscall, args, ret, PID);
+        // printf("%d, %s, %s, %s, %s\n", FD, syscall, args, ret, PID);
         return true;
     }
 }
@@ -557,6 +536,7 @@ int main(){
                                 // See if this is the first connection to this graph (Making it a Full Graph)
                                 if(strcmp("dashed", graphs[currentGraph]->edges[1]->edgeType) == 0) { //TODO Connect()
                                     update_edge(1, syscall, "solid");
+
                                 } else {
                                     // Get current fd node 
                                     int node = getNodeFD(FD);
