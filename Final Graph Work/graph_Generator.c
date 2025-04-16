@@ -27,6 +27,16 @@
 #define MAX_SUBNODES 100
 #define MAX_SUBEDGES 1000
 #define MAX_SUBGRAPHS 100
+/* 
+Debug level 0 is default: Prints no additional information
+Debug level 1: Prints metadata for subgraphs
+Debug level 2: Prints information about graphs as they are being built
+
+Dot Type "individual" creates a dot file for each subgraph
+Dot Type "together" creates a single dot file that contains every subgraph
+*/
+#define DOT_TYPE "individual"
+#define DEBUG_LEVEL 0
 
 // Global graph Reference
 Subgraph* graphs[MAX_SUBGRAPHS];
@@ -47,6 +57,7 @@ void* createStruct(size_t structSize) {
     }
 }
 
+// Default create Node, Edge, & Subgraph
 Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph) {
     Node* newNode = (Node*)createStruct(sizeof(Node));
     strncpy(newNode->args, args, strnlen(args, 256)+1);
@@ -59,11 +70,10 @@ Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph
     return newNode;
 }
 
-Edge* createEdge(int to, int from, int graphNum, char* syscall, char* edgeType, Subgraph* subgraph) {
+Edge* createEdge(int to, int from, char* syscall, char* edgeType, Subgraph* subgraph) {
     Edge *newEdge = (Edge*)createStruct(sizeof(Edge));
     newEdge->from = from;
     newEdge->to = to;
-    newEdge->graphNum = currentGraph;
     strncpy(newEdge->syscall, syscall, strnlen(syscall, 64)+1);
     strncpy(newEdge->edgeType, edgeType, strnlen(edgeType, 128)+1); // Do we want to make this more variable IDK
     subgraph->edges[subgraph->edge_count] = newEdge;
@@ -71,8 +81,18 @@ Edge* createEdge(int to, int from, int graphNum, char* syscall, char* edgeType, 
     return newEdge;
 }
 
-// Default create Node, Edge, & Subgraph
-void add_edge(int from, int to, char *syscall) {
+Subgraph* initializeSubgraph(int fd, char *PID){
+    Subgraph* subgraph = (Subgraph*)createStruct(sizeof(Subgraph));
+    subgraph->graphNum = currentGraph;
+    subgraph->isValid = 0;
+    subgraph->currentfd = fd;
+    subgraph->node_count = 0;
+    subgraph->edge_count = 0;
+    subgraph->masterPID_ID = atoi(PID);
+    return subgraph;
+}
+
+void addEdge(int from, int to, char *syscall) {
     // Get current subgraph as temp val
     Subgraph* graph = graphs[currentGraph];
 
@@ -84,7 +104,11 @@ void add_edge(int from, int to, char *syscall) {
 
     // Check if edge already exists
     // TODO -> Try to make this more cost efficient but unsure if can be done
-    for (int i = 0; i < graph->edge_count; i++) {
+    // WOrking concepts:
+        /*
+        We skip 0,1 because those are handled separately
+        */
+    for (int i = 2; i < graph->edge_count; i++) {
         // Duplicate edge found, do not add
         if (graph->edges[i]->from == from && graph->edges[i]->to == to && strcmp(graph->edges[i]->syscall, syscall) == 0) {
             return;
@@ -92,7 +116,7 @@ void add_edge(int from, int to, char *syscall) {
     }	
 
     // TODO Else create new edge
-    Edge* newEdge = createEdge(to, from, currentGraph, syscall, "solid", graph);
+    Edge* newEdge = createEdge(to, from, syscall, "solid", graph);
 
     // If we just added close, return fd to original PID FD, PID will always be node 3 (2)
     if(strcmp(syscall, "close") == 0) {
@@ -118,7 +142,7 @@ void update_edge(int edge, char *newcall, char *edge_type) {
 }
 
 // TODO --> this is not secure... why?
-int find_or_add_node(int fileDescriptor, char *args, char PID[], char shape[]) {  
+int findOrAddNode(int fileDescriptor, char *args, char PID[], char shape[]) {  
     //get current subgraph
     int subgraphID = currentGraph;
     Subgraph* graph = graphs[currentGraph];
@@ -162,7 +186,7 @@ int getSubgraphFD(int currentFD) {
             return graphs[i]->graphNum;
         }
     }
-    // If we do not encounter this fd, assume we are at a point where the last call happened to come from this graph (MASSIVE ASSUMPTION YEAH)
+    // If we do not encounter this fd, assume we are at a point where the last call happened to come from this graph
     // Else do nothing
     return -1;
 }
@@ -173,17 +197,6 @@ int getNodeFD(int currentFD) {
             return i;
         }
     }
-}
-
-Subgraph* initialize_subgraph(int fd, char *PID){
-    Subgraph* subgraph = (Subgraph*)createStruct(sizeof(Subgraph));
-    subgraph->graphNum = currentGraph;
-    subgraph->isValid = 0;
-    subgraph->currentfd = fd;
-    subgraph->node_count = 0;
-    subgraph->edge_count = 0;
-    subgraph->masterPID_ID = atoi(PID);
-    return subgraph;
 }
 
 // When supplied with fd of accept4 call, make new split graph
@@ -208,7 +221,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     }
 
     // Initialize subgraph
-    Subgraph* subgraph = initialize_subgraph(fd, PID);
+    Subgraph* subgraph = initializeSubgraph(fd, PID);
     graphs[currentGraph] = subgraph;
 
     // Make remote node pointer
@@ -218,13 +231,13 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     Node* local = createNode(socket2, fd, "diamond", subgraph->node_count, subgraph);
     
     //  Connect two
-    Edge* networkedge = createEdge(local->nodeID, remote->nodeID, currentGraph, "accept4", "solid", subgraph);
+    Edge* networkedge = createEdge(local->nodeID, remote->nodeID, "accept4", "solid", subgraph);
 
     // Make PID node
     Node* pid = createNode(PID, fd, "rectangle", subgraph->node_count, subgraph);
 
     // Connect PID node
-    Edge* pidedge = createEdge(pid->nodeID, local->nodeID, currentGraph, "", "dashed", subgraph);
+    Edge* pidedge = createEdge(pid->nodeID, local->nodeID, "", "dashed", subgraph);
 }
 
 // Method to parse arg information into the file descriptor itself
@@ -256,22 +269,16 @@ void parseArgs(const char *args, char *output) {
     }
 }
 
-bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *PID)
-{
-    // To fix issue of variable lines in Falco output and to only continue on with valid syscall lines, reducing the number of operations necessary overall
-        // We assign temporary values of the FD, Syscall, Args, Return Val, and PID
-        // Upon a successful read we then update the foreign values'
-        // Values that may instictively be assigned to ints are instead stored as char arrays to better standardize potential outliers
-        // char fdString[4], syscallString[64], argsString[1024], retString[64], pidString[64], program[64];
-    // Upon a failure: Not 5-valid inputs, invalid FD
-        // We default the FD to -1 to fall through subsequent checks in the program
-    
+// Parse information about each line of the debug we receive from Falco
+// We only want to process/proceed with data that fits the constraints of having adequetly sized FD, Syscal, Args, Return, & PID
+// Additionally, we want to ignore any debug lines with an FD of -1 or <NA>
+// Finally, we want to call parseSyscall to once again reduce the number of operations we perform on potentially invalid data
+bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *PID) {    
     // TODO -> Make this more neat/refined if possible? IDk
-        // Do we possibly want to start grabbing NAME out of this?
-        // Also potentially exclude other erroneous FDs here
     char fdString[4];
     if((sscanf(line, "%*[^F]FD:%4[^,], Syscall:%64[^,], Args:%1024[^,], Return:%64[^,], PID:%64[^\n]", fdString, syscall, args, ret, PID) != 5)
-        || (strncmp(fdString, "-1", 4) == 0) || (strncmp(fdString, "<NA>", 4) == 0)) {
+        || (strncmp(fdString, "-1", 4) == 0) || (strncmp(fdString, "<NA>", 4) == 0)
+        || !(parseSyscall(syscall, ret, args, PID))) {
         FD = -1;
         return false;
     } else {
@@ -285,50 +292,31 @@ bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *
 
 // Method for filtering out additional lines that, while valid, do not contain data we can work with
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]){
-	if(strcmp(syscall, "rt_sigaction") == 0 || strcmp(syscall, "rt_sigprocmask") ==  0 || strcmp(syscall, "brk") == 0 || strcmp(syscall, "munmap") == 0)
-	{
-		return false;
-	}
-	else if(strcmp(syscall, "chdir") == 0 && strcmp(arguments, "") == 0)
-	{
-		return false;
-	}
-	// open with <NA> does not touch a file file path...
-	//&& strcmp(returnValues, "<NA>") == 0
-	// TODO --> this is resulting in the removal of the other PIDS BUT not fixing tracking the syscalls???
-	else if (strcmp(syscall, "open") == 0 )
-	{
-		return false; 
-	}
-	else if(strcmp(syscall, "mmap") == 0 && strcmp(FD, "<NA>") == 0)
-	{
-		return false;
-	}
-	else if(strcmp(syscall, "close") == 0 && (strcmp(returnValues, "0 ") == 0 || strcmp(arguments, "") == 0))
-	{
-		return false;
-	}
-    else if(strcmp(syscall, "access") == 0 && strcmp(arguments, "mode=0") == 0)
-    {
-		return false;
-	}
-    else if(strcmp(syscall, "accept4") == 0 && strcmp(returnValues, "<NA>") == 0 )
-    {
-        return false;    
-    }
-    else if(strcmp(syscall, "write") == 0 )
-    {
-        return false;    
-    }
+	if(strcmp(syscall, "rt_sigaction") == 0 || strcmp(syscall, "rt_sigprocmask") ==  0 || strcmp(syscall, "brk") == 0 || strcmp(syscall, "munmap") == 0){return false;}
+	else if(strcmp(syscall, "chdir") == 0 && strcmp(arguments, "") == 0){return false;}
+	else if (strcmp(syscall, "open") == 0 ){return false;}
+	else if(strcmp(syscall, "mmap") == 0 && strcmp(FD, "<NA>") == 0){return false;}
+	else if(strcmp(syscall, "close") == 0 && (strcmp(returnValues, "0 ") == 0 || strcmp(arguments, "") == 0)){return false;}
+    else if(strcmp(syscall, "access") == 0 && strcmp(arguments, "mode=0") == 0){return false;}
+    else if(strcmp(syscall, "accept4") == 0 && strcmp(returnValues, "<NA>") == 0 ){return false;}
+    else if(strcmp(syscall, "write") == 0 ){ return false;}
 	// This is a system call that HAS information...
-	else
-	{
-		return true;
-	}
+	else{return true;}
+}
+
+FILE* openFile(char* fileName, char* mode) {
+    FILE *file = fopen(fileName, mode);
+    if (!file) {
+        perror("Failed to open DOT file\n");
+        printf("%s\n", fileName);
+        exit(EXIT_FAILURE);
+    } else {
+        return file;
+    }
 }
 
 void printSubgraphMetadata(){
-    printf("%d subgraphs created\n", totalGraphs+1);
+    printf("%d subgraphs created\n", totalGraphs+1); // Pad out graph 0 for human understanding
     for(int i = 0; i <= totalGraphs; i++){
         printf("graph %d Master PID: %d\n", i , graphs[i]->masterPID_ID);
         printf("nodes: %d    edges: %d\n\n", graphs[i]->node_count, graphs[i]->edge_count);
@@ -342,7 +330,7 @@ void createDOT(char* setting){
     time_t instance;
     instance = time(NULL);
 
-    //Delimited by setting
+    //Determined by setting
     if(strcmp("individual", setting) == 0){
         //Make a subdirectory for all these graphs
         char makeCommand[256];
@@ -351,41 +339,33 @@ void createDOT(char* setting){
         if (system(makeCommand) == -1){ // Try the command
             perror("Could not make subdirectory for graphs");
         }
-        for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
+        for(int i = 0; i <= totalGraphs; i++){ // Do following for every subgraph
         
-            // open new dot file with unique name
+            // Open new dot file with unique name
             char path[1024];
             sprintf(path, ".\\Dot Files\\Timestamp_%d\\graph%d.dot", &instance, i);
-            FILE *dot_file = fopen(path, "w");
+            FILE *dot_file = openFile(path, "w");
     
-            if (!dot_file) {
-                perror("Failed to open DOT file\n");
-                printf("%s\n", path);
-                return;
-            }
-    
-            //print the setup info:
+            // Print the setup info:
             fprintf(dot_file, "digraph nginx_syscalls {\n");
+            fprintf(dot_file, "rankdir=LR;\n");
     
-            // add all of the nodes
-            
+            // Print all nodes
             for(int j = 0; j < graphs[i]->node_count; j++){
                 Node* n = graphs[i]->nodes[j];
                 fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
                 // printf("  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
             }
-    
-            Edge** e = graphs[i]->edges;
-            // add all of the edges
+
+            // Print all edges
             for(int j = 0; j < graphs[i]->edge_count; j++){
-                fprintf(dot_file, "  %d -> %d [style=\"%s\", label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
+                fprintf(dot_file, "  %d -> %d [style=\"%s\", label=\"%s\", minlen=2, weight=2];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
                 // printf("  %d -> %d [style=\"%s\", label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
             }
     
-            //print the shutdown info:
+            //Print the EOF info & close file:
             fprintf(dot_file, "}\n");
             fclose(dot_file);
-            // printf("Graph exported to %s\n", path);
     
         }
 
@@ -395,12 +375,7 @@ void createDOT(char* setting){
         char path[1024];
         sprintf(path, "./Dot Files/Timestamp_%d.dot", &instance);
         printf("Created graph %s", path);
-        FILE *dot_file = fopen(path, "w");
-
-        if (!dot_file) {
-            perror("Failed to open DOT file\n");
-            return;
-        }
+        FILE *dot_file = openFile(path, "w");
 
         // After new dotfile has been successfully made:
         //print the setup info:
@@ -408,17 +383,16 @@ void createDOT(char* setting){
 
         for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
 
-            // Init subgraph
+            // Initiate subgraph
             fprintf(dot_file, "subgraph cluster_%d {\n", i);
         
-            // add all of the nodes
+            // Print all nodes
             for(int j = 0; j < graphs[i]->node_count; j++){
                 Node* n = graphs[i]->nodes[j];
                 fprintf(dot_file, "  %d%d [label=\"%s\" shape=%s];\n", j, i, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
             }
-    
-            Edge** e = graphs[i]->edges;
-            // add all of the edges
+   
+            // Print all edges
             for(int j = 0; j < graphs[i]->edge_count; j++){
                 fprintf(dot_file, "  %d%d -> %d%d [label=\"%s\" style=%s];\n", graphs[i]->edges[j]->from, i, graphs[i]->edges[j]->to, i, graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->edgeType);
             }
@@ -428,67 +402,23 @@ void createDOT(char* setting){
             // Insert another enter for readability
             fprintf(dot_file, "\n");
         }
-
-        fprintf(dot_file, "}\n");
-    } else if(strcmp("overlaid", setting) == 0) {
-        // Open dot file
-        // open new dot file with unique name - generated randomly
-        char path[1024];
-        sprintf(path, "./Dot Files/Timestamp_%d.dot", &instance);
-        printf("Created graph %s", path);
-        FILE *dot_file = fopen(path, "w");
-
-        if (!dot_file) {
-            perror("Failed to open DOT file\n");
-            return;
-        }
-
-        // After new dotfile has been successfully made:
-        //print the setup info:
-        fprintf(dot_file, "digraph nginx_syscalls {\n");
-
-        for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
-
-            // Init subgraph
-            fprintf(dot_file, "subgraph cluster_%d {\n", i);
-        
-            // add all of the nodes
-            for(int j = 0; j < graphs[i]->node_count; j++){
-                Node* n = graphs[i]->nodes[j];
-                fprintf(dot_file, "  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
-            }
-    
-            Edge** e = graphs[i]->edges;
-            // add all of the edges
-            for(int j = 0; j < graphs[i]->edge_count; j++){
-                fprintf(dot_file, "  %d -> %d [label=\"%s\" style=%s];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->syscall, graphs[i]->edges[j]->edgeType);
-            }
-
-            // Close subgraph
-            fprintf(dot_file, "}\n");
-            // Insert another enter for readability
-            fprintf(dot_file, "\n");
-        }
-
+        // Close DOT file
         fprintf(dot_file, "}\n");
     } else {
+        // Catch all other subcases/incorrect inputs and simply map them to "individual"
         createDOT("individual");
     }
+    // Print final output of what folder/graph is called
     printf("Printed graph(s): %d", &instance);
 }
 
 int main(){
 
-    FILE *file = fopen("./Falco Trace Files/TestEvents.txt", "r");
-    if (!file) {
-        perror("Failed to open events file");
-        return 1;
-    }
-
+    FILE *file = openFile("./Falco Trace Files/TestEvents.txt", "r");
     char line[1024];
-    int number_of_subgraph_nodes = 0;
+    int number_of_subgraph_nodes = 0; // TODO find a way to phase this out
 
-    //GET THE FULL LINE OF information...
+    // Get FULL line of information...
     while (fgets(line, sizeof(line), file)) {
         
         // Parse the syscalls from the line to our mapped values if the input is valid
@@ -496,14 +426,16 @@ int main(){
         // If both conditions are met, proceed
         char syscall[64], args[1024], ret[64], PID[64];
         int FD;
-        if(parseLine(line, FD, syscall, args, ret, PID) && parseSyscall(syscall, ret, args, PID)) {
+        if(parseLine(line, FD, syscall, args, ret, PID)) {
 
-            // At each accept4 we want to start new subgraph
+            // Begin by parsing arguments to better refine
+            parseArgs(args, args);
+
+            // Check to see if we want to start new subgraph/handle other speciality cases
+            // TODO
             if(strcmp(syscall, "accept4") == 0) {
                 totalGraphs = totalGraphs + 1;
                 currentGraph = totalGraphs;   
-                // printf("There are now: %d graphs\n", totalGraphs);  // Used for debugging           
-                parseArgs(args, args);
                 makeSubgraph(FD, args, PID);
                 number_of_subgraph_nodes = 0;
             } 
@@ -514,11 +446,6 @@ int main(){
                 if(totalGraphs >= 0){
                     // Increment nodes
                     number_of_subgraph_nodes+=1;
-
-                    // printf("I am syscall:%s with args:%s and i have fd:%d, and the current graphs fd is:%d\n", syscall, args, FD, graphs[currentGraph]->currentfd);
-                    
-                    // Parse args
-                    parseArgs(args, args);
                     if(strcmp("Unknown tuple", args) != 0) {
                         // See if we need to modify current graph
                         int tempCurrentGraph = getSubgraphFD(FD);
@@ -527,8 +454,8 @@ int main(){
                         // Do not change current graph, add node and edge
                         if(tempCurrentGraph == -1) { //TODO
 
-                            int newNode = find_or_add_node(FD, args, PID, "ellipse");
-                            add_edge(2, newNode, syscall);
+                            int newNode = findOrAddNode(FD, args, PID, "ellipse");
+                            addEdge(2, newNode, syscall);
                         // If the file descriptor has been run into before, we update the current graph and add an edge
                         } else if (tempCurrentGraph != -1) {
                                 currentGraph = tempCurrentGraph; // Should put us on the correct subgraph
@@ -540,7 +467,7 @@ int main(){
                                 } else {
                                     // Get current fd node 
                                     int node = getNodeFD(FD);
-                                    add_edge(2, node, syscall);
+                                    addEdge(2, node, syscall);
 
                                 }
                         }
@@ -549,8 +476,13 @@ int main(){
             }
         }
     }
-    // printSubgraphMetadata();
-    createDOT("individual");
+    // Include additional debugging information if desired
+    if(DEBUG_LEVEL == 1) {
+        printSubgraphMetadata();
+    }
+
+    // Create graphs
+    createDOT(DOT_TYPE);
 }
 
 

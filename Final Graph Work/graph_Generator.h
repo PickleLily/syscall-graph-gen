@@ -6,7 +6,6 @@
 typedef struct Node {
     char args[256];       // Name of the object (e.g., file path, socket info, subprocesses info?)
     int fd;               // The file descriptor
-    // int graphNum;         //Unique subgraph
     char shape[128];
     int nodeID;
 } Node;
@@ -14,7 +13,6 @@ typedef struct Node {
 typedef struct Edge {
     int from;       // name of the source node 
     int to;         // name of the destination node
-    int graphNum;         //Unique subgraph
     char syscall[64];     // The system call connecting the nodes
     char edgeType[128];   //"dashed", "dotted" ,"solid", "invis", "bold"
 } Edge;
@@ -34,17 +32,16 @@ typedef struct Subgraph {
 // Functions
 void* createStruct(size_t structSize);
 Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph);
-Edge* createEdge(int to, int from, int graphNum, char* syscall, char* edgeType, Subgraph* subgraph);
-void add_edge(int from, int to, char *syscall);
+Edge* createEdge(int to, int from, char* syscall, char* edgeType, Subgraph* subgraph);
+Subgraph* initializeSubgraph(int fd, char *PID);
+void addEdge(int from, int to, char *syscall);
 void update_edge(int edge, char *newcall, char *edge_type);
-int find_or_add_node(int fileDescriptor, char *args, char PID[], char shape[]);
+int findOrAddNode(int fileDescriptor, char *args, char PID[], char shape[]);
 int getSubgraphFD(int currentFD);
 int getNodeFD(int currentFD);
 void parseArgs(const char *args, char *output);
 bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *PID);
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]);
-
-Subgraph* initialize_subgraph(int fd, char *PID);
 void makeSubgraph(int fd, char *socketTuple, char *PID);
 int getSubgraphFD(int currentFD);
 void printSubgraphMetadata();
