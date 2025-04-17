@@ -72,9 +72,9 @@ FILE* openFile(char* fileName, char* mode) {
 // Default create Node, Edge, & Subgraph
 Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph) {
     Node* newNode = (Node*)createStruct(sizeof(Node));
-    strncpy(newNode->args, args, strnlen(args, 256));
+    strncpy(newNode->args, args, strnlen(args, 255)+1);
     newNode->fd = fd;
-    strncpy(newNode->shape, shape, strnlen(shape, 128));
+    strncpy(newNode->shape, shape, strnlen(shape, 127)+1);
     newNode->nodeID = nodeID;
     printf("Made node %s\n", newNode->args);
     subgraph->nodes[subgraph->node_count] = newNode;
@@ -86,8 +86,8 @@ Edge* createEdge(int to, int from, char* syscall, char* edgeType, Subgraph* subg
     Edge *newEdge = (Edge*)createStruct(sizeof(Edge));
     newEdge->from = from;
     newEdge->to = to;
-    strncpy(newEdge->syscall, syscall, strnlen(syscall, 64));
-    strncpy(newEdge->edgeType, edgeType, strnlen(edgeType, 8)); // Do we want to make this more variable IDK
+    strncpy(newEdge->syscall, syscall, strnlen(syscall, 63)+1);
+    strncpy(newEdge->edgeType, edgeType, strnlen(edgeType, 7)+1); // Do we want to make this more variable IDK
     subgraph->edges[subgraph->edge_count] = newEdge;
     subgraph->edge_count++;
     return newEdge;
@@ -219,22 +219,23 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     // Predefine the two sockets
     char socket1[56];
     char socket2[56];
-    char *end = strchr(socketTuple, '-');
+    char *end = strchr(socketTuple, ',');
     if (end) {
         size_t length = end - socketTuple;
-            strncpy(socket1, socketTuple, length);
-            socket1[length] = '\0'; // Null-terminate the extracted socket
+        strncpy(socket1, socketTuple, length);
+        socket1[length] = '\0'; // Null-terminate the extracted socket
     }
     // Skip over ->
-    char *start = end + 2;
+    char *start = end + 1;
     end = strchr(socketTuple, '\0');
     if (end) {
         size_t length = end - start;
-            strncpy(socket2, start, length);
-            socket2[length] = '\0'; // Null-terminate the extracted socket
+        strncpy(socket2, start, length);
+        socket2[length] = '\0'; // Null-terminate the extracted socket
     }
 
     // Initialize subgraph
+    printf("HERE!");
     totalGraphs = totalGraphs + 1;
     currentGraph = totalGraphs;
     Subgraph* subgraph = initializeSubgraph(fd, PID);
@@ -289,10 +290,10 @@ void parseArgs(const char *args, char *output) {
     if (separator) {
         *separator = ',';
         size_t sublength = separator - output; // How far is the start of separator from the start of output
-        printf("%d\n", sublength);
+        // printf("%d\n", sublength);
         memmove(separator+1, separator+2, sublength);
         output[totalLength-1] = '\0';
-        printf("%s", output);
+        // printf("%s", output);
     }
 }
 
@@ -320,9 +321,9 @@ bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *
 // Method for filtering out additional lines that, while valid, do not contain data we can work with
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]){
 	// System calls that additionally should be ignored
-    if(strcmp(syscall, "rt_sigaction") == 0 
-    || strcmp(syscall, "rt_sigprocmask") ==  0 
-    || strcmp(syscall, "brk") == 0 
+    // if(strcmp(syscall, "rt_sigaction") == 0 
+    // || strcmp(syscall, "rt_sigprocmask") ==  0 
+    if(strcmp(syscall, "brk") == 0 
     || strcmp(syscall, "munmap") == 0
     || strcmp(syscall, "open") == 0 
     || strcmp(syscall, "write") == 0 ){
@@ -341,6 +342,51 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 	// This is a system call that HAS information...
 	else{return true;}
 }
+
+void handleConnectionSystemCall(char *syscall, int FD, char *args, char *PID) {
+    // In the occassion of receiving an accept4, accept, pipe, and connect
+    /*
+    When receiving an accept4 -> we have to make sure the tuple doesn't already exist, if so we have to assume the first one has been terminated?
+    We need to be able to keep track of essentially a subgraph in a subgraph->closing out something like an SQL
+
+    */
+
+    if(strcmp("accept4", syscall) == 0){
+        printf("What: %d, %s, %s", FD, args, PID);
+        if(totalGraphs == 0) {
+            makeSubgraph(FD, args, PID);
+        } else {
+            char socket1[56];
+            char socket2[56];
+            char *end = strchr(args, ',');
+            if (end) {
+                size_t length = end - args;
+                strncpy(socket1, args, length);
+                socket1[length] = '\0'; // Null-terminate the extracted socket
+            }
+            // Skip over ->
+            char *start = end + 1;
+            end = strchr(args, '\0');
+            if (end) {
+                size_t length = end - start;
+                strncpy(socket2, start, length);
+                socket2[length] = '\0'; // Null-terminate the extracted socket
+            }
+    
+            for(int i = 0; i < totalGraphs; i++) {
+                if(graphs[i]->isValid == 0) {
+                    if(strcmp(graphs[i]->nodes[0]->args, socket1) == 0){
+                        return;
+                    } else {
+                        makeSubgraph(FD, args, PID);
+                    }
+                }
+            }
+        }
+    }
+    else if(strcmp("accept", syscall) == 0){}
+}
+
 
 void printSubgraphMetadata(){
     printf("%d subgraphs created\n", totalGraphs+1); // Pad out graph 0 for human understanding
@@ -459,7 +505,7 @@ int main(){
             // Check to see if we want to start new subgraph/handle other speciality cases
             // TODO
             if(strcmp(syscall, "accept4") == 0) {  
-                makeSubgraph(FD, args, PID);
+                handleConnectionSystemCall(syscall, FD, args, PID);
             } 
 
             // At any other system call we want to modify the graph we are currently working on
