@@ -72,9 +72,9 @@ FILE* openFile(char* fileName, char* mode) {
 // Default create Node, Edge, & Subgraph
 Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph) {
     Node* newNode = (Node*)createStruct(sizeof(Node));
-    strncpy(newNode->args, args, strnlen(args, 256)+1);
+    strncpy(newNode->args, args, strnlen(args, 256));
     newNode->fd = fd;
-    strncpy(newNode->shape, shape, strnlen(shape, 128)+1);
+    strncpy(newNode->shape, shape, strnlen(shape, 128));
     newNode->nodeID = nodeID;
     printf("Made node %s\n", newNode->args);
     subgraph->nodes[subgraph->node_count] = newNode;
@@ -86,8 +86,8 @@ Edge* createEdge(int to, int from, char* syscall, char* edgeType, Subgraph* subg
     Edge *newEdge = (Edge*)createStruct(sizeof(Edge));
     newEdge->from = from;
     newEdge->to = to;
-    strncpy(newEdge->syscall, syscall, strnlen(syscall, 64)+1);
-    strncpy(newEdge->edgeType, edgeType, strnlen(edgeType, 128)+1); // Do we want to make this more variable IDK
+    strncpy(newEdge->syscall, syscall, strnlen(syscall, 64));
+    strncpy(newEdge->edgeType, edgeType, strnlen(edgeType, 8)); // Do we want to make this more variable IDK
     subgraph->edges[subgraph->edge_count] = newEdge;
     subgraph->edge_count++;
     return newEdge;
@@ -100,7 +100,8 @@ Subgraph* initializeSubgraph(int fd, char *PID){
     subgraph->currentfd = fd;
     subgraph->node_count = 0;
     subgraph->edge_count = 0;
-    subgraph->masterPID_ID = atoi(PID);
+    subgraph->masterPID = atoi(PID);
+    subgraph->masterRemote = atoi(PID);
     return subgraph;
 }
 
@@ -224,7 +225,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
             strncpy(socket1, socketTuple, length);
             socket1[length] = '\0'; // Null-terminate the extracted socket
     }
-    //Skip over ->
+    // Skip over ->
     char *start = end + 2;
     end = strchr(socketTuple, '\0');
     if (end) {
@@ -258,6 +259,7 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
 // Method to parse arg information into the file descriptor itself
 void parseArgs(const char *args, char *output) {
     char *res = strstr(args, "res"); // Means the argument is a return value system call
+    size_t totalLength;
     if (res) {
         strncpy(output, "Unknown tuple\0", 255); // Delimit
     } else {
@@ -266,21 +268,31 @@ void parseArgs(const char *args, char *output) {
         if (start) {
             start += 1; // Skip past <f>=
             // See if we terminate the external () with ')'
-            char *end = strchr(start, ')'); //TODO Make sure is secure
+            char *end = strchr(start, ')'); //This returns the first instance of )
             if (end) {
-                size_t length = end - start;
-                strncpy(output, start, length); // Copy what we currently have
-                output[length] = '\0'; // Terminate the rest of this string pre-emptively
+                totalLength = end - start;
+                memmove(output, start, totalLength); // Copy what we currently have
+                output[totalLength] = '\0'; // Terminate the rest of this string pre-emptively
                 char *innerParenth = strstr(output, "("); // We then have to catch any potential inner parenthesis
                 if(innerParenth) {
                     strncat(output, ")\0", 2); // Close out the parenthesis and adds the null delimiter
                 }
             } else {
-                strncpy(output, "Unknown tuple", 255);
+                strncpy(output, "Unknown tuple\0", 255);
             }
         } else {
-            strncpy(output, "Unknown tuple", 255); //If no tuple use entire fd string? -> may want to remove
+            strncpy(output, "Unknown tuple\0", 255); //If no tuple use entire fd string? -> may want to remove
         }
+    }
+    // Parse any sockets (->) into a simple comma seperator
+    char *separator = strstr(output, "->");
+    if (separator) {
+        *separator = ',';
+        size_t sublength = separator - output; // How far is the start of separator from the start of output
+        printf("%d\n", sublength);
+        memmove(separator+1, separator+2, sublength);
+        output[totalLength-1] = '\0';
+        printf("%s", output);
     }
 }
 
@@ -333,7 +345,7 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 void printSubgraphMetadata(){
     printf("%d subgraphs created\n", totalGraphs+1); // Pad out graph 0 for human understanding
     for(int i = 0; i <= totalGraphs; i++){
-        printf("graph %d Master PID: %d\n", i , graphs[i]->masterPID_ID);
+        printf("graph %d Master PID: %d\n", i , graphs[i]->masterPID);
         printf("nodes: %d    edges: %d\n\n", graphs[i]->node_count, graphs[i]->edge_count);
     }
 }

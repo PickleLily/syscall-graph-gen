@@ -14,15 +14,16 @@ typedef struct Edge {
     int from;       // name of the source node 
     int to;         // name of the destination node
     char syscall[64];     // The system call connecting the nodes
-    char edgeType[128];   //"dashed", "dotted" ,"solid", "invis", "bold"
+    char edgeType[8];   //"dashed", "dotted" ,"solid", "invis", "bold"
 } Edge;
 
 // Subgraph representation + functions
 typedef struct Subgraph {
-    int graphNum;           //Unique subgraph number
+    int graphNum;           // Unique subgraph number
     int isValid;            // Marker to delimit if the graph is valid (editable, or has a complete connection)
-    int currentfd;          //fd of the root accept4 node - not sure if we even need - shpuld this be current fd?
-    int masterPID_ID;       //the Node ID of the process that starts interactions?
+    int currentfd;          // fd of the root accept4 node - not sure if we even need - shpuld this be current fd?
+    int masterPID;          // The Node ID of the process that starts interactions?
+    int masterRemote;       // Master Remote Connector
     Node* nodes[100];       // Hardcoded here
     Edge* edges[1000];      // Hardcoded here
     int node_count;
