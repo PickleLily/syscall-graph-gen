@@ -214,38 +214,21 @@ int getNodeFD(int currentFD) {
 }
 
 // When supplied with fd of accept4 call, make new split graph
-void makeSubgraph(int fd, char *socketTuple, char *PID) {
+void makeSubgraph(int fd, char *remoteVal, char *localVal, char *PID) {
     // Take global graph num, current fd of accept4, and arg information to build the Subgraph
-    // Predefine the two sockets
-    char socket1[56];
-    char socket2[56];
-    char *end = strchr(socketTuple, ',');
-    if (end) {
-        size_t length = end - socketTuple;
-        strncpy(socket1, socketTuple, length);
-        socket1[length] = '\0'; // Null-terminate the extracted socket
-    }
-    // Skip over ->
-    char *start = end + 1;
-    end = strchr(socketTuple, '\0');
-    if (end) {
-        size_t length = end - start;
-        strncpy(socket2, start, length);
-        socket2[length] = '\0'; // Null-terminate the extracted socket
-    }
 
     // Initialize subgraph
-    printf("HERE!");
     totalGraphs = totalGraphs + 1;
     currentGraph = totalGraphs;
+    printf("New total graphs: %d\n", totalGraphs);
     Subgraph* subgraph = initializeSubgraph(fd, PID);
     graphs[currentGraph] = subgraph;
 
     // Make remote node pointer
-    Node* remote = createNode(socket1, fd, "diamond", subgraph->node_count, subgraph);
+    Node* remote = createNode(remoteVal, fd, "diamond", subgraph->node_count, subgraph);
 
     // Make local node
-    Node* local = createNode(socket2, fd, "diamond", subgraph->node_count, subgraph);
+    Node* local = createNode(localVal, fd, "diamond", subgraph->node_count, subgraph);
     
     //  Connect two
     Edge* networkedge = createEdge(local->nodeID, remote->nodeID, "accept4", "solid", subgraph);
@@ -301,18 +284,18 @@ void parseArgs(const char *args, char *output) {
 // We only want to process/proceed with data that fits the constraints of having adequetly sized FD, Syscal, Args, Return, & PID
 // Additionally, we want to ignore any debug lines with an FD of -1 or <NA>
 // Finally, we want to call parseSyscall to once again reduce the number of operations we perform on potentially invalid data
-bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *PID) {    
+bool parseLine(char line[], int *FD, char *syscall, char *args, char *ret, char *PID) {    
     // TODO -> Make this more neat/refined if possible? IDk
     char fdString[4];
     if((sscanf(line, "%*[^F]FD:%4[^,], Syscall:%64[^,], Args:%1024[^,], Return:%64[^,], PID:%64[^\n]", fdString, syscall, args, ret, PID) != 5)
         || (strncmp(fdString, "-1", 4) == 0) || (strncmp(fdString, "<NA>", 4) == 0)
         || !(parseSyscall(syscall, ret, args, PID))) {
-        FD = -1;
+        *FD = -1;
         return false;
     } else {
         long int output;
         output = strtol(fdString, NULL, 10);
-        FD = output;
+        *FD = output;
         // printf("%d, %s, %s, %s, %s\n", FD, syscall, args, ret, PID);
         return true;
     }
@@ -350,39 +333,34 @@ void handleConnectionSystemCall(char *syscall, int FD, char *args, char *PID) {
     We need to be able to keep track of essentially a subgraph in a subgraph->closing out something like an SQL
 
     */
-
+   printf("Total graphs: %d\n", totalGraphs);
     if(strcmp("accept4", syscall) == 0){
-        printf("What: %d, %s, %s", FD, args, PID);
-        if(totalGraphs == 0) {
-            makeSubgraph(FD, args, PID);
-        } else {
-            char socket1[56];
-            char socket2[56];
-            char *end = strchr(args, ',');
-            if (end) {
-                size_t length = end - args;
-                strncpy(socket1, args, length);
-                socket1[length] = '\0'; // Null-terminate the extracted socket
-            }
-            // Skip over ->
-            char *start = end + 1;
-            end = strchr(args, '\0');
-            if (end) {
-                size_t length = end - start;
-                strncpy(socket2, start, length);
-                socket2[length] = '\0'; // Null-terminate the extracted socket
-            }
-    
-            for(int i = 0; i < totalGraphs; i++) {
-                if(graphs[i]->isValid == 0) {
-                    if(strcmp(graphs[i]->nodes[0]->args, socket1) == 0){
-                        return;
-                    } else {
-                        makeSubgraph(FD, args, PID);
-                    }
+        char socket1[56];
+        char socket2[56];
+        char *end = strchr(args, ',');
+        if (end) {
+            size_t length = end - args;
+            strncpy(socket1, args, length);
+            socket1[length] = '\0'; // Null-terminate the extracted socket
+        }
+        // Skip over ->
+        char *start = end + 1;
+        end = strchr(args, '\0');
+        if (end) {
+            size_t length = end - start;
+            strncpy(socket2, start, length);
+            socket2[length] = '\0'; // Null-terminate the extracted socket
+        }
+        for(int i = 0; i <= totalGraphs; i++) {
+            if(graphs[i]->isValid == 0) {
+                if(strcmp(graphs[i]->nodes[0]->args, socket1) == 0){
+                    graphs[i]->isValid = -1;
+                    printf("Made graph: %d invalid\n", i);
+                    break;
                 }
             }
         }
+        makeSubgraph(FD, socket1, socket2, PID);
     }
     else if(strcmp("accept", syscall) == 0){}
 }
@@ -497,14 +475,14 @@ int main(){
         // If both conditions are met, proceed
         char syscall[64], args[1024], ret[64], PID[64];
         int FD;
-        if(parseLine(line, FD, syscall, args, ret, PID)) {
-
+        if(parseLine(line, &FD, syscall, args, ret, PID)) {
             // Begin by parsing arguments to better refine
             parseArgs(args, args);
 
             // Check to see if we want to start new subgraph/handle other speciality cases
             // TODO
             if(strcmp(syscall, "accept4") == 0) {  
+                // printf("What: %d, %s, %s", FD, args, PID);
                 handleConnectionSystemCall(syscall, FD, args, PID);
             } 
 
