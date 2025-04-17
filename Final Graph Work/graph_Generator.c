@@ -34,6 +34,10 @@ Debug level 2: Prints information about graphs as they are being built
 
 Dot Type "individual" creates a dot file for each subgraph
 Dot Type "together" creates a single dot file that contains every subgraph
+
+IsValid -1: Exited normally
+IsValid 0: Currently active
+IsValid 1: Exited without closing
 */
 #define DOT_TYPE "individual"
 #define DEBUG_LEVEL 0
@@ -76,7 +80,7 @@ Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph
     newNode->fd = fd;
     strncpy(newNode->shape, shape, strnlen(shape, 127)+1);
     newNode->nodeID = nodeID;
-    printf("Made node %s\n", newNode->args);
+    // printf("Made node %s\n", newNode->args);
     subgraph->nodes[subgraph->node_count] = newNode;
     subgraph->node_count++;
     return newNode;
@@ -86,6 +90,7 @@ Edge* createEdge(int to, int from, char* syscall, char* edgeType, Subgraph* subg
     Edge *newEdge = (Edge*)createStruct(sizeof(Edge));
     newEdge->from = from;
     newEdge->to = to;
+    strncpy(newEdge->bidirectional, "n\0", 2);
     strncpy(newEdge->syscall, syscall, strnlen(syscall, 63)+1);
     strncpy(newEdge->edgeType, edgeType, strnlen(edgeType, 7)+1); // Do we want to make this more variable IDK
     subgraph->edges[subgraph->edge_count] = newEdge;
@@ -121,9 +126,13 @@ void addEdge(int from, int to, char *syscall) {
         /*
         We skip 0,1 because those are handled separately
         */
-    for (int i = 2; i < graph->edge_count; i++) {
+    for (int i = 1; i < graph->edge_count; i++) {
         // Duplicate edge found, do not add
         if (graph->edges[i]->from == from && graph->edges[i]->to == to && strcmp(graph->edges[i]->syscall, syscall) == 0) {
+            return;
+        }
+        if(graph->edges[i]->from == to && graph->edges[i]->to == from && strcmp(graph->edges[i]->syscall, syscall) == 0) {
+            strncpy(graph->edges[i]->bidirectional, "y\0", 2);
             return;
         }
     }	
@@ -145,14 +154,17 @@ void addEdge(int from, int to, char *syscall) {
 
 // Explicit function for reassigning temp connection between network socket and PID to full connection
 // TODO -> May want to actually hard code this below and just do this within Main?
-void updateEdge(int edge, char *newcall, char *edge_type) {
-    // Get current graph
-    Subgraph* graph = graphs[currentGraph];
-
+void updateEdge(Subgraph *graph, int edge, char *newcall, char *edge_type) {
     //Update edge (denoted by edgenum for now) with new syscall
     Edge* temp = graph->edges[edge];
     strncpy(temp->syscall, newcall, strlen(newcall)+1);
     strncpy(temp->edgeType, edge_type, strlen(edge_type)+1);
+}
+
+void updateNode(Subgraph *graph, int node, char *newArgs, char *newShape) {
+    Node* temp = graph->nodes[node];
+    strncpy(temp->args, newArgs, strnlen(newArgs, 24));
+    strncpy(temp->shape, newShape, strlen(newShape)+1);
 }
 
 // TODO --> this is not secure... why?
@@ -220,7 +232,7 @@ void makeSubgraph(int fd, char *remoteVal, char *localVal, char *PID) {
     // Initialize subgraph
     totalGraphs = totalGraphs + 1;
     currentGraph = totalGraphs;
-    printf("New total graphs: %d\n", totalGraphs);
+    // printf("New total graphs: %d\n", totalGraphs);
     Subgraph* subgraph = initializeSubgraph(fd, PID);
     graphs[currentGraph] = subgraph;
 
@@ -333,8 +345,9 @@ void handleConnectionSystemCall(char *syscall, int FD, char *args, char *PID) {
     We need to be able to keep track of essentially a subgraph in a subgraph->closing out something like an SQL
 
     */
-   printf("Total graphs: %d\n", totalGraphs);
-    if(strcmp("accept4", syscall) == 0){
+//    printf("Total graphs: %d\n", totalGraphs);
+    if(strcmp("accept4", syscall) == 0 || strcmp("accept", syscall) == 0){
+        parseArgs(args, args);
         char socket1[56];
         char socket2[56];
         char *end = strchr(args, ',');
@@ -354,15 +367,32 @@ void handleConnectionSystemCall(char *syscall, int FD, char *args, char *PID) {
         for(int i = 0; i <= totalGraphs; i++) {
             if(graphs[i]->isValid == 0) {
                 if(strcmp(graphs[i]->nodes[0]->args, socket1) == 0){
-                    graphs[i]->isValid = -1;
-                    printf("Made graph: %d invalid\n", i);
+                    graphs[i]->isValid = 1;
+                    // printf("Made graph: %d invalid\n", i);
                     break;
                 }
             }
         }
         makeSubgraph(FD, socket1, socket2, PID);
     }
-    else if(strcmp("accept", syscall) == 0){}
+    else if(strcmp("connect", syscall) == 0){
+        // printf("Args: %s\n", args);
+        char addr[24];
+        char *addrLocation = strstr(args, "addr=");
+        if(addrLocation) {
+            strncpy(addr, addrLocation+5, 23);
+            addr[24] = '\0';
+            // printf("Addr: %s\n", addr);
+        }
+        Subgraph *graph = graphs[currentGraph];
+        for(int i = 2; i < graph->node_count; i++){
+            if(strcmp(graph->nodes[i]->args, "") == 0){
+                updateNode(graph, i, addr, "diamond\0");
+                addEdge(2, i, syscall);
+                break;
+            }
+        }
+    }
 }
 
 
@@ -410,8 +440,16 @@ void createDOT(char* setting){
 
             // Print all edges
             for(int j = 0; j < graphs[i]->edge_count; j++){
-                fprintf(dot_file, "  %d -> %d [style=\"%s\", label=\"%s\", minlen=2, weight=2];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
+                if(strcmp(graphs[i]->edges[j]->bidirectional, "y") == 0) {
+                    fprintf(dot_file, "  %d -> %d [style=\"%s\", label=\"%s\", minlen=2, weight=2, dir=\"both\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
+                } else {
+                    fprintf(dot_file, "  %d -> %d [style=\"%s\", label=\"%s\", minlen=2, weight=2];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
+                }
                 // printf("  %d -> %d [style=\"%s\", label=\"%s\"];\n", graphs[i]->edges[j]->from, graphs[i]->edges[j]->to, graphs[i]->edges[j]->edgeType, graphs[i]->edges[j]->syscall);
+            }
+
+            if(graphs[i]->isValid == 1) {
+                fprintf(dot_file, "  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n");
             }
     
             //Print the EOF info & close file:
@@ -477,11 +515,11 @@ int main(){
         int FD;
         if(parseLine(line, &FD, syscall, args, ret, PID)) {
             // Begin by parsing arguments to better refine
-            parseArgs(args, args);
 
             // Check to see if we want to start new subgraph/handle other speciality cases
             // TODO
-            if(strcmp(syscall, "accept4") == 0) {  
+            if(strcmp(syscall, "accept4") == 0 || strcmp(syscall, "accept") == 0
+            || strcmp(syscall, "connect") == 0) {  
                 // printf("What: %d, %s, %s", FD, args, PID);
                 handleConnectionSystemCall(syscall, FD, args, PID);
             } 
@@ -489,6 +527,7 @@ int main(){
             // At any other system call we want to modify the graph we are currently working on
             else
             {
+                parseArgs(args, args);
                 if(totalGraphs >= 0){
                     
                     if(strcmp("Unknown tuple", args) != 0) {
@@ -507,7 +546,7 @@ int main(){
                                 
                                 // See if this is the first connection to this graph (Making it a Full Graph)
                                 if(strcmp("dashed", graphs[currentGraph]->edges[1]->edgeType) == 0) { //TODO Connect()
-                                    updateEdge(1, syscall, "solid");
+                                    updateEdge(graphs[currentGraph], 1, syscall, "solid");
 
                                 } else {
                                     // Get current fd node 
