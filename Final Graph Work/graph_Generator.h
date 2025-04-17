@@ -35,7 +35,7 @@ Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph
 Edge* createEdge(int to, int from, char* syscall, char* edgeType, Subgraph* subgraph);
 Subgraph* initializeSubgraph(int fd, char *PID);
 void addEdge(int from, int to, char *syscall);
-void update_edge(int edge, char *newcall, char *edge_type);
+void updateEdge(int edge, char *newcall, char *edge_type);
 int findOrAddNode(int fileDescriptor, char *args, char PID[], char shape[]);
 int getSubgraphFD(int currentFD);
 int getNodeFD(int currentFD);

@@ -46,7 +46,7 @@ int currentGraph = -1;
 
 // ---------------------Functions --------------------------------------------------------
 
-// Used to streamline the number of times malloc must be called for structs
+// Helper method to malloc structs and ensure validity
 void* createStruct(size_t structSize) {
     void* ptr = malloc(structSize);
     if(ptr == NULL) {
@@ -54,6 +54,18 @@ void* createStruct(size_t structSize) {
         exit(EXIT_FAILURE);
     } else {
         return ptr;
+    }
+}
+
+// Helper method to open a file and ensure validity
+FILE* openFile(char* fileName, char* mode) {
+    FILE *file = fopen(fileName, mode);
+    if (!file) {
+        perror("Failed to open DOT file\n");
+        printf("%s\n", fileName);
+        exit(EXIT_FAILURE);
+    } else {
+        return file;
     }
 }
 
@@ -104,7 +116,7 @@ void addEdge(int from, int to, char *syscall) {
 
     // Check if edge already exists
     // TODO -> Try to make this more cost efficient but unsure if can be done
-    // WOrking concepts:
+    // Working concepts:
         /*
         We skip 0,1 because those are handled separately
         */
@@ -115,9 +127,10 @@ void addEdge(int from, int to, char *syscall) {
         }
     }	
 
-    // TODO Else create new edge
+    // Else create new edge
     Edge* newEdge = createEdge(to, from, syscall, "solid", graph);
 
+    // TODO
     // If we just added close, return fd to original PID FD, PID will always be node 3 (2)
     if(strcmp(syscall, "close") == 0) {
         if (graph->currentfd == graph->nodes[0]->fd) {
@@ -131,8 +144,8 @@ void addEdge(int from, int to, char *syscall) {
 
 // Explicit function for reassigning temp connection between network socket and PID to full connection
 // TODO -> May want to actually hard code this below and just do this within Main?
-void update_edge(int edge, char *newcall, char *edge_type) {
-    int subgraphID = currentGraph;
+void updateEdge(int edge, char *newcall, char *edge_type) {
+    // Get current graph
     Subgraph* graph = graphs[currentGraph];
 
     //Update edge (denoted by edgenum for now) with new syscall
@@ -143,11 +156,14 @@ void update_edge(int edge, char *newcall, char *edge_type) {
 
 // TODO --> this is not secure... why?
 int findOrAddNode(int fileDescriptor, char *args, char PID[], char shape[]) {  
-    //get current subgraph
-    int subgraphID = currentGraph;
+    // Get current subgraph
     Subgraph* graph = graphs[currentGraph];
-    
-    int nodeCount = graph->node_count;
+
+    // Default end case
+    if (graph->node_count >= MAX_SUBNODES) {
+        fprintf(stderr, "Error: Maximum nodes exceeded.\n");
+        exit(1);
+    }
 
     // Check if network tuple
     char tuple[256];
@@ -158,39 +174,36 @@ int findOrAddNode(int fileDescriptor, char *args, char PID[], char shape[]) {
         return 1;
     }
 
-    for (int i = 2; i < nodeCount; i++) {  
-        //if we see a matching argument break out of the loop...
+    // Find Node
+    for (int i = 2; i < graph->node_count; i++) {  
+        // If we see a matching argument break out of the loop...
         // Need to adapt to find the tuple instance
         if (strcmp(graph->nodes[i]->args, args) == 0) {
             return i;
         }
     }
 
-    if (nodeCount >= MAX_SUBNODES) {
-        fprintf(stderr, "Error: Maximum nodes exceeded.\n");
-        exit(1);
-    }
-
+    // Else Add Node
     Node* newNode = createNode(args, fileDescriptor, "ellipse", graphs[currentGraph]->node_count, graph);
-    // Update the currentFD we'll be looking for
+    
+    // Update the currentFD we'll be referencing
     graph->currentfd = fileDescriptor;
-
     return newNode->nodeID;
 }
 
 int getSubgraphFD(int currentFD) {
-    //go through the list of graphs globally
+    // Go through the list of graphs globally
     for(int i = 0; i <= totalGraphs; i ++){
-        //check the currentfd of each subgraph and return that graphs graphNUM
+        // Check the currentfd of each subgraph and return that graphs graphNum
         if(currentFD == graphs[i]->currentfd && graphs[i]->isValid == 0){
             return graphs[i]->graphNum;
         }
     }
     // If we do not encounter this fd, assume we are at a point where the last call happened to come from this graph
-    // Else do nothing
     return -1;
 }
 
+// Helper function for finding the FD we need to be interacting with
 int getNodeFD(int currentFD) {
     for(int i = 1; i < graphs[currentGraph]->node_count; i++) {
         if (graphs[currentGraph]->nodes[i]->fd == currentFD) {
@@ -221,6 +234,8 @@ void makeSubgraph(int fd, char *socketTuple, char *PID) {
     }
 
     // Initialize subgraph
+    totalGraphs = totalGraphs + 1;
+    currentGraph = totalGraphs;
     Subgraph* subgraph = initializeSubgraph(fd, PID);
     graphs[currentGraph] = subgraph;
 
@@ -315,17 +330,6 @@ bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD
 	else{return true;}
 }
 
-FILE* openFile(char* fileName, char* mode) {
-    FILE *file = fopen(fileName, mode);
-    if (!file) {
-        perror("Failed to open DOT file\n");
-        printf("%s\n", fileName);
-        exit(EXIT_FAILURE);
-    } else {
-        return file;
-    }
-}
-
 void printSubgraphMetadata(){
     printf("%d subgraphs created\n", totalGraphs+1); // Pad out graph 0 for human understanding
     for(int i = 0; i <= totalGraphs; i++){
@@ -343,9 +347,9 @@ void createDOT(char* setting){
 
     //Determined by setting
     if(strcmp("individual", setting) == 0){
+        
         //Make a subdirectory for all these graphs
         char makeCommand[256];
-
         sprintf(makeCommand, "mkdir \".\\Dot Files\\Timestamp_%d\"", &instance);
         if (system(makeCommand) == -1){ // Try the command
             perror("Could not make subdirectory for graphs");
@@ -389,9 +393,8 @@ void createDOT(char* setting){
         FILE *dot_file = openFile(path, "w");
 
         // After new dotfile has been successfully made:
-        //print the setup info:
+        // Print the setup info:
         fprintf(dot_file, "digraph nginx_syscalls {\n");
-
         for(int i = 0; i <= totalGraphs; i++){ //for every subgraph
 
             // Initiate subgraph
@@ -427,7 +430,6 @@ int main(){
 
     FILE *file = openFile("./Falco Trace Files/TestEvents.txt", "r");
     char line[1024];
-    int number_of_subgraph_nodes = 0; // TODO find a way to phase this out
 
     // Get FULL line of information...
     while (fgets(line, sizeof(line), file)) {
@@ -444,19 +446,15 @@ int main(){
 
             // Check to see if we want to start new subgraph/handle other speciality cases
             // TODO
-            if(strcmp(syscall, "accept4") == 0) {
-                totalGraphs = totalGraphs + 1;
-                currentGraph = totalGraphs;   
+            if(strcmp(syscall, "accept4") == 0) {  
                 makeSubgraph(FD, args, PID);
-                number_of_subgraph_nodes = 0;
             } 
 
             // At any other system call we want to modify the graph we are currently working on
             else
             {
                 if(totalGraphs >= 0){
-                    // Increment nodes
-                    number_of_subgraph_nodes+=1;
+                    
                     if(strcmp("Unknown tuple", args) != 0) {
                         // See if we need to modify current graph
                         int tempCurrentGraph = getSubgraphFD(FD);
@@ -464,16 +462,16 @@ int main(){
                         // If the file descriptor is brand new (its either -1)
                         // Do not change current graph, add node and edge
                         if(tempCurrentGraph == -1) { //TODO
-
                             int newNode = findOrAddNode(FD, args, PID, "ellipse");
                             addEdge(2, newNode, syscall);
+
                         // If the file descriptor has been run into before, we update the current graph and add an edge
                         } else if (tempCurrentGraph != -1) {
                                 currentGraph = tempCurrentGraph; // Should put us on the correct subgraph
                                 
                                 // See if this is the first connection to this graph (Making it a Full Graph)
                                 if(strcmp("dashed", graphs[currentGraph]->edges[1]->edgeType) == 0) { //TODO Connect()
-                                    update_edge(1, syscall, "solid");
+                                    updateEdge(1, syscall, "solid");
 
                                 } else {
                                     // Get current fd node 
