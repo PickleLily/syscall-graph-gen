@@ -292,14 +292,25 @@ bool parseLine(char line[], int FD, char *syscall, char *args, char *ret, char *
 
 // Method for filtering out additional lines that, while valid, do not contain data we can work with
 bool parseSyscall(char syscall[], char returnValues[], char arguments[], char FD[]){
-	if(strcmp(syscall, "rt_sigaction") == 0 || strcmp(syscall, "rt_sigprocmask") ==  0 || strcmp(syscall, "brk") == 0 || strcmp(syscall, "munmap") == 0){return false;}
-	else if(strcmp(syscall, "chdir") == 0 && strcmp(arguments, "") == 0){return false;}
-	else if (strcmp(syscall, "open") == 0 ){return false;}
-	else if(strcmp(syscall, "mmap") == 0 && strcmp(FD, "<NA>") == 0){return false;}
-	else if(strcmp(syscall, "close") == 0 && (strcmp(returnValues, "0 ") == 0 || strcmp(arguments, "") == 0)){return false;}
-    else if(strcmp(syscall, "access") == 0 && strcmp(arguments, "mode=0") == 0){return false;}
-    else if(strcmp(syscall, "accept4") == 0 && strcmp(returnValues, "<NA>") == 0 ){return false;}
-    else if(strcmp(syscall, "write") == 0 ){ return false;}
+	// System calls that additionally should be ignored
+    if(strcmp(syscall, "rt_sigaction") == 0 
+    || strcmp(syscall, "rt_sigprocmask") ==  0 
+    || strcmp(syscall, "brk") == 0 
+    || strcmp(syscall, "munmap") == 0
+    || strcmp(syscall, "open") == 0 
+    || strcmp(syscall, "write") == 0 ){
+        return false;
+    }
+    // System calls that when having a specific argument should be ignored
+	else if(strcmp(syscall, "chdir") == 0 && strcmp(arguments, "") == 0
+    || strcmp(syscall, "access") == 0 && strcmp(arguments, "mode=0") == 0){
+        return false;
+    }
+    // System calls that when having a specific return value should be ignored
+	else if(strcmp(syscall, "close") == 0 && (strcmp(returnValues, "0 ") == 0 || strcmp(arguments, "") == 0)
+    || strcmp(syscall, "accept4") == 0 && strcmp(returnValues, "<NA>") == 0){
+        return false;
+    }
 	// This is a system call that HAS information...
 	else{return true;}
 }
