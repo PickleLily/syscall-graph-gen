@@ -705,12 +705,6 @@ int main(){
     createDOT(DOT_TYPE);
 }
 
-
-
-
-
-
-
 /*  Retired Code
 
 Print the output of each graph --> Depricated
