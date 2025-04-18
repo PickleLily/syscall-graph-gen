@@ -195,7 +195,7 @@ int findOrAddNode(int fileDescriptor, char *args, char PID[], char *isProcess, c
     }
 
     // Else Add Node
-    Node* newNode = createNode(args, fileDescriptor, "ellipse", graphs[currentGraph]->node_count, atoi(PID), "n\0", graph);
+    Node* newNode = createNode(args, fileDescriptor, shape, graphs[currentGraph]->node_count, atoi(PID), "n\0", graph);
 // 
     // Update within the list of current valid FD's -> Essentially adds the FD to a "list" of valid FD's
     for (int i = 0; i < sizeof(graph->currentfd); i++){
@@ -294,6 +294,11 @@ int getProcessNode(int currentFD, int currentPID) {
         if (                                                                // graphs[currentGraph]->nodes[i]->fd == currentFD   The FD of the node and our current FD match
             graphs[currentGraph]->nodes[i]->nodePID == currentPID        // The PID of the node and our current PID match
             && strcmp(graphs[currentGraph]->nodes[i]->process, "y") == 0) { // The node that meets these criteria is also a process node
+            return i;
+        }
+    }
+    for (int i = graphs[currentGraph]->node_count-1; i >= 0; i--){
+        if (strcmp(graphs[currentGraph]->nodes[i]->process, "y") == 0) {
             return i;
         }
     }
@@ -460,7 +465,7 @@ void handleConnectionSystemCall(char *syscall, int FD, char *args, char *PID) {
                 }
                 for (int j = 3; j < graphs[i]->node_count; j++) {
                     if(strcmp(graphs[i]->nodes[j]->args, socket2) == 0) { // Node j is a connect containing our predefined 'connect' tuple
-                        int newNode = findOrAddNode(FD, args, PID, "y\0", "box\0"); // This will be a process node
+                        int newNode = findOrAddNode(FD, args, PID, "y", "rectangle"); // This will be a process node
                             // graphs[i], j, args, "diamond\0");
                         addEdge(j, newNode, syscall); // Add an edge between the node j in graph i to our new process.
                         for (int k = 0; k < sizeof(graphs[i]->currentfd); k++){ // Add new process FD
@@ -626,7 +631,7 @@ void createDOT(char* setting){
 
 int main(){
 
-    FILE *file = openFile("./Falco Trace Files/TestEvents.txt", "r");
+    FILE *file = openFile("./Falco Trace Files/XSSHigh.txt", "r");
     char line[1024];
 
     // Get FULL line of information...
