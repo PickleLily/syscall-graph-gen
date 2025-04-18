@@ -1,1 +1,7 @@
 This folder contains our finalized work towards this project
+
+Run dot file generation
+    "./graph_Generation.exe "Dot_Files\Timestamp_[timestamp]\*" OR "Dot_Files\Timestamp_[timestamp]\graph[X].dot"
+
+Run graph generation
+    "./PNG_Generation.exe "Dot_Files\Timestamp_[timestamp]\*" OR "Dot_Files\Timestamp_[timestamp]\graph[X].dot"

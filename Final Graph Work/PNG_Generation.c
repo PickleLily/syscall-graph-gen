@@ -41,9 +41,7 @@ void main(int argc, char *argv[]){
                     char png[MAX_LEN];
     
                     // Build dot file string
-                    sprintf(dot, "\"%s\\%s\"", folderName, file->d_name);
-                    // printf("Dot file name: %s\n", dot); // Print if neede for debugging
-                   
+                    sprintf(dot, "\"%s\\%s\"", folderName, file->d_name);                   
                     sprintf(png, "%.*s.png", strlen(file->d_name)-4, file->d_name);
     
                     char command[MAX_LEN];
