@@ -123,6 +123,9 @@ void addEdge(int from, int to, char *syscall) {
         fprintf(stderr, "Error: Maximum edges exceeded.\n");
         exit(1);
     }
+    if (from == -1 || to == -1) {
+        return; //Invalid edge
+    }
 
     // Check to see if both directions are the same. If so, default to the one above the PID
     if (from == to) {
@@ -297,12 +300,12 @@ int getProcessNode(int currentFD, int currentPID) {
             return i;
         }
     }
-    for (int i = graphs[currentGraph]->node_count-1; i >= 0; i--){
-        if (strcmp(graphs[currentGraph]->nodes[i]->process, "y") == 0) {
-            return i;
-        }
-    }
-    return 2;
+    // for (int i = graphs[currentGraph]->node_count-1; i >= 0; i--){
+    //     if (strcmp(graphs[currentGraph]->nodes[i]->process, "y") == 0) {
+    //         return i;
+    //     }
+    // }
+    return -1;
 }
 
 int getNodeFD(int currentFD, char *args, int currentPID) {
@@ -465,7 +468,7 @@ void handleConnectionSystemCall(char *syscall, int FD, char *args, char *PID) {
                 }
                 for (int j = 3; j < graphs[i]->node_count; j++) {
                     if(strcmp(graphs[i]->nodes[j]->args, socket2) == 0) { // Node j is a connect containing our predefined 'connect' tuple
-                        int newNode = findOrAddNode(FD, args, PID, "y", "rectangle"); // This will be a process node
+                        int newNode = findOrAddNode(FD, args, PID, "y", "rectangle\0"); // This will be a process node
                             // graphs[i], j, args, "diamond\0");
                         addEdge(j, newNode, syscall); // Add an edge between the node j in graph i to our new process.
                         for (int k = 0; k < sizeof(graphs[i]->currentfd); k++){ // Add new process FD
@@ -508,7 +511,7 @@ void handleConnectionSystemCall(char *syscall, int FD, char *args, char *PID) {
         for (int i = 3; i < graph->node_count; i++){
             if ((addrLocation && strcmp(graph->nodes[i]->args, addr) == 0) || strcmp(graph->nodes[i]->args, args) == 0 || atoi(graph->nodes[i]->args) == FD){
                 updateNode(graph, i, addr, "diamond\0"); // This doesn't remove plain FD for files where the outcome remains
-                addEdge(2, i, syscall);
+                addEdge(getProcessNode(FD, atoi(PID)), i, syscall);
                 printf("Added edge from 2 to %d\n",i);
                 break;
             }
@@ -569,7 +572,7 @@ void createDOT(char* setting){
                     if(strcmp("close", graphs[i]->nodes[j]->args) == 0) {
                         fprintf(dot_file, "  %d [label=\"%s\", shape=%s, color=\"red\"];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
                     } else {
-                        fprintf(dot_file, "  %d [label=\"%s\", shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape);
+                        fprintf(dot_file, "  %d [label=\"%s, PID:%d\", shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->nodePID, graphs[i]->nodes[j]->shape);
                         // printf("  %d [label=\"%s\" shape=%s];\n", j, graphs[i]->nodes[j]->args, graphs[i]->nodes[j]->shape); 
                     }
                 }
@@ -639,7 +642,7 @@ void createDOT(char* setting){
 
 int main(){
 
-    FILE *file = openFile("./Falco Trace Files/XSSHigh.txt", "r");
+    FILE *file = openFile("./Falco Trace Files/SQL/exploit.txt", "r");
     char line[1024];
 
     // Get FULL line of information...
@@ -677,9 +680,11 @@ int main(){
                         // If the file descriptor is brand new (its either -1)
                         // Do not change current graph, add node and edge
                         if (tempCurrentGraph == -1) { //TODO
-                            int newNode = findOrAddNode(FD, args, PID, "n\0", "ellipse");
-                            // int node = getProcessNode(FD, atoi(PID));
-                            addEdge( getProcessNode(FD, atoi(PID)), newNode, syscall);
+                            if(getProcessNode(FD, atoi(PID)) != -1){
+                                int newNode = findOrAddNode(FD, args, PID, "n\0", "ellipse");
+                                // int node = getProcessNode(FD, atoi(PID));
+                                addEdge(getProcessNode(FD, atoi(PID)), newNode, syscall);
+                            }
 
                         // If the file descriptor has been run into before, we update the current graph and add an edge
                         } else if (tempCurrentGraph != -1) {
@@ -700,7 +705,6 @@ int main(){
                 }
             }
         }else{
-            printf("else");
         }
     }
     // Include additional debugging information if desired

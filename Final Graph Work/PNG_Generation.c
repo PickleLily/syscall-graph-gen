@@ -19,6 +19,7 @@ void main(int argc, char *argv[]){
             char *input = argv[i];
             input[strlen(argv[i])-1] = '\0';
             const char *folderName = input;
+            printf("%s\n",folderName);
             DIR *directory = opendir(folderName);  // Open the directory
             // printf("%s\n", folderName);
             if (directory == NULL) {
