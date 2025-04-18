@@ -13,6 +13,7 @@ typedef struct Node {
 typedef struct Edge {
     int from;       // name of the source node 
     int to;         // name of the destination node
+    char bidirectional[2]; // Is the edge bidirectional (cuts down on space) n = no y = yes
     char syscall[64];     // The system call connecting the nodes
     char edgeType[8];   //"dashed", "dotted" ,"solid", "invis", "bold"
 } Edge;
@@ -36,7 +37,7 @@ Node* createNode(char* args, int fd, char* shape, int nodeID, Subgraph* subgraph
 Edge* createEdge(int to, int from, char* syscall, char* edgeType, Subgraph* subgraph);
 Subgraph* initializeSubgraph(int fd, char *PID);
 void addEdge(int from, int to, char *syscall);
-void updateEdge(int edge, char *newcall, char *edge_type);
+void updateEdge(Subgraph* subgraph, int edge, char *newcall, char *edge_type);
 int findOrAddNode(int fileDescriptor, char *args, char PID[], char shape[]);
 int getSubgraphFD(int currentFD);
 int getNodeFD(int currentFD);
