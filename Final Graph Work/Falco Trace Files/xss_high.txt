@@ -1,0 +1,393 @@
+95% of storage used … If you run out of space, you can't save to Drive or use Gmail. Get 100 GB of storage for $1.99 $0.49 for 1 month.
+20:20:22.581548752: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:22.581553511: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:22.581554361: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:22.581557968: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:23.096802961: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:23.096816234: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:23.096819326: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:23.096855414: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:23.351613002: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=2147483647, Return:<NA>, PID:1013
+20:20:23.351644358: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:23.351674970: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:23.351682340: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:23.351684097: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:23.351690463: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:23.353836948: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:23.353843327: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:23.353844931: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:23.353852484: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:23.581708397: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:23.581716598: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:23.581718456: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:23.581724374: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:23.911044311: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:23.911062647: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015E79570 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:23.911066741: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:23.911080298: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015E795C0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:24.006555852: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:24.006560225: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3DA0 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.006561354: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.006566502: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3DF0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:24.097009978: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:24.097016296: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.097017432: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.097039292: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:24.162234509: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:24.162252251: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015E8D400 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.162256694: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.162271560: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015E8D450 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:24.223859750: Informational Name:apache2 FD:10 Syscall:accept4, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) tuple=127.0.0.1:49184->127.0.0.1:80 queuepct=0 queuelen=0 queuemax=511, Return:10, PID:1142
+20:20:24.223886027: Informational Name:apache2 FD:10 Syscall:fcntl, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) cmd=4(F_GETFL), Return:<NA>, PID:1142
+20:20:24.223889186: Informational Name:apache2 FD:10 Syscall:fcntl, Args:res=2(<f>/var/log/apache2/error.log) fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) cmd=4(F_GETFL), Return:2, PID:1142
+20:20:24.223890841: Informational Name:apache2 FD:10 Syscall:fcntl, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) cmd=5(F_SETFL), Return:<NA>, PID:1142
+20:20:24.223891798: Informational Name:apache2 FD:10 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) cmd=5(F_SETFL), Return:0, PID:1142
+20:20:24.223910918: Informational Name:apache2 FD:10 Syscall:read, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:<NA>, PID:1142
+20:20:24.223917789: Informational Name:apache2 FD:10 Syscall:read, Args:res=638 data=GET /vulnerabilities/xss_r/?name=%3Cimg+src%3D%22x%22+onerror%3D%22alert%28%29%2 fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:638, PID:1142
+20:20:24.224156722: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224158680: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224160232: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224160741: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224162053: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224162630: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224163979: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224164472: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224165776: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224166351: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224167653: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224168473: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224169778: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224170278: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224174746: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224175504: Informational Name:apache2 FD:<NA> Syscall:rt_sigaction, Args:, Return:<NA>, PID:1142
+20:20:24.224177393: Informational Name:apache2 FD:<NA> Syscall:rt_sigprocmask, Args:, Return:<NA>, PID:1142
+20:20:24.224178281: Informational Name:apache2 FD:<NA> Syscall:rt_sigprocmask, Args:, Return:<NA>, PID:1142
+20:20:24.224211645: Informational Name:apache2 FD:<NA> Syscall:chdir, Args:, Return:<NA>, PID:1142
+20:20:24.224215837: Informational Name:apache2 FD:<NA> Syscall:chdir, Args:res=0 path=/var/www/html/vulnerabilities/xss_r, Return:0, PID:1142
+20:20:24.224223169: Informational Name:apache2 FD:8 Syscall:fcntl, Args:fd=8(<f>/tmp/.ZendSem.lvtkDm (deleted)) cmd=8(F_SETLK), Return:<NA>, PID:1142
+20:20:24.224228180: Informational Name:apache2 FD:8 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=8(<f>/tmp/.ZendSem.lvtkDm (deleted)) cmd=8(F_SETLK), Return:0, PID:1142
+20:20:24.224321810: Informational Name:apache2 FD:<NA> Syscall:access, Args:mode=0(F_OK), Return:<NA>, PID:1142
+20:20:24.224339755: Informational Name:apache2 FD:<NA> Syscall:access, Args:res=0 name=../../config/config.inc.php(/var/www/html/config/config.inc.php), Return:0, PID:1142
+20:20:24.224375633: Informational Name:apache2 FD:-1 Syscall:openat, Args:dirfd=-100(AT_FDCWD) name=/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6 flags=7(O_CREAT|O_RDWR) mode=0600, Return:<NA>, PID:1142
+20:20:24.224392810: Informational Name:apache2 FD:11 Syscall:openat, Args:fd=11(<f>/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6) dirfd=-100(AT_FDCWD) name=/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6 flags=7(O_CREAT|O_RDWR) mode=0600 dev=805 ino=659104, Return:11, PID:1142
+20:20:24.224405273: Informational Name:apache2 FD:11 Syscall:flock, Args:fd=11(<f>/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6) operation=2(LOCK_EX), Return:<NA>, PID:1142
+20:20:24.224408250: Informational Name:apache2 FD:11 Syscall:flock, Args:res=0, Return:0, PID:1142
+20:20:24.224410229: Informational Name:apache2 FD:11 Syscall:fcntl, Args:fd=11(<f>/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6) cmd=3(F_SETFD), Return:<NA>, PID:1142
+20:20:24.224411463: Informational Name:apache2 FD:11 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=11(<f>/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6) cmd=3(F_SETFD), Return:0, PID:1142
+20:20:24.224415593: Informational Name:apache2 FD:11 Syscall:pread, Args:fd=11(<f>/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6) size=135 pos=0, Return:<NA>, PID:1142
+20:20:24.224430347: Informational Name:apache2 FD:11 Syscall:pread, Args:res=135 data=dvwa|a:3:{s:6:"locale";s:2:"en";s:8:"messages";a:0:{}s:8:"username";s:5:"admin"; fd=11(<f>/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6) size=135 pos=0, Return:135, PID:1142
+20:20:24.224482999: Informational Name:apache2 FD:<NA> Syscall:access, Args:mode=2(W_OK), Return:<NA>, PID:1142
+20:20:24.224487543: Informational Name:apache2 FD:<NA> Syscall:access, Args:res=0 name=/var/www/html/hackable/uploads/, Return:0, PID:1142
+20:20:24.224489873: Informational Name:apache2 FD:<NA> Syscall:access, Args:mode=2(W_OK), Return:<NA>, PID:1142
+20:20:24.224492368: Informational Name:apache2 FD:<NA> Syscall:access, Args:res=0 name=/var/www/html/config, Return:0, PID:1142
+20:20:24.224554469: Informational Name:apache2 FD:-1 Syscall:socket, Args:domain=2(AF_INET) type=1 proto=0, Return:<NA>, PID:1142
+20:20:24.224571606: Informational Name:apache2 FD:12 Syscall:socket, Args:fd=12(<4>) domain=2(AF_INET) type=1 proto=0, Return:12, PID:1142
+20:20:24.224575717: Informational Name:apache2 FD:12 Syscall:fcntl, Args:fd=12(<4>) cmd=4(F_GETFL), Return:<NA>, PID:1142
+20:20:24.224577141: Informational Name:apache2 FD:12 Syscall:fcntl, Args:res=2(<f>/var/log/apache2/error.log) fd=12(<4>) cmd=4(F_GETFL), Return:2, PID:1142
+20:20:24.224578702: Informational Name:apache2 FD:12 Syscall:fcntl, Args:fd=12(<4>) cmd=5(F_SETFL), Return:<NA>, PID:1142
+20:20:24.224579452: Informational Name:apache2 FD:12 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=12(<4>) cmd=5(F_SETFL), Return:0, PID:1142
+20:20:24.224582941: Informational Name:apache2 FD:12 Syscall:connect, Args:fd=12(<4>) addr=127.0.0.1:3306, Return:<NA>, PID:1142
+20:20:24.224643603: Informational Name:apache2 FD:12 Syscall:connect, Args:res=-115(EINPROGRESS) tuple=127.0.0.1:49658->127.0.0.1:3306 fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306), Return:-115, PID:1142
+20:20:24.224665721: Informational Name:apache2 FD:12 Syscall:fcntl, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1142
+20:20:24.224667262: Informational Name:apache2 FD:12 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1142
+20:20:24.224672375: Informational Name:apache2 FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1142
+20:20:24.224675696: Informational Name:apache2 FD:-1 Syscall:setsockopt, Args:res=0 fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:1142
+20:20:24.224678230: Informational Name:apache2 FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1142
+20:20:24.224681071: Informational Name:apache2 FD:-1 Syscall:setsockopt, Args:res=0 fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) level=1(SOL_SOCKET) optname=9(SO_KEEPALIVE) val=1 optlen=4, Return:0, PID:1142
+20:20:24.224714893: Informational Name:mysqld FD:21 Syscall:fcntl, Args:fd=21(<4t>127.0.0.1:3306) cmd=4(F_GETFL), Return:<NA>, PID:1013
+20:20:24.224716622: Informational Name:mysqld FD:21 Syscall:fcntl, Args:res=2(<f>/var/log/mysql/error.log.1 (deleted)) fd=21(<4t>127.0.0.1:3306) cmd=4(F_GETFL), Return:2, PID:1013
+20:20:24.224718299: Informational Name:mysqld FD:21 Syscall:fcntl, Args:fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1013
+20:20:24.224719084: Informational Name:mysqld FD:21 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1013
+20:20:24.224721620: Informational Name:mysqld FD:-1 Syscall:accept4, Args:flags=0, Return:<NA>, PID:1013
+20:20:24.224734847: Informational Name:mysqld FD:44 Syscall:accept4, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) tuple=127.0.0.1:49658->127.0.0.1:3306 queuepct=0 queuelen=0 queuemax=80, Return:44, PID:1013
+20:20:24.224738677: Informational Name:mysqld FD:21 Syscall:fcntl, Args:fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1013
+20:20:24.224739474: Informational Name:mysqld FD:21 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1013
+20:20:24.224741036: Informational Name:mysqld FD:44 Syscall:fcntl, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) cmd=3(F_SETFD), Return:<NA>, PID:1013
+20:20:24.224741800: Informational Name:mysqld FD:44 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) cmd=3(F_SETFD), Return:0, PID:1013
+20:20:24.224784678: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55EFEE4506CC op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.224793251: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:24.224803927: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.224807733: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55EFEE44DF20 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.224808794: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.224826362: Informational Name:mysqld FD:44 Syscall:fcntl, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1013
+20:20:24.224827843: Informational Name:mysqld FD:44 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1013
+20:20:24.224829844: Informational Name:mysqld FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1013
+20:20:24.224833323: Informational Name:mysqld FD:-1 Syscall:setsockopt, Args:res=0 fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) level=0(UNKNOWN) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:1013
+20:20:24.224835257: Informational Name:mysqld FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1013
+20:20:24.224836453: Informational Name:mysqld FD:-1 Syscall:setsockopt, Args:res=0 fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:1013
+20:20:24.224861947: Informational Name:mysqld FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1013
+20:20:24.224864487: Informational Name:mysqld FD:-1 Syscall:setsockopt, Args:res=0 fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) level=1(SOL_SOCKET) optname=9(SO_KEEPALIVE) val=1 optlen=4, Return:0, PID:1013
+20:20:24.224873667: Informational Name:mysqld FD:44 Syscall:sendto, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=110 tuple=127.0.0.1:3306->127.0.0.1:49658, Return:<NA>, PID:1013
+20:20:24.224908288: Informational Name:mysqld FD:44 Syscall:sendto, Args:res=110 data=j....5.5.5-10.3.39-MariaDB-0ubuntu0.20.04.2.<...-w2/8g"p...-...............1A3{4, Return:110, PID:1013
+20:20:24.224914430: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.224916875: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=-11(EAGAIN) data=NULL tuple=NULL, Return:-11, PID:1013
+20:20:24.224938494: Informational Name:apache2 FD:12 Syscall:recvfrom, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) size=32768, Return:<NA>, PID:1142
+20:20:24.224943554: Informational Name:apache2 FD:12 Syscall:recvfrom, Args:res=110 data=j....5.5.5-10.3.39-MariaDB-0ubuntu0.20.04.2.<...-w2/8g"p...-...............1A3{4 tuple=127.0.0.1:3306->127.0.0.1:49658, Return:110, PID:1142
+20:20:24.224958928: Informational Name:apache2 FD:12 Syscall:sendto, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) size=129 tuple=127.0.0.1:49658->127.0.0.1:3306, Return:<NA>, PID:1142
+20:20:24.224981224: Informational Name:apache2 FD:12 Syscall:sendto, Args:res=129 data=}...........-.......................dvwa.....;.~.QD.........stmysql_native_passw, Return:129, PID:1142
+20:20:24.225000447: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.225003824: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=4 data=}... tuple=127.0.0.1:49658->127.0.0.1:3306, Return:4, PID:1013
+20:20:24.225007014: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=125, Return:<NA>, PID:1013
+20:20:24.225009358: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=125 data=........-.......................dvwa.....;.~.QD.........stmysql_native_password. tuple=127.0.0.1:49658->127.0.0.1:3306, Return:125, PID:1013
+20:20:24.225025557: Informational Name:mysqld FD:44 Syscall:sendto, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=11 tuple=127.0.0.1:3306->127.0.0.1:49658, Return:<NA>, PID:1013
+20:20:24.225041010: Informational Name:mysqld FD:44 Syscall:sendto, Args:res=11 data=..........., Return:11, PID:1013
+20:20:24.225048580: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.225049666: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=-11(EAGAIN) data=NULL tuple=NULL, Return:-11, PID:1013
+20:20:24.225066129: Informational Name:apache2 FD:12 Syscall:recvfrom, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) size=32768, Return:<NA>, PID:1142
+20:20:24.225069368: Informational Name:apache2 FD:12 Syscall:recvfrom, Args:res=11 data=........... tuple=127.0.0.1:3306->127.0.0.1:49658, Return:11, PID:1142
+20:20:24.225165678: Informational Name:apache2 FD:12 Syscall:sendto, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) size=13 tuple=127.0.0.1:49658->127.0.0.1:3306, Return:<NA>, PID:1142
+20:20:24.225186661: Informational Name:apache2 FD:12 Syscall:sendto, Args:res=13 data=.....USE dvwa, Return:13, PID:1142
+20:20:24.225209296: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.225213288: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=4 data=.... tuple=127.0.0.1:49658->127.0.0.1:3306, Return:4, PID:1013
+20:20:24.225217305: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=9, Return:<NA>, PID:1013
+20:20:24.225219531: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=9 data=.USE dvwa tuple=127.0.0.1:49658->127.0.0.1:3306, Return:9, PID:1013
+20:20:24.225242445: Informational Name:mysqld FD:<NA> Syscall:access, Args:mode=0(F_OK), Return:<NA>, PID:1013
+20:20:24.225251664: Informational Name:mysqld FD:<NA> Syscall:access, Args:res=0 name=./dvwa(/var/lib/mysql/dvwa), Return:0, PID:1013
+20:20:24.225263656: Informational Name:mysqld FD:44 Syscall:sendto, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=11 tuple=127.0.0.1:3306->127.0.0.1:49658, Return:<NA>, PID:1013
+20:20:24.225283463: Informational Name:mysqld FD:44 Syscall:sendto, Args:res=11 data=..........., Return:11, PID:1013
+20:20:24.225289267: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.225290873: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=-11(EAGAIN) data=NULL tuple=NULL, Return:-11, PID:1013
+20:20:24.225308381: Informational Name:apache2 FD:12 Syscall:recvfrom, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) size=32768, Return:<NA>, PID:1142
+20:20:24.225312161: Informational Name:apache2 FD:12 Syscall:recvfrom, Args:res=11 data=........... tuple=127.0.0.1:3306->127.0.0.1:49658, Return:11, PID:1142
+20:20:24.225339455: Informational Name:apache2 FD:-1 Syscall:socket, Args:domain=2(AF_INET) type=1 proto=0, Return:<NA>, PID:1142
+20:20:24.225353536: Informational Name:apache2 FD:13 Syscall:socket, Args:fd=13(<4>) domain=2(AF_INET) type=1 proto=0, Return:13, PID:1142
+20:20:24.225357264: Informational Name:apache2 FD:13 Syscall:fcntl, Args:fd=13(<4>) cmd=4(F_GETFL), Return:<NA>, PID:1142
+20:20:24.225359246: Informational Name:apache2 FD:13 Syscall:fcntl, Args:res=2(<f>/var/log/apache2/error.log) fd=13(<4>) cmd=4(F_GETFL), Return:2, PID:1142
+20:20:24.225361329: Informational Name:apache2 FD:13 Syscall:fcntl, Args:fd=13(<4>) cmd=5(F_SETFL), Return:<NA>, PID:1142
+20:20:24.225362429: Informational Name:apache2 FD:13 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=13(<4>) cmd=5(F_SETFL), Return:0, PID:1142
+20:20:24.225365877: Informational Name:apache2 FD:13 Syscall:connect, Args:fd=13(<4>) addr=127.0.0.1:3306, Return:<NA>, PID:1142
+20:20:24.225433532: Informational Name:apache2 FD:13 Syscall:connect, Args:res=-115(EINPROGRESS) tuple=127.0.0.1:49670->127.0.0.1:3306 fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306), Return:-115, PID:1142
+20:20:24.225449930: Informational Name:apache2 FD:13 Syscall:fcntl, Args:fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1142
+20:20:24.225451375: Informational Name:apache2 FD:13 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1142
+20:20:24.225455315: Informational Name:apache2 FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1142
+20:20:24.225457498: Informational Name:apache2 FD:-1 Syscall:setsockopt, Args:res=0 fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:1142
+20:20:24.225459481: Informational Name:apache2 FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1142
+20:20:24.225460934: Informational Name:apache2 FD:-1 Syscall:setsockopt, Args:res=0 fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) level=1(SOL_SOCKET) optname=9(SO_KEEPALIVE) val=1 optlen=4, Return:0, PID:1142
+20:20:24.225481189: Informational Name:mysqld FD:21 Syscall:fcntl, Args:fd=21(<4t>127.0.0.1:3306) cmd=4(F_GETFL), Return:<NA>, PID:1013
+20:20:24.225482609: Informational Name:mysqld FD:21 Syscall:fcntl, Args:res=2(<f>/var/log/mysql/error.log.1 (deleted)) fd=21(<4t>127.0.0.1:3306) cmd=4(F_GETFL), Return:2, PID:1013
+20:20:24.225484252: Informational Name:mysqld FD:21 Syscall:fcntl, Args:fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1013
+20:20:24.225485191: Informational Name:mysqld FD:21 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1013
+20:20:24.225487170: Informational Name:mysqld FD:-1 Syscall:accept4, Args:flags=0, Return:<NA>, PID:1013
+20:20:24.225497453: Informational Name:mysqld FD:75 Syscall:accept4, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) tuple=127.0.0.1:49670->127.0.0.1:3306 queuepct=0 queuelen=0 queuemax=80, Return:75, PID:1013
+20:20:24.225500565: Informational Name:mysqld FD:21 Syscall:fcntl, Args:fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1013
+20:20:24.225501385: Informational Name:mysqld FD:21 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=21(<4t>127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1013
+20:20:24.225502944: Informational Name:mysqld FD:75 Syscall:fcntl, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) cmd=3(F_SETFD), Return:<NA>, PID:1013
+20:20:24.225503704: Informational Name:mysqld FD:75 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) cmd=3(F_SETFD), Return:0, PID:1013
+20:20:24.225508218: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55EFEE4506CC op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.225514757: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:24.225522299: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.225524923: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55EFEE44DF20 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.225525738: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.225565230: Informational Name:mysqld FD:75 Syscall:fcntl, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:1013
+20:20:24.225568437: Informational Name:mysqld FD:75 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:1013
+20:20:24.225571297: Informational Name:mysqld FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1013
+20:20:24.225576023: Informational Name:mysqld FD:-1 Syscall:setsockopt, Args:res=0 fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) level=0(UNKNOWN) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:1013
+20:20:24.225578741: Informational Name:mysqld FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1013
+20:20:24.225580281: Informational Name:mysqld FD:-1 Syscall:setsockopt, Args:res=0 fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:1013
+20:20:24.225603074: Informational Name:mysqld FD:<NA> Syscall:setsockopt, Args:, Return:<NA>, PID:1013
+20:20:24.225606005: Informational Name:mysqld FD:-1 Syscall:setsockopt, Args:res=0 fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) level=1(SOL_SOCKET) optname=9(SO_KEEPALIVE) val=1 optlen=4, Return:0, PID:1013
+20:20:24.225613169: Informational Name:mysqld FD:75 Syscall:sendto, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=110 tuple=127.0.0.1:3306->127.0.0.1:49670, Return:<NA>, PID:1013
+20:20:24.225636694: Informational Name:mysqld FD:75 Syscall:sendto, Args:res=110 data=j....5.5.5-10.3.39-MariaDB-0ubuntu0.20.04.2.=...2x(\xgyK...-...............HiYcb, Return:110, PID:1013
+20:20:24.225640462: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.225642122: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:res=-11(EAGAIN) data=NULL tuple=NULL, Return:-11, PID:1013
+20:20:24.225662178: Informational Name:apache2 FD:13 Syscall:recvfrom, Args:fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) size=32768, Return:<NA>, PID:1142
+20:20:24.225666719: Informational Name:apache2 FD:13 Syscall:recvfrom, Args:res=110 data=j....5.5.5-10.3.39-MariaDB-0ubuntu0.20.04.2.=...2x(\xgyK...-...............HiYcb tuple=127.0.0.1:3306->127.0.0.1:49670, Return:110, PID:1142
+20:20:24.225684787: Informational Name:apache2 FD:13 Syscall:sendto, Args:fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) size=134 tuple=127.0.0.1:49670->127.0.0.1:3306, Return:<NA>, PID:1142
+20:20:24.225713918: Informational Name:apache2 FD:13 Syscall:sendto, Args:res=134 data=............!.......................dvwa..T.T..gX..5\&.~......dvwa.mysql_native_, Return:134, PID:1142
+20:20:24.225734850: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.225738354: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:res=4 data=.... tuple=127.0.0.1:49670->127.0.0.1:3306, Return:4, PID:1013
+20:20:24.225741510: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=130, Return:<NA>, PID:1013
+20:20:24.225743897: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:res=130 data=........!.......................dvwa..T.T..gX..5\&.~......dvwa.mysql_native_pass tuple=127.0.0.1:49670->127.0.0.1:3306, Return:130, PID:1013
+20:20:24.225756159: Informational Name:mysqld FD:<NA> Syscall:access, Args:mode=0(F_OK), Return:<NA>, PID:1013
+20:20:24.225763058: Informational Name:mysqld FD:<NA> Syscall:access, Args:res=0 name=./dvwa(/var/lib/mysql/dvwa), Return:0, PID:1013
+20:20:24.225769589: Informational Name:mysqld FD:75 Syscall:sendto, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=11 tuple=127.0.0.1:3306->127.0.0.1:49670, Return:<NA>, PID:1013
+20:20:24.225785469: Informational Name:mysqld FD:75 Syscall:sendto, Args:res=11 data=..........., Return:11, PID:1013
+20:20:24.225790882: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.225792091: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:res=-11(EAGAIN) data=NULL tuple=NULL, Return:-11, PID:1013
+20:20:24.225808424: Informational Name:apache2 FD:13 Syscall:recvfrom, Args:fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) size=32768, Return:<NA>, PID:1142
+20:20:24.225811550: Informational Name:apache2 FD:13 Syscall:recvfrom, Args:res=11 data=........... tuple=127.0.0.1:3306->127.0.0.1:49670, Return:11, PID:1142
+20:20:24.225907771: Informational Name:apache2 FD:-1 Syscall:mmap, Args:addr=0 length=65536 prot=7(PROT_READ|PROT_WRITE|PROT_EXEC) flags=10(MAP_PRIVATE|MAP_ANONYMOUS) fd=-1(EPERM) offset=0, Return:<NA>, PID:1142
+20:20:24.225925583: Informational Name:apache2 FD:<NA> Syscall:mmap, Args:res=140677350936576 vm_size=200208 vm_rss=17456 vm_swap=0, Return:140677350936576, PID:1142
+20:20:24.225928925: Informational Name:apache2 FD:<NA> Syscall:mprotect, Args:addr=7FF1FF87D000 length=65536 prot=7(PROT_READ|PROT_WRITE|PROT_EXEC), Return:<NA>, PID:1142
+20:20:24.225931202: Informational Name:apache2 FD:<NA> Syscall:mprotect, Args:res=0, Return:0, PID:1142
+20:20:24.226114020: Informational Name:apache2 FD:<NA> Syscall:chdir, Args:, Return:<NA>, PID:1142
+20:20:24.226119673: Informational Name:apache2 FD:<NA> Syscall:chdir, Args:res=0 path=/, Return:0, PID:1142
+20:20:24.226131383: Informational Name:apache2 FD:12 Syscall:sendto, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306) size=5 tuple=127.0.0.1:49658->127.0.0.1:3306, Return:<NA>, PID:1142
+20:20:24.226151124: Informational Name:apache2 FD:12 Syscall:sendto, Args:res=5 data=....., Return:5, PID:1142
+20:20:24.226155690: Informational Name:apache2 FD:12 Syscall:close, Args:fd=12(<4t>127.0.0.1:49658->127.0.0.1:3306), Return:<NA>, PID:1142
+20:20:24.226157591: Informational Name:apache2 FD:12 Syscall:close, Args:res=0, Return:0, PID:1142
+20:20:24.226206391: Informational Name:apache2 FD:11 Syscall:close, Args:fd=11(<f>/var/lib/php/sessions/sess_h8i2uc51f15gs6rg7kv4momjc6), Return:<NA>, PID:1142
+20:20:24.226207831: Informational Name:apache2 FD:11 Syscall:close, Args:res=0, Return:0, PID:1142
+20:20:24.226220249: Informational Name:apache2 FD:13 Syscall:sendto, Args:fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306) size=5 tuple=127.0.0.1:49670->127.0.0.1:3306, Return:<NA>, PID:1142
+20:20:24.226232751: Informational Name:apache2 FD:13 Syscall:sendto, Args:res=5 data=....., Return:5, PID:1142
+20:20:24.226235454: Informational Name:apache2 FD:13 Syscall:close, Args:fd=13(<4t>127.0.0.1:49670->127.0.0.1:3306), Return:<NA>, PID:1142
+20:20:24.226236497: Informational Name:apache2 FD:13 Syscall:close, Args:res=0, Return:0, PID:1142
+20:20:24.226256938: Informational Name:apache2 FD:8 Syscall:fcntl, Args:fd=8(<f>/tmp/.ZendSem.lvtkDm (deleted)) cmd=8(F_SETLK), Return:<NA>, PID:1142
+20:20:24.226261647: Informational Name:apache2 FD:8 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=8(<f>/tmp/.ZendSem.lvtkDm (deleted)) cmd=8(F_SETLK), Return:0, PID:1142
+20:20:24.226283771: Informational Name:apache2 FD:<NA> Syscall:brk, Args:addr=55A6FDBF6000, Return:<NA>, PID:1142
+20:20:24.226291035: Informational Name:apache2 FD:<NA> Syscall:brk, Args:res=55A6FDBF6000 vm_size=200464 vm_rss=17456 vm_swap=0, Return:94175710109696, PID:1142
+20:20:24.226563198: Informational Name:apache2 FD:<NA> Syscall:brk, Args:addr=55A6FDBB6000, Return:<NA>, PID:1142
+20:20:24.226589276: Informational Name:apache2 FD:<NA> Syscall:brk, Args:res=55A6FDBB6000 vm_size=200208 vm_rss=18016 vm_swap=0, Return:94175709847552, PID:1142
+20:20:24.226615153: Informational Name:apache2 FD:10 Syscall:read, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:<NA>, PID:1142
+20:20:24.226618891: Informational Name:apache2 FD:10 Syscall:read, Args:res=-11(EAGAIN) data=NULL fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:-11, PID:1142
+20:20:24.226623583: Informational Name:apache2 FD:10 Syscall:writev, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=1780, Return:<NA>, PID:1142
+20:20:24.226649842: Informational Name:apache2 FD:10 Syscall:writev, Args:res=1780 data=HTTP/1.1 200 OK..Date: Thu, 17 Apr 2025 03:20:24 GMT..Server: Apache/2.4.41 (Ubu, Return:1780, PID:1142
+20:20:24.226662688: Informational Name:apache2 FD:7 Syscall:write, Args:fd=7(<f>/var/log/apache2/access.log) size=271, Return:<NA>, PID:1142
+20:20:24.226675865: Informational Name:apache2 FD:7 Syscall:write, Args:res=271 data=127.0.0.1 - - [16/Apr/2025:20:20:24 -0700] "GET /vulnerabilities/xss_r/?name=%3C, Return:271, PID:1142
+20:20:24.226710306: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.226714543: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:res=4 data=.... tuple=127.0.0.1:49670->127.0.0.1:3306, Return:4, PID:1013
+20:20:24.226718445: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306) size=1, Return:<NA>, PID:1013
+20:20:24.226720551: Informational Name:mysqld FD:75 Syscall:recvfrom, Args:res=1 data=. tuple=127.0.0.1:49670->127.0.0.1:3306, Return:1, PID:1013
+20:20:24.226728267: Informational Name:mysqld FD:75 Syscall:close, Args:fd=75(<4t>127.0.0.1:49670->127.0.0.1:3306), Return:<NA>, PID:1013
+20:20:24.226729817: Informational Name:mysqld FD:75 Syscall:close, Args:res=0, Return:0, PID:1013
+20:20:24.226774537: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55EFEE4506C8 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:24.226786867: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=4, Return:<NA>, PID:1013
+20:20:24.226789573: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=4 data=.... tuple=127.0.0.1:49658->127.0.0.1:3306, Return:4, PID:1013
+20:20:24.226792488: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306) size=1, Return:<NA>, PID:1013
+20:20:24.226794232: Informational Name:mysqld FD:44 Syscall:recvfrom, Args:res=1 data=. tuple=127.0.0.1:49658->127.0.0.1:3306, Return:1, PID:1013
+20:20:24.226798157: Informational Name:mysqld FD:44 Syscall:close, Args:fd=44(<4t>127.0.0.1:49658->127.0.0.1:3306), Return:<NA>, PID:1013
+20:20:24.226799151: Informational Name:mysqld FD:44 Syscall:close, Args:res=0, Return:0, PID:1013
+20:20:24.226822342: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55EFEE4506C8 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:24.258855573: Informational Name:apache2 FD:10 Syscall:read, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:<NA>, PID:1142
+20:20:24.258859136: Informational Name:apache2 FD:10 Syscall:read, Args:res=591 data=GET /vulnerabilities/xss_r/x HTTP/1.1..Host: localhost..User-Agent: Mozilla/5.0  fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:591, PID:1142
+20:20:24.258948719: Informational Name:apache2 FD:10 Syscall:read, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:<NA>, PID:1142
+20:20:24.258949744: Informational Name:apache2 FD:10 Syscall:read, Args:res=-11(EAGAIN) data=NULL fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=8000, Return:-11, PID:1142
+20:20:24.258952258: Informational Name:apache2 FD:10 Syscall:writev, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=487, Return:<NA>, PID:1142
+20:20:24.258980009: Informational Name:apache2 FD:10 Syscall:writev, Args:res=487 data=HTTP/1.1 404 Not Found..Date: Thu, 17 Apr 2025 03:20:24 GMT..Server: Apache/2.4., Return:487, PID:1142
+20:20:24.258987421: Informational Name:apache2 FD:7 Syscall:write, Args:fd=7(<f>/var/log/apache2/access.log) size=271, Return:<NA>, PID:1142
+20:20:24.258997609: Informational Name:apache2 FD:7 Syscall:write, Args:res=271 data=127.0.0.1 - - [16/Apr/2025:20:20:24 -0700] "GET /vulnerabilities/xss_r/x HTTP/1., Return:271, PID:1142
+20:20:24.351792250: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=2147483647, Return:<NA>, PID:1013
+20:20:24.351807070: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:24.351840595: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.351844261: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.351845027: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.351850135: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:24.582092243: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:24.582104697: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:24.582107721: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:24.582117432: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:25.097308440: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:25.097320051: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:25.097322360: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:25.097353091: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:25.351959578: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:25.351974214: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:25.351977445: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:25.351996473: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:25.352033488: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=2147483647, Return:<NA>, PID:1013
+20:20:25.352042678: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:25.352048010: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:25.352052873: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=128(FUTEX_PRIVATE_FLAG) val=2, Return:<NA>, PID:1013
+20:20:25.352061876: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:25.352066574: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:25.352069788: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:25.352074353: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:25.352075913: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:25.352080995: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:25.582210880: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:25.582224970: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:25.582228006: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:25.582237858: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:26.097615199: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:26.097626622: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:26.097628932: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:26.097658437: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:26.352238366: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:26.352253979: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:26.352257576: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:26.352276522: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:26.352303042: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=2147483647, Return:<NA>, PID:1013
+20:20:26.352315338: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:26.352367246: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:26.352375178: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:26.352376497: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:26.352382311: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:26.582599026: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:26.582615121: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:26.582618443: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:26.582629318: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:27.097820773: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:27.097829880: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:27.097831674: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:27.097900548: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:27.352647514: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:27.352662135: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:27.352665339: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:27.352683162: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:27.582853540: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:27.582865067: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:27.582867503: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:27.582876287: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:28.098045654: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:28.098052951: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:28.098054392: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:28.098073447: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:28.352882698: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:28.352895772: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:28.352898365: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:28.352916671: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:28.352939494: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=2147483647, Return:<NA>, PID:1013
+20:20:28.352958940: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:28.353012472: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:28.353021787: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:28.353023552: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:28.353031347: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:28.583095938: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:28.583105206: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:28.583107019: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:28.583114019: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:29.006829173: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:29.006836718: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3DA0 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:29.006838305: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:29.006844884: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3DF0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:29.098259693: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:29.098276485: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:29.098280633: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:29.098326355: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:29.162487861: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:29.162501602: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015E8D400 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:29.162504954: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:29.162516507: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015E8D450 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:29.263761373: Informational Name:apache2 FD:10 Syscall:shutdown, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) how=1(SHUT_WR), Return:<NA>, PID:1142
+20:20:29.263884133: Informational Name:apache2 FD:10 Syscall:shutdown, Args:res=0, Return:0, PID:1142
+20:20:29.264435936: Informational Name:apache2 FD:10 Syscall:read, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=512, Return:<NA>, PID:1142
+20:20:29.264450997: Informational Name:apache2 FD:10 Syscall:read, Args:res=0 data=NULL fd=10(<4t>127.0.0.1:49184->127.0.0.1:80) size=512, Return:0, PID:1142
+20:20:29.264462129: Informational Name:apache2 FD:10 Syscall:close, Args:fd=10(<4t>127.0.0.1:49184->127.0.0.1:80), Return:<NA>, PID:1142
+20:20:29.264467674: Informational Name:apache2 FD:10 Syscall:close, Args:res=0, Return:0, PID:1142
+20:20:29.264507284: Informational Name:apache2 FD:4 Syscall:read, Args:fd=4(<p>pipe:[50555]) size=1, Return:<NA>, PID:1142
+20:20:29.264513085: Informational Name:apache2 FD:4 Syscall:read, Args:res=-11(EAGAIN) data=NULL fd=4(<p>pipe:[50555]) size=1, Return:-11, PID:1142
+20:20:29.264530164: Informational Name:apache2 FD:-1 Syscall:accept4, Args:flags=0, Return:<NA>, PID:1142
+20:20:29.353313796: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:29.353326699: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=128(FUTEX_PRIVATE_FLAG) val=2, Return:<NA>, PID:1013
+20:20:29.353326805: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED4 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=2147483647, Return:<NA>, PID:1013
+20:20:29.353331452: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:29.353337601: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:29.353397785: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=1, Return:1, PID:1013
+20:20:29.353948990: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:29.353961698: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3E80 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:29.353964682: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:29.353986389: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3ED0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:29.583231556: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:29.583243118: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63E60 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:29.583244892: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:29.583252483: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F015D63EB0 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013
+20:20:29.977129248: Informational Name:apache2 FD:10 Syscall:accept4, Args:fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) tuple=127.0.0.1:56960->127.0.0.1:80 queuepct=0 queuelen=0 queuemax=511, Return:10, PID:3843
+20:20:29.977162005: Informational Name:apache2 FD:10 Syscall:fcntl, Args:fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) cmd=4(F_GETFL), Return:<NA>, PID:3843
+20:20:29.977165046: Informational Name:apache2 FD:10 Syscall:fcntl, Args:res=2(<f>/var/log/apache2/error.log) fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) cmd=4(F_GETFL), Return:2, PID:3843
+20:20:29.977167495: Informational Name:apache2 FD:10 Syscall:fcntl, Args:fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) cmd=5(F_SETFL), Return:<NA>, PID:3843
+20:20:29.977168686: Informational Name:apache2 FD:10 Syscall:fcntl, Args:res=0(<f>/dev/null) fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) cmd=5(F_SETFL), Return:0, PID:3843
+20:20:29.977185784: Informational Name:apache2 FD:10 Syscall:read, Args:fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) size=8000, Return:<NA>, PID:3843
+20:20:29.977191711: Informational Name:apache2 FD:10 Syscall:read, Args:res=0 data=NULL fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) size=8000, Return:0, PID:3843
+20:20:29.977212785: Informational Name:apache2 FD:10 Syscall:shutdown, Args:fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) how=1(SHUT_WR), Return:<NA>, PID:3843
+20:20:29.977248128: Informational Name:apache2 FD:10 Syscall:shutdown, Args:res=0, Return:0, PID:3843
+20:20:29.977257587: Informational Name:apache2 FD:10 Syscall:read, Args:fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) size=512, Return:<NA>, PID:3843
+20:20:29.977259649: Informational Name:apache2 FD:10 Syscall:read, Args:res=0 data=NULL fd=10(<4t>127.0.0.1:56960->127.0.0.1:80) size=512, Return:0, PID:3843
+20:20:29.977263130: Informational Name:apache2 FD:10 Syscall:close, Args:fd=10(<4t>127.0.0.1:56960->127.0.0.1:80), Return:<NA>, PID:3843
+20:20:29.977265297: Informational Name:apache2 FD:10 Syscall:close, Args:res=0, Return:0, PID:3843
+20:20:29.977281886: Informational Name:apache2 FD:4 Syscall:read, Args:fd=4(<p>pipe:[50555]) size=1, Return:<NA>, PID:3843
+20:20:29.977283950: Informational Name:apache2 FD:4 Syscall:read, Args:res=-11(EAGAIN) data=NULL fd=4(<p>pipe:[50555]) size=1, Return:-11, PID:3843
+20:20:29.977289297: Informational Name:apache2 FD:-1 Syscall:accept4, Args:flags=0, Return:<NA>, PID:3843
+20:20:30.098409672: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=-110(ETIMEDOUT), Return:-110, PID:1013
+20:20:30.098420568: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D30 op=129(FUTEX_PRIVATE_FLAG|FUTEX_WAKE) val=1, Return:<NA>, PID:1013
+20:20:30.098423174: Informational Name:mysqld FD:<NA> Syscall:futex, Args:res=0, Return:0, PID:1013
+20:20:30.098451494: Informational Name:mysqld FD:<NA> Syscall:futex, Args:addr=55F0156F3D80 op=393(FUTEX_CLOCK_REALTIME|FUTEX_PRIVATE_FLAG|FUTEX_WAIT_BITSET) val=0, Return:<NA>, PID:1013

@@ -1,0 +1,15 @@
+digraph nginx_syscalls {
+rankdir=LR;
+  0 [label="127.0.0.1:45518" shape=diamond];
+  1 [label="127.0.0.1:3306" shape=diamond];
+  2 [label="1013" shape=rectangle];
+  3 [label="127.0.0.1:45516,127.0.0.1:3306" shape=ellipse];
+  0 -> 1 [style="solid", label="accept4", minlen=2, weight=2];
+  1 -> 2 [style="solid", label="fcntl", minlen=2, weight=2];
+  2 -> 1 [style="solid", label="fcntl", minlen=2, weight=2];
+  2 -> 1 [style="solid", label="sendto", minlen=2, weight=2];
+  2 -> 1 [style="solid", label="recvfrom", minlen=2, weight=2];
+  2 -> 1 [style="solid", label="close", minlen=2, weight=2];
+  2 -> 3 [style="solid", label="recvfrom", minlen=2, weight=2];
+  2 -> 3 [style="solid", label="close", minlen=2, weight=2];
+}

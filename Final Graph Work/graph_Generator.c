@@ -378,15 +378,22 @@ void printSubgraphMetadata(){
 // TODO Have this make all graphs as subgraphs within same larger file
 void createDOT(char* setting){
     // Grab time to serve as naming convention
-    time_t instance;
-    instance = time(NULL);
+    time_t current_time;
+    struct tm *info;
+    char timeBuffer[26];
+
+    current_time = time(NULL);
+    info = localtime(&current_time);
+
+    strftime(timeBuffer, 26, "%Y_%m_%d__%H_%M_%S", info);
+
 
     //Determined by setting
     if(strcmp("individual", setting) == 0){
         
         //Make a subdirectory for all these graphs
         char makeCommand[256];
-        sprintf(makeCommand, "mkdir \".\\Dot Files\\Timestamp_%d\"", &instance);
+        sprintf(makeCommand, "mkdir \".\\Dot_Files\\Timestamp_%s\"", timeBuffer);
         if (system(makeCommand) == -1){ // Try the command
             perror("Could not make subdirectory for graphs");
         }
@@ -394,8 +401,9 @@ void createDOT(char* setting){
         
             // Open new dot file with unique name
             char path[1024];
-            sprintf(path, ".\\Dot Files\\Timestamp_%d\\graph%d.dot", &instance, i);
-            FILE *dot_file = openFile(path, "w");
+            sprintf(path, ".\\Dot_Files\\Timestamp_%s\\graph%d.dot", timeBuffer, i);
+            printf("%s\n", path);
+            FILE *dot_file = openFile(path, "w+");
     
             // Print the setup info:
             fprintf(dot_file, "digraph nginx_syscalls {\n");
@@ -424,7 +432,7 @@ void createDOT(char* setting){
         // Open dot file
         // open new dot file with unique name - generated randomly
         char path[1024];
-        sprintf(path, "./Dot Files/Timestamp_%d.dot", &instance);
+        sprintf(path, "./Dot_Files/Timestamp_%s.dot", timeBuffer);
         printf("Created graph %s", path);
         FILE *dot_file = openFile(path, "w");
 
@@ -459,7 +467,7 @@ void createDOT(char* setting){
         createDOT("individual");
     }
     // Print final output of what folder/graph is called
-    printf("Printed graph(s): %d", &instance);
+    printf("Printed graph(s): %s", &timeBuffer);
 }
 
 int main(){
