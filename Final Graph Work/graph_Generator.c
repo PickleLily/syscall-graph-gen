@@ -694,8 +694,6 @@ int main(){
 
                 }
             }
-        }else{
-            printf("else");
         }
     }
     // Include additional debugging information if desired

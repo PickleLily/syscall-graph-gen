@@ -1,0 +1,10 @@
+digraph nginx_syscalls {
+rankdir=LR;
+  0 [label="192.168.131.137:53536", shape=diamond];
+  1 [label="192.168.131.139:80", shape=diamond];
+  2 [label="8649", shape=rectangle];
+  0 -> 1 [style="solid", label="accept4", minlen=2, weight=2];
+  1 -> 2 [style="solid", label="fcntl", minlen=2, weight=2];
+  1 -> 2 [style="solid", label="read", minlen=2, weight=2];
+  -1 [label="Graph Did Not Receive 'Close' Syscall", shape=box, penwidth=4, color=red, pos="5,5!"];
+}
