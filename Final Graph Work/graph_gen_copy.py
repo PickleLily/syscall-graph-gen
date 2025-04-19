@@ -72,12 +72,13 @@ class Subgraph:
         self.edge_count = 0
 
         # print(f"Hit syscall accept4 for FD:{fd} and Tuple:{originalTuple} and PID:{masterPid}")
-        # create the initial graph
-        # if(originalTuple != None):
-        #     local = Node(originalTuple, fd, "diamond", self.node_count, pid, False, self)
-        #     network_edge = Edge(local.nodeID, remote.nodeID, "accept4", "solid", self)
-        #     pid = Node(pid, fd, "rectangle", self.node_count, pid, True, self)
-        #     pid_edge = Edge(pid.Node)
+        # Create the initial graph
+        remote, local = originalTuple.split("->")
+        remoteNode = self.addNode(fd, remote, masterPid, False, "diamond")
+        localNode = self.addNode(fd, local, masterPid, False, "diamond")
+        self.addEdge(remoteNode, localNode, "accept4", False, "solid")
+        PIDNode = self.addNode(fd, masterPid, masterPid, True, "rectangle")
+        self.addEdge(localNode, PIDNode, "", False, "dashed")
             
         # return self
 
@@ -89,60 +90,42 @@ class Subgraph:
             self.originalTuple == other.originalTuple
         )
 
-    def addEdge(from_node: int, to_node: int, syscall: str):
-        graph = graphs[currentGraph]
-        
-        # Check max edges -> Default termination end case
-        if(graph.edge_count >= MAX_SUBEDGES):
-            print("Maximum number of edges exceeded")
-            exit(1)
-            
-        # Check to see if both directions are the same. If so, default to the one above the PID
-        if (from_node == to_node):
-            from_node = from_node - 1; # TODO Default this to 1??
-
-        # Check if edge already exists
-        # TODO -- not skipping 0 & 1...
-        for edge in graph.edges:
-            # Duplicate edge found, do not add
-            if edge.isFrom == from_node and edge.isTO == to_node and edge.syscall == syscall:
-                return
-            
-            if edge.isFrom == to_node and edge.isTO == from_node and edge.syscall == syscall:
-                # TODO -- is this true???
-                edge.isBiderectional = True
-                return
-            
-        # if edge DOESNT exist...create it!!!
-        newEdge = Edge(to_node, from_node, syscall, "solid", graph)
-
-        # if the edge is close, return fd to original PID FD, PID will always be node 3 (2)
-        if syscall == "close":
-            # if the current nodes pointing to the same FD as the accept
-            if graph.nodes[to_node].fd == graph.nodes[0].fd and graph.nodes[0].nodePID == graph.masterPID:
-                # invalidate the entire graph
-                graph.isValid = INVALID
-            else:
-                #subprocess
-                for i, descriptor in enumerate(graph.currentfd):
-                    if graph.node[to_node].fd == descriptor:
-                        # invalidate the current fd
-                        graph.currentfd[i] = -1
-                        break
-
+    # Method to add Node to subgraph
     def addNode(self, fd:int, args:str, pid:int, isProcess:bool, shape:str):
-        temp = self.findNode(fd, pid, args)
-        if temp is not None:
-            print("Node already exists with ID: {temp}")
-            return temp
+        exists = self.findNode(fd, pid, args)
+        if exists is not None:
+            # print("Node already exists with ID: {exists}")
+            return exists
         else:
-            nodeID = self.node_count
-            self.node_count +- 1
+            newNode = Node(fd, pid, args, isProcess, shape)
+            key = (fd, pid, args)
+            self.nodes[key] = newNode
+            self.node_count += 1
+            return newNode
 
+    def addEdge(self, isFrom:'Node', isTo:'Node', syscall:str, isBidirectional:bool, edgeType:str):
+        exists = self.findEdge(isFrom, isTo, syscall)
+        if exists is not None:
+            # print("Node already exists with ID: {exists}")
+            return exists
+        else:
+            newEdge = Edge(isFrom, isTo, syscall, isBidirectional, edgeType)
+            key = (isFrom, isTo, syscall)
+            self.edges[key] = newEdge
+            self.edge_count += 1
+
+    # Method to find a Node if it already exists in the subgraph
+    # If nothing matches, returns None
+    def findNode(self, fd:int, args:str, pid:int):
+        key = (fd, pid, args)
+        return self.nodes.get(key)
     
-    def addEdgeToSubgraph(self, edge):
-        self.edges.add(edge)
-        pass
+    def findEdge(self, fromNode:'Node', toNode:'Node', syscall:str):
+        key = (fromNode, toNode, syscall)
+        # altkey = (toNode, fromNode, syscall)
+        # if (altkey):
+        #     self.edges[altkey].isBidirectional = True
+        return self.edges.get(key)
 
     def updateEdge():
         return 0
@@ -151,11 +134,11 @@ class Subgraph:
         return 0 
 
     def __repr__(self):
-        return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid})"
+        return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid, self.nodes.values(), self.edges.values()})"
     
 # ------------------------------------------------------------------------------------------------------------------------------
 class Node:
-    def __init__(self, nodeID:int, fd:int, nodePID:int, args:str, isProcess:bool, shape:str, graph:Subgraph):
+    def __init__(self, fd:int, nodePID:int, args:str, isProcess:bool, shape:str):
         # self.nodeID = nodeID
         self.fd = fd
         self.nodePID = nodePID
@@ -197,7 +180,7 @@ class Edge:
         self.edgeType = edgeType
 
     def __repr__(self):
-        return f"Node({self.isFrom, self.isTo, self.syscall, self.isBidirectional, self.edgeType})"
+        return f"Edge({self.isFrom, self.isTo, self.syscall, self.isBidirectional, self.edgeType})"
         
     def __eq__(self, comparison):
         return (
@@ -251,6 +234,7 @@ class Parser:
         # print(syscall)
         if syscall in ('accept4', 'accept') and fd != -1:
             args = self.parseArgs(args, "networkTuple")
+            # Find if matches connect call? TODO
             globalGraphManager.addSubgraph(fd, pid, args)
         return
 
