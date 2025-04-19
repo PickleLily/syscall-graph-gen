@@ -1,3 +1,4 @@
+import re
 import datetime as dt
 
 # Global variables
@@ -187,8 +188,25 @@ class Edge:
  # ------------------------------------------------------------------------------------------------------------------------------
 
 class Parser:
-    def parseLine(line: str, fd: int, syscall: str, args: str, ret: str, pid: int):
-        return
+    def parseLine(line:str):
+        output = [None, None, None, None, None]
+        # Define pattern to match all valid inputs to
+        pattern = r"(FD|Syscall|Args|Return|PID):([^,\n]+)"
+        parsedInputs = re.findall(pattern, line)
+
+        if parsedInputs is None or len(parsedInputs) != 5:
+            # Do nothing
+            pass
+        else:
+            if parsedInputs[0] == "<NA>":
+                output[0]=-2
+
+            # Else everything is fine
+            for index, value in enumerate(parsedInputs):
+                output[index] = value[1]
+        
+        return output
+            
 
     def parseSyscall(syscall: str, ret: str, args:str, fd:int):
         return
@@ -228,9 +246,9 @@ def createDOT(setting: str):
         # add all nodes
         # add all edges
         # add error state (i.e. no close)
-            if (graphs[i].isValid == 1) {
-                fprintf(dot_file, "  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n");
-            }
+            if (graphs[i].isValid == 1) :
+                print(dot_file, "  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n");
+            
         # close
             dot_file.write("}\n")#close subgraph
             dot_file.write("}")# Close 
@@ -276,16 +294,23 @@ def moveFDToArgs():
 
 def main():
     # OpenFile functionality
-    input_log = open("./Falco Trace Files/TestEvents.txt", "r")
-
-    # go through file line by line
-    i = 0
-    for line in input_log:
-        i = i+1
+    print("Hello world")
+    with open("./Falco Trace Files/TestEvents.txt", 'r') as file:
+        # Read the content of the file
+        for line in file:
+            content = Parser.parseLine(line)
+            print(content)
+    # # go through file line by line
+    # i = 0
+    # for line in input_log:
+    #     i = i+1
 
     # Include additional debugging information if desired
-    if (DEBUG_LEVEL == 1) {
-        printSubgraphMetadata();
-    }
-    createDOT()
-    return i
+    # if (DEBUG_LEVEL == 1) :
+    #     printSubgraphMetadata()
+    # createDOT()
+    # return i
+
+
+if __name__ == "__main__":
+    main()
