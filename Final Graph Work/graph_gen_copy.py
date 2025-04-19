@@ -49,7 +49,7 @@ class GraphManager:
     
     # Return the graph object that we are "HOPEFULLY" looking at
     def swapSubgraph(self, pid:int, fd:int):
-        return [graph for graph in self.graphList.values() if graph.isValid == 0 and fd in graph.fdList]
+        return next((graph for graph in self.graphList.values() if graph.isValid == 0 and fd in graph.fdList), None)
 
 globalGraphManager = GraphManager()   
 
@@ -67,8 +67,8 @@ class Subgraph:
         self.masterPID = masterPid                  # initialize the masterPID (PID or original connection) through input
         self.originalTuple = originalTuple          # Initialize the original connection tuple of the graph
         self.isValid = OPEN                         # Initialize the validity of a graph to OPEN automatically
-        self.nodes = {} #NodeID -> node
-        self.edges = {} #from->to & call -> edge
+        self.nodes = {} #NodeID -> node             # (fd, pid, args)
+        self.edges = {} #from->to & call -> edge    # (isFrom, isTo, syscall) -> May want to convert to the node's keys
     
         # Unsure if we need any of what is below
         self.graphNum = totalGraphs
