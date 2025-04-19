@@ -94,6 +94,11 @@ class Subgraph:
             self.originalTuple == other.originalTuple
         )
     
+    # Returns the process node that shares a PID with the specified PID
+    def getProcessNode(self, currentpid:int):
+        return next((node for node in self.nodes.values() if node.nodePID == currentpid
+                      and node.isProcess == True), None)
+    
     def addFD(self, fd:int):
         if fd not in self.fdList:
             self.fdList.add(fd)
