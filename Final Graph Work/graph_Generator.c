@@ -533,7 +533,6 @@ void createDOT(char* setting){
 
     strftime(timeBuffer, 26, "%Y_%m_%d__%H_%M_%S", info);
 
-
     //Determined by setting
     if (strcmp("individual", setting) == 0){
         
@@ -678,20 +677,18 @@ int main(){
 
                         // If the file descriptor has been run into before, we update the current graph and add an edge
                         } else if (tempCurrentGraph != -1) {
-                                currentGraph = tempCurrentGraph; // Should put us on the correct subgraph
-                                
-                                // See if this is the first connection to this graph (Making it a Full Graph)
-                                if (strcmp("dashed", graphs[currentGraph]->edges[1]->edgeType) == 0) { //TODO Connect()
-                                    updateEdge(graphs[currentGraph], 1, syscall, "solid");
-                                } else {
-                                    // Get current fd node 
-                                    int node = getNodeFD(FD, args, atoi(PID));
-                                    addEdge(getProcessNode(FD, atoi(PID)), node, syscall);
-
-                                }
+                            currentGraph = tempCurrentGraph; // Should put us on the correct subgraph
+                            
+                            // See if this is the first connection to this graph (Making it a Full Graph)
+                            if (strcmp("dashed", graphs[currentGraph]->edges[1]->edgeType) == 0) { //TODO Connect()
+                                updateEdge(graphs[currentGraph], 1, syscall, "solid");
+                            } else {
+                                // Get current fd node 
+                                int node = getNodeFD(FD, args, atoi(PID));
+                                addEdge(getProcessNode(FD, atoi(PID)), node, syscall);
+                            }
                         }
                     }
-
                 }
             }
         }
