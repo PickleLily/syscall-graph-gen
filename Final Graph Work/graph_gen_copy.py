@@ -189,22 +189,22 @@ class Edge:
 
 class Parser:
     def parseLine(line:str):
-        output = [None, None, None, None, None]
         # Define pattern to match all valid inputs to
         pattern = r"(FD|Syscall|Args|Return|PID):([^,\n]+)"
         parsedInputs = re.findall(pattern, line)
 
+        # Handle broad invalid case
         if parsedInputs is None or len(parsedInputs) != 5:
             # Do nothing
-            pass
-        else:
-            if parsedInputs[0] == "<NA>":
-                output[0]=-2
+            return None
 
-            # Else everything is fine
-            for index, value in enumerate(parsedInputs):
-                output[index] = value[1]
-        
+        # Handle non invalid case(s)
+        output = [None, None, None, None, None]
+        # Load values
+        for index, value in enumerate(parsedInputs):
+            output[index] = value[1]               
+    
+        # Return
         return output
             
 
