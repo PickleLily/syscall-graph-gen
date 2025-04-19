@@ -19,36 +19,71 @@ totalGraphs = -1
 currentGraph = -1
 
 # ------------------------------------------------------------------------------------------------------------------------------
+
+class GraphManager:
+    def __init__(self):
+        self.graphList = {}         # key: (pid, networkTuple), value: Graph
+        self.current_Graph = None   # Graph
+
+    def addSubgraph(self, fd:int, pid:int, networkTuple:str):
+        temp = self.findSubgraph(pid, networkTuple)
+        if temp is not None:
+            temp.isValid = -1
+        else:                       # If we can find the exact same graph we should make that one invalid and swap to new instance
+            newGraph = Subgraph(fd, pid, networkTuple)
+            key = (newGraph.masterPID, newGraph.originalTuple)
+            self.graphList[key] = newGraph
+            self.current_Graph = newGraph   
+            # print(f"Made key {key}")
+
+    # Return the graph object or lack thereof of an exact key match (the same connection twice) TODO we may want to remove the PID check here but idk
+    def findSubgraph(self, pid:int, networkTuple:str):
+        return self.graphList.get((pid, networkTuple))
+    
+    # Return the graph object that we are "HOPEFULLY" looking at
+    def swapSubgraph(self, pid:int, fd:int):
+        return [graph for graph in self.graphList.values() if graph.isValid == 0 and fd in graph.fdList]
+
+globalGraphManager = GraphManager()   
+
+# ------------------------------------------------------------------------------------------------------------------------------
+
 class Subgraph:
 
-    def __init__(self, fd:int, pid:int, remoteVal = None, localVal = None): #Make lsit of potential fd
-        totalGraphs = totalGraphs + 1
-        currentGraph = totalGraphs
-        graphs[currentGraph] = self
+    def __init__(self, fd:int, masterPid:int, originalTuple:str): #Make lsit of potential fd
+        # totalGraphs = totalGraphs + 1
+        # currentGraph = totalGraphs
+        # graphs[currentGraph] = self
         
-        self.fd = fd        
-        self.masterPID = pid
-        self.masterRemote = pid
-
+        self.fdList = {fd}                            # Initialize the list of valid fds to nothing  
+        self.masterPID = masterPid                  # initialize the masterPID (PID or original connection) through input
+        self.originalTuple = originalTuple          # Initialize the original connection tuple of the graph
+        self.isValid = OPEN                         # Initialize the validity of a graph to OPEN automatically
         self.nodes = {} #NodeID -> node
         self.edges = {} #from->to & call -> edge
     
-        self.isValid = OPEN
+        # Unsure if we need any of what is below
         self.graphNum = totalGraphs
         self.node_count = 0
         self.edge_count = 0
 
+        # print(f"Hit syscall accept4 for FD:{fd} and Tuple:{originalTuple} and PID:{masterPid}")
         # create the initial graph
-        if(remoteVal != None and localVal != None):
-            remote = Node(remoteVal, fd, "diamond", self.node_count, pid, False, self)
-            local = Node(localVal, fd, "diamond", self.node_count, pid, False, self)
-            network_edge = Edge(local.nodeID, remote.nodeID, "accept4", "solid", self)
-            pid = Node(pid, fd, "rectangle", self.node_count, pid, True, self)
-            pid_edge = Edge(pid.Node)
+        # if(originalTuple != None):
+        #     local = Node(originalTuple, fd, "diamond", self.node_count, pid, False, self)
+        #     network_edge = Edge(local.nodeID, remote.nodeID, "accept4", "solid", self)
+        #     pid = Node(pid, fd, "rectangle", self.node_count, pid, True, self)
+        #     pid_edge = Edge(pid.Node)
             
-        return self
+        # return self
 
         #TODO --> how to implement the currentfd?
+        
+    def __eq__(self, other):
+        return (
+            self.masterPID == other.masterPID and
+            self.originalTuple == other.originalTuple
+        )
 
     def addEdge(from_node: int, to_node: int, syscall: str):
         graph = graphs[currentGraph]
@@ -100,13 +135,6 @@ class Subgraph:
             nodeID = self.node_count
             self.node_count +- 1
 
-             
-
-    # Method to find a Node if it already exists in the subgraph
-    # If nothing matches, returns None
-    def findNode(self, fd:int, args:str, pid:int, default=None):
-        key = (fd, pid, args)
-        return self.nodes.get(key, default)
     
     def addEdgeToSubgraph(self, edge):
         self.edges.add(edge)
@@ -117,10 +145,9 @@ class Subgraph:
     
     def updateNode():
         return 0 
-    
 
     def __repr__(self):
-        return f"Subgraph({self.graphNum})"
+        return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid})"
     
 # ------------------------------------------------------------------------------------------------------------------------------
 class Node:
@@ -170,9 +197,9 @@ class Edge:
         
     def __eq__(self, comparison):
         return (
-            self.isFrom == comparison.isFrom and
+            (self.isFrom == comparison.isFrom and
             self.isTo == comparison.isTo and 
-            self.syscall == comparison.syscall
+            self.syscall == comparison.syscall)
         )
     
     def __hash__(self):
@@ -188,7 +215,7 @@ class Edge:
  # ------------------------------------------------------------------------------------------------------------------------------
 
 class Parser:
-    def parseLine(line:str):
+    def parseLine(self, line:str):
         # Define pattern to match all valid inputs to
         pattern = r"(FD|Syscall|Args|Return|PID):([^,\n]+)"
         parsedInputs = re.findall(pattern, line)
@@ -203,16 +230,45 @@ class Parser:
         # Load values
         for index, value in enumerate(parsedInputs):
             output[index] = value[1]               
-    
+
+        # Run other argument parsing efforts
         # Return
-        return output
+        # print(output) #TODO make look pretty
+        output[0] = self.parseFD(output[0])
+        output[3] = self.parseRet(output[3])
+        output[4] = self.parsePID(output[4])
+        
+        # Go to next parsing step
+        self.parseSyscall(output[0], output[1],output[2],output[3],output[4])
             
 
-    def parseSyscall(syscall: str, ret: str, args:str, fd:int):
+    def parseSyscall(self, fd:int, syscall:str, args:str, ret:int, pid:int):
+        ''' A long function designed to do heavy lifting with the handling of special cases '''
+        # print(syscall)
+        if syscall in ('accept4', 'accept') and fd != -1:
+            globalGraphManager.addSubgraph(fd, pid, args)
         return
 
-    def parseArgs(args: str, output: str):
+    def parseArgs(self, args: str, output: str):
         return
+    
+    def parseFD(self, fd:str):
+        if fd == '<NA>':
+            return -1
+        else:
+            return int(fd)
+        
+    def parseRet(self, ret:str):
+        if ret == '<NA>':
+            return None
+        else:
+            return int(ret)
+        
+    def parsePID(self, pid:str):
+        if pid == '<NA>':
+            return None
+        else:
+            return int(pid)
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # other functions:
@@ -293,13 +349,19 @@ def moveFDToArgs():
     return
 
 def main():
-    # OpenFile functionality
-    print("Hello world")
+    # Open target trace file
+    p = Parser()
+
     with open("./Falco Trace Files/TestEvents.txt", 'r') as file:
         # Read the content of the file
         for line in file:
-            content = Parser.parseLine(line)
-            print(content)
+            content = p.parseLine(line)
+            if (content):
+                pass
+                # print(content)
+        
+        for graph in globalGraphManager.graphList.values():
+            print(graph)
     # # go through file line by line
     # i = 0
     # for line in input_log:
