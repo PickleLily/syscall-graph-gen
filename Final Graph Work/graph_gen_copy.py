@@ -1,5 +1,8 @@
 import re
 import datetime as dt
+from datetime import datetime
+import subprocess
+import os
 
 # Global variables
 MAX_SUBNODES = 100
@@ -59,7 +62,8 @@ class Subgraph:
         # currentGraph = totalGraphs
         # graphs[currentGraph] = self
         
-        self.fdList = {fd}                            # Initialize the list of valid fds to nothing  
+        self.fdList = set()                            # Initialize the list of valid fds to nothing  
+        self.fdList.add(fd)
         self.masterPID = masterPid                  # initialize the masterPID (PID or original connection) through input
         self.originalTuple = originalTuple          # Initialize the original connection tuple of the graph
         self.isValid = OPEN                         # Initialize the validity of a graph to OPEN automatically
@@ -89,6 +93,10 @@ class Subgraph:
             self.masterPID == other.masterPID and
             self.originalTuple == other.originalTuple
         )
+    
+    def addFD(self, fd:int):
+        if fd not in self.fdList:
+            self.fdList.add(fd)
 
     # Method to add Node to subgraph
     def addNode(self, fd:int, args:str, pid:int, isProcess:bool, shape:str):
@@ -101,6 +109,7 @@ class Subgraph:
             key = (fd, pid, args)
             self.nodes[key] = newNode
             self.node_count += 1
+            self.addFD(fd)                  # Adds FD to list of potential FDs
             return newNode
 
     def addEdge(self, isFrom:'Node', isTo:'Node', syscall:str, isBidirectional:bool, edgeType:str):
@@ -150,7 +159,7 @@ class Node:
 
 
     def __repr__(self):
-        return f"Node({self.fd, self.nodePID, self.args, self.isProcess, self.shape})"
+        return f"{self.fd, self.nodePID, self.args}"
     
     def __eq__(self, comparison):
         return (
@@ -168,7 +177,10 @@ class Node:
             "isProcess": self.isProcess,
             "shape": self.shape
     }
-        
+
+    def formatNodeKey(self, key):
+        return "_".join(map(str, key))
+
 # ------------------------------------------------------------------------------------------------------------------------------ 
 class Edge:
     def __init__(self, isFrom:Node, isTo:Node, syscall:str, isBidirectional:bool, edgeType:str):
@@ -263,6 +275,13 @@ class Parser:
 
 # ------------------------------------------------------------------------------------------------------------------------------
 # other functions:
+def formatKeyForPrinting(fd:int, pid:int, args:str, nodeKey:tuple):
+    if nodeKey is None:
+        output = ("".join(map(str, (fd, pid, args)))).replace(".", "").replace(":", "")
+    else:
+        output = "".join(map(str, nodeKey)).replace(".", "").replace(":", "")
+    return output
+
 def handleConnectionSystemCall():
     return
 
@@ -271,60 +290,58 @@ def printSubgraphMetadata():
 
 def createDOT(setting: str):
     # get current timestamp
-    time = dt.now()
+    timestamp = datetime.now().timestamp()
+    timestamp_str = str(int(timestamp))
+    parentDir = os.path.dirname(f"./Dot_Files/")
+    dirName = f"./Dot_Files/Timestamp_{timestamp_str}/"
 
     if setting == "individual":
-        # make subdir
+        # make subdi
         # char makeCommand[256];
-        makeCommand = f'mkdir "./Dot_Files/Timestamp_{time}"'
-
+        # makeCommand = f('mkdir "./Dot_Files/Timestamp_{time}"')
+        try:
+            os.mkdir(dirName)
+            print(f"Directory '{dirName}' created successfully!")
+        except FileExistsError:
+            print(f"The directory '{dirName}' already exists.")
+        except PermissionError:
+            print(f"PermissionError: You don't have permission to create the directory.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
         # sprintf(makeCommand, "mkdir \".\\Dot_Files\\Timestamp_%s\"", timeBuffer);
         # if (system(makeCommand) == -1){ // Try the command
         #     perror("Could not make subdirectory for graphs");
         # }
-        # open Dot file
-        path = f"./Dot_Files/Timestamp_{time}.dot"
-        print(f"Created graph {path}")
+        i = 0
+        for graphkey, graph in globalGraphManager.graphList.items():
+            # filename = f".\\Dot_Files\\Timestamp_{timestamp}\\graph{i}"
+            with open(f"./Dot_Files/Timestamp_{timestamp_str}/graph{i}.dot", "w") as dot:
+                print(f"Created graph {dot}")
+                dot.write("digraph nginx_syscalls {\n")
+                dot.write("rankdir=LR;\n")
 
-        with open(path, "w") as dot_file:
-            dot_file.write("digraph nginx_syscalls {") #header
-            dot_file.write("rankdir=LR;\n")
+                for nodekey, node in graph.nodes.items():
+                    node_identifier = formatKeyForPrinting(None, None, None, nodeKey=nodekey)
+                    dot.write(f"    {node_identifier} [label=\"{node.args}\", shape={node.shape}];\n")
 
-        # add all nodes
-        # add all edges
-        # add error state (i.e. no close)
-            if (graphs[i].isValid == 1) :
-                print(dot_file, "  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n");
-            
-        # close
-            dot_file.write("}\n")#close subgraph
-            dot_file.write("}")# Close 
-
-    elif setting == "together":
-        # open Dot file
-        path = f"./Dot_Files/Timestamp_{time}.dot"
-        print(f"Created graph {path}")
-        with open(path, "w") as dot_file:
-            dot_file.write("digraph nginx_syscalls {") #header
-
-            # go through list of subgraphs:
-            for i, subgraph in enumerate(graphs):
-                dot_file.write("subgraph cluster_{i} {")
-                #add all nodes
-                for j, node in enumerate(subgraph.nodes):
-                    dot_file.write(f"  {j}{i} [label=\"{node.args}\" style={node.shape}]")
-                #add all edges
-                for j, edge in enumerate(subgraph.edges):
-                    dot_file.write(f"  {edge.isFrom}{i}->{edge.isTo}{i} [label=\"{edge.syscall}\" style={edge.type}]")
+                for egdekey, edge in graph.edges.items():
+                    fromKey = formatKeyForPrinting(edge.isFrom.fd, edge.isFrom.nodePID, edge.isFrom.args, None)
+                    toKey = formatKeyForPrinting(edge.isTo.fd, edge.isTo.nodePID, edge.isTo.args, None)
+                    dot.write(
+                        f"    {fromKey} -> {toKey} "
+                        f"[style=\"{edge.edgeType}\", label=\"{edge.syscall}\", minlen=2, weight=2];\n")
 
 
-
-            dot_file.write("}\n")#close subgraph
-            dot_file.write("}")# Close  
+                if (graph.isValid == 1) :
+                    dot.write(f"  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n")
+                
+                dot.write("}\n")#close subgraph
+                
+        
     else:
         createDOT("individual")
 
-    print(f"printed graphs(s): {time}")
+    print(f"printed graphs(s): {timestamp_str}")
 
 
 def getNodeFD():
@@ -353,6 +370,8 @@ def main():
         
         for graph in globalGraphManager.graphList.values():
             print(f"{graph}")
+
+    createDOT("individual")
     # # go through file line by line
     # i = 0
     # for line in input_log:
