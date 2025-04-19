@@ -24,21 +24,25 @@ class GraphManager:
     def __init__(self):
         self.graphList = {}         # key: (pid, networkTuple), value: Graph
         self.current_Graph = None   # Graph
+        self.totalGraphs = 0
 
     def addSubgraph(self, fd:int, pid:int, networkTuple:str):
-        temp = self.findSubgraph(pid, networkTuple)
-        if temp is not None:
-            temp.isValid = -1
-        else:                       # If we can find the exact same graph we should make that one invalid and swap to new instance
-            newGraph = Subgraph(fd, pid, networkTuple)
-            key = (newGraph.masterPID, newGraph.originalTuple)
-            self.graphList[key] = newGraph
-            self.current_Graph = newGraph   
+        isDuplicate = self.duplicateNetwork(networkTuple)
+        if isDuplicate is not None:
+            isDuplicate.isValid = -1
+            isDuplicate.fdList = None
+        newGraph = Subgraph(fd, pid, networkTuple)
+        key = (self.totalGraphs, newGraph.masterPID, newGraph.originalTuple)
+        self.graphList[key] = newGraph
+        self.current_Graph = newGraph  
+        self.totalGraphs += 1 
             # print(f"Made key {key}")
 
-    # Return the graph object or lack thereof of an exact key match (the same connection twice) TODO we may want to remove the PID check here but idk
-    def findSubgraph(self, pid:int, networkTuple:str):
-        return self.graphList.get((pid, networkTuple))
+    # Return the graph object or lack thereof 
+    def duplicateNetwork(self, networkTuple:str):
+        return next((graph for graph in self.graphList.values() 
+                    if graph.isValid == 0 and 
+                    networkTuple == graph.originalTuple), None)
     
     # Return the graph object that we are "HOPEFULLY" looking at
     def swapSubgraph(self, pid:int, fd:int):
@@ -246,11 +250,14 @@ class Parser:
         ''' A long function designed to do heavy lifting with the handling of special cases '''
         # print(syscall)
         if syscall in ('accept4', 'accept') and fd != -1:
+            args = self.parseArgs(args, "networkTuple")
             globalGraphManager.addSubgraph(fd, pid, args)
         return
 
-    def parseArgs(self, args: str, output: str):
-        return
+    def parseArgs(self, args:str, options:str):
+        if options == 'networkTuple':
+            networkTuple = re.search(r"tuple=([^\s]+)", args)
+            return networkTuple.group(1) if networkTuple else None
     
     def parseFD(self, fd:str):
         if fd == '<NA>':
@@ -361,7 +368,7 @@ def main():
                 # print(content)
         
         for graph in globalGraphManager.graphList.values():
-            print(graph)
+            print(f"{graph}")
     # # go through file line by line
     # i = 0
     # for line in input_log:
