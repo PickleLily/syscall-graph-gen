@@ -32,7 +32,7 @@ class GraphManager:
     def addSubgraph(self, fd:int, pid:int, networkTuple:str):
         isDuplicate = self.duplicateNetwork(networkTuple)
         if isDuplicate is not None:
-            isDuplicate.isValid = -1
+            isDuplicate.isValid = 1
             isDuplicate.fdList = None
         newGraph = Subgraph(fd, pid, networkTuple)
         key = (self.totalGraphs, newGraph.masterPID, newGraph.originalTuple)
@@ -299,30 +299,22 @@ def createDOT(setting: str):
     # get current timestamp
     timestamp = datetime.now().timestamp()
     timestamp_str = str(int(timestamp))
-    parentDir = os.path.dirname(f"./Dot_Files/")
     dirName = f"./Dot_Files/Timestamp_{timestamp_str}/"
 
     if setting == "individual":
-        # make subdi
-        # char makeCommand[256];
-        # makeCommand = f('mkdir "./Dot_Files/Timestamp_{time}"')
         try:
             os.mkdir(dirName)
             print(f"Directory '{dirName}' created successfully!")
         except FileExistsError:
-            print(f"The directory '{dirName}' already exists.")
+            raise Exception(f"The directory '{dirName}' already exists.")
         except PermissionError:
-            print(f"PermissionError: You don't have permission to create the directory.")
+            raise Exception(f"PermissionError: You don't have permission to create the directory.")
         except Exception as e:
-            print(f"An error occurred: {e}")
-        # sprintf(makeCommand, "mkdir \".\\Dot_Files\\Timestamp_%s\"", timeBuffer);
-        # if (system(makeCommand) == -1){ // Try the command
-        #     perror("Could not make subdirectory for graphs");
-        # }
-        i = 0
-        for graphkey, graph in globalGraphManager.graphList.items():
-            # filename = f".\\Dot_Files\\Timestamp_{timestamp}\\graph{i}"
-            with open(f"./Dot_Files/Timestamp_{timestamp_str}/graph{i}.dot", "w") as dot:
+            raise Exception(f"An error occurred: {e}")
+
+        # i = 0
+        for index, (key, graph) in enumerate(globalGraphManager.graphList.items()):
+            with open(f"./Dot_Files/Timestamp_{timestamp_str}/graph{index}.dot", "w") as dot:
                 print(f"Created graph {dot}")
                 dot.write("digraph nginx_syscalls {\n")
                 dot.write("rankdir=LR;\n")
@@ -343,6 +335,7 @@ def createDOT(setting: str):
                     dot.write(f"  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n")
                 
                 dot.write("}\n")#close subgraph
+                # i++
                 
         
     else:
