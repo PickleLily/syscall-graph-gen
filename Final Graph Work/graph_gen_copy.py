@@ -126,7 +126,7 @@ class Subgraph:
             self.edges[inverse].isBidirectional = True
         else:
             newEdge = Edge(self.edge_count, isFrom, isTo, syscall, isBidirectional, edgeType)
-            self.edges.inster(self.edge_count, newEdge)
+            self.edges.insert(self.edge_count, newEdge)
             self.edge_count += 1
             return newEdge.edgeId           # Returns the id (index of the newEdge)
 
@@ -149,7 +149,7 @@ class Subgraph:
         return 0 
 
     def __repr__(self):
-        return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid, self.nodes.values(), self.edges.values()})"
+        return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid, self.nodes, self.edges})"
     
 # ------------------------------------------------------------------------------------------------------------------------------
 class Node:
@@ -327,15 +327,15 @@ def createDOT(setting: str):
                 dot.write("digraph nginx_syscalls {\n")
                 dot.write("rankdir=LR;\n")
 
-                for nodekey, node in graph.nodes.items():
-                    node_identifier = formatKeyForPrinting(None, None, None, nodeKey=nodekey)
-                    dot.write(f"    {node_identifier} [label=\"{node.args}\", shape={node.shape}];\n")
+                for node in graph.nodes:
+                    # node_identifier = formatKeyForPrinting(None, None, None, nodeKey=nodekey)
+                    dot.write(f"    {node.nodeId} [label=\"{node.args}\", shape={node.shape}];\n")
 
-                for egdekey, edge in graph.edges.items():
-                    fromKey = formatKeyForPrinting(edge.isFrom.fd, edge.isFrom.nodePID, edge.isFrom.args, None)
-                    toKey = formatKeyForPrinting(edge.isTo.fd, edge.isTo.nodePID, edge.isTo.args, None)
+                for edge in graph.edges:
+                    # fromKey = formatKeyForPrinting(edge.isFrom.fd, edge.isFrom.nodePID, edge.isFrom.args, None)
+                    # toKey = formatKeyForPrinting(edge.isTo.fd, edge.isTo.nodePID, edge.isTo.args, None)
                     dot.write(
-                        f"    {fromKey} -> {toKey} "
+                        f"    {graph.nodes[edge.isFrom].nodeId} -> {graph.nodes[edge.isTo].nodeId} "
                         f"[style=\"{edge.edgeType}\", label=\"{edge.syscall}\", minlen=2, weight=2];\n")
 
 
