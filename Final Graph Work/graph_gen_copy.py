@@ -131,8 +131,10 @@ class Subgraph:
     # Method to find a Node if it already exists in the subgraph
     # If nothing matches, returns None
     def findNode(self, fd:int, args:str, pid:int):
-        key = (fd, pid, args)
-        return self.nodes.get(key)
+        for node in self.nodes:
+            return next((node for node in self.nodes if 
+                         node.fd == fd and node.args == args
+                         and node.nodePID == pid), None)
     
     def findEdge(self, fromNode:'Node', toNode:'Node', syscall:str):
         key = (fromNode, toNode, syscall)
@@ -152,8 +154,8 @@ class Subgraph:
     
 # ------------------------------------------------------------------------------------------------------------------------------
 class Node:
-    def __init__(self, fd:int, nodePID:int, args:str, isProcess:bool, shape:str):
-        # self.nodeID = nodeID
+    def __init__(self, nodeId:int, fd:int, nodePID:int, args:str, isProcess:bool, shape:str):
+        self.nodeId = nodeId
         self.fd = fd
         self.nodePID = nodePID
         self.args = args
@@ -188,7 +190,8 @@ class Node:
 
 # ------------------------------------------------------------------------------------------------------------------------------ 
 class Edge:
-    def __init__(self, isFrom:Node, isTo:Node, syscall:str, isBidirectional:bool, edgeType:str):
+    def __init__(self, edgeId:int, isFrom:Node, isTo:Node, syscall:str, isBidirectional:bool, edgeType:str):
+        self.edgeId = edgeId
         self.isFrom = isFrom # Do we want to swap this with the actual node structs or nah
         self.isTo = isTo
         self.syscall = syscall
