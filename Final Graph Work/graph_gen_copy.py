@@ -55,25 +55,20 @@ globalGraphManager = GraphManager()
 
 class Subgraph:
 
-    def __init__(self, fd:int, masterPid:int, originalTuple:str): #Make lsit of potential fd
-        # totalGraphs = totalGraphs + 1
-        # currentGraph = totalGraphs
-        # graphs[currentGraph] = self
-        
-        self.fdList = set()                            # Initialize the list of valid fds to nothing  
-        self.fdList.add(fd)
+    def __init__(self, fd:int, masterPid:int, originalTuple:str):
+        self.fdList = set()                         # Initialize a set of valid fds
+        self.fdList.add(fd)                         # Add the current fd to that set
         self.masterPID = masterPid                  # initialize the masterPID (PID or original connection) through input
         self.originalTuple = originalTuple          # Initialize the original connection tuple of the graph
         self.isValid = OPEN                         # Initialize the validity of a graph to OPEN automatically
         self.nodes = [] #NodeID -> node             # Nodes are stored at the index of their nodeId
         self.edges = [] #from->to & call -> edge    # Stored at the index of their edgeId
-    
-        # Unsure if we need any of what is below
-        # self.graphNum = self.totalGraphs
         self.node_count = 0
         self.edge_count = 0
 
-        # print(f"Hit syscall accept4 for FD:{fd} and Tuple:{originalTuple} and PID:{masterPid}")
+        # Give ability to reference last system call
+        self.lastSystemCall = (fd, "accept4", originalTuple, fd, masterPid)
+
         # Create the initial graph
         remote, local = originalTuple.split("->")
         remoteNode = self.addNode(fd, remote, masterPid, False, "diamond")
@@ -82,7 +77,7 @@ class Subgraph:
         PIDNode = self.addNode(fd, masterPid, masterPid, True, "rectangle")
         self.addEdge(localNode, PIDNode, "", False, "dashed")
             
-        # return self
+        
 
         #TODO --> how to implement the currentfd?
         
@@ -91,6 +86,10 @@ class Subgraph:
             self.masterPID == other.masterPID and
             self.originalTuple == other.originalTuple
         )
+    
+    # Updates last encountered system call
+    def updateLastSystemCall(self, fd:int, syscall:str, args:str, ret:str, pid:int):
+        self.lastSystemCall = (fd, syscall, args, ret, pid)
     
     # Returns the process node that shares a PID with the specified PID
     def getProcessNode(self, currentpid:int):
@@ -276,9 +275,9 @@ class Parser:
 
     def parseSyscall(self, fd:int, syscall:str, args:str, ret:str, pid:int):
         ''' A long function designed to do heavy lifting with the handling of special cases '''
-        # Swap to current graph
+        # Swap to current graph -> if we don't encounter a known FD assume we're in the same graph
         globalGraphManager.swapSubgraph(pid, fd)
-        
+
         # Find the process node for the incoming call, or create a dummy 'floating' process node
         if(globalGraphManager.current_Graph is not None):
             processNodeId = globalGraphManager.current_Graph.getProcessNode(pid)
@@ -307,12 +306,29 @@ class Parser:
                 newNode = globalGraphManager.current_Graph.addNode(fd, args, pid, False, "diamond")
                 globalGraphManager.current_Graph.addEdge(processNodeId, newNode, syscall, False, "solid") 
 
+        # Handle other non-connective system calls
+        if globalGraphManager.current_Graph is not None:
+            
+            # Add new node that follows some specifics
+            # If the FD is not -1 ( a Null/failed operation )
+            if fd != -1:
+
+                # If our desired information is in the args
+                if "res" in args and globalGraphManager.current_Graph.lastSystemCall[1] == syscall:
+                    pass
+
+
+        # Update last system call
+        globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
         return
 
     def parseArgs(self, args:str, options:str):
         if options == 'networkTuple':
             networkTuple = re.search(r"tuple=([^\s]+)", args)
             return networkTuple.group(1) if networkTuple else None
+
+        if options == 'fileDescriptor':
+            fd = re.search(r"")
     
     def parseFD(self, fd:str):
         if fd == '<NA>':
