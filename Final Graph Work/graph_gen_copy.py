@@ -131,17 +131,14 @@ class Subgraph:
     # Method to find a Node if it already exists in the subgraph
     # If nothing matches, returns None
     def findNode(self, fd:int, args:str, pid:int):
-        for node in self.nodes:
-            return next((node for node in self.nodes if 
+         return next((node for node in self.nodes if 
                          node.fd == fd and node.args == args
                          and node.nodePID == pid), None)
     
     def findEdge(self, fromNode:'Node', toNode:'Node', syscall:str):
-        key = (fromNode, toNode, syscall)
-        # altkey = (toNode, fromNode, syscall)
-        # if (altkey):
-        #     self.edges[altkey].isBidirectional = True
-        return self.edges.get(key)
+        return next((edge for edge in self.edges if
+                     edge.isFrom == fromNode and
+                     edge.isTo == toNode and edge.syscall == syscall), None)
 
     def updateEdge():
         return 0
