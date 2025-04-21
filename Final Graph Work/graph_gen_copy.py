@@ -67,8 +67,8 @@ class Subgraph:
         self.masterPID = masterPid                  # initialize the masterPID (PID or original connection) through input
         self.originalTuple = originalTuple          # Initialize the original connection tuple of the graph
         self.isValid = OPEN                         # Initialize the validity of a graph to OPEN automatically
-        self.nodes = {} #NodeID -> node             # (fd, pid, args)
-        self.edges = {} #from->to & call -> edge    # (isFrom, isTo, syscall) -> May want to convert to the node's keys
+        self.nodes = [] #NodeID -> node             # Nodes are stored at the index of their nodeId
+        self.edges = [] #from->to & call -> edge    # Stored at the index of their edgeId
     
         # Unsure if we need any of what is below
         self.graphNum = totalGraphs
@@ -108,35 +108,37 @@ class Subgraph:
         exists = self.findNode(fd, pid, args)
         if exists is not None:
             # print("Node already exists with ID: {exists}")
-            return exists
+            return exists                   # Is the nodeId
         else:
-            newNode = Node(fd, pid, args, isProcess, shape)
-            key = (fd, pid, args)
-            self.nodes[key] = newNode
-            self.node_count += 1
+            newNode = Node(self.node_count, fd, pid, args, isProcess, shape)
+            self.nodes.insert(self.node_count, newNode) # Inset at the current node_count index
+            self.node_count += 1            # Increase this index
             self.addFD(fd)                  # Adds FD to list of potential FDs
-            return newNode
+            return newNode.nodeId           # Returns id (index) of the newNode
 
     def addEdge(self, isFrom:'Node', isTo:'Node', syscall:str, isBidirectional:bool, edgeType:str):
         exists = self.findEdge(isFrom, isTo, syscall)
         if exists is not None:
             # print("Node already exists with ID: {exists}")
             return exists
+        inverse = self.findEdge(isTo, isFrom, syscall)      # If this edge will make another bidirection, do that instead of adding instance
+        if inverse is not None:
+            self.edges[inverse].isBidirectional = True
         else:
-            newEdge = Edge(isFrom, isTo, syscall, isBidirectional, edgeType)
-            key = (isFrom, isTo, syscall)
-            self.edges[key] = newEdge
+            newEdge = Edge(self.edge_count, isFrom, isTo, syscall, isBidirectional, edgeType)
+            self.edges.inster(self.edge_count, newEdge)
             self.edge_count += 1
+            return newEdge.edgeId           # Returns the id (index of the newEdge)
 
     # Method to find a Node if it already exists in the subgraph
     # If nothing matches, returns None
     def findNode(self, fd:int, args:str, pid:int):
-         return next((node for node in self.nodes if 
+         return next((node.nodeId for node in self.nodes if 
                          node.fd == fd and node.args == args
                          and node.nodePID == pid), None)
     
     def findEdge(self, fromNode:'Node', toNode:'Node', syscall:str):
-        return next((edge for edge in self.edges if
+        return next((edge.edgeId for edge in self.edges if
                      edge.isFrom == fromNode and
                      edge.isTo == toNode and edge.syscall == syscall), None)
 
