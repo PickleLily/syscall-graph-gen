@@ -148,13 +148,29 @@ class Subgraph:
         # See if our updated node already exists
         existingUpdatedNodeId = self.findNode(self.nodes[nodeBeingUpdatedId].nodeId, updatedArgs, self.nodes[nodeBeingUpdatedId].nodePID)
         if existingUpdatedNodeId is not None:
-            self.moveEdges(nodeBeingUpdatedId, existingUpdatedNodeId) #TODO
-            return None                         # Return None indicating we did not update any node, rather we shifed it
+            self.moveEdges(nodeBeingUpdatedId, existingUpdatedNodeId)   #TODO
+            self.nodes[nodeBeingUpdatedId] = None                       # Set the old node (no longer being used) to None. We don't want to mess with indicies
+            return existingUpdatedNodeId                                # Return the id of the node we shifted to
         else :
             self.nodes[nodeBeingUpdatedId].args = updatedArgs
             self.nodes[nodeBeingUpdatedId].isProcess= updatedProcess
             self.nodes[nodeBeingUpdatedId].shape = updatedShape
             return nodeBeingUpdatedId           # Id of the node we updated
+        
+    def moveEdges(self, fromId:int, toId:int):
+        nodeTo = self.nodes[toId]
+        nodeFrom = self.nodes[fromId]
+        if nodeTo is None:
+            raise Exception("Invalid node being shifted to")
+        if nodeFrom is None:
+            raise Exception("Invalid node being shifted from")
+        
+        # Shift all edges
+        for edge in self.edges:
+            if edge.isTo == fromId:
+                self.addEdge(edge.isFrom, toId, edge.syscall, edge.isBidirectional, edge.edgeType)
+            if edge.isFrom == fromId:
+                self.addEdge(toId, toId, edge.syscall, edge.isBidirectional, edge.edgeType)
 
     def __repr__(self):
         return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid, self.nodes, self.edges})"
@@ -284,9 +300,7 @@ class Parser:
             if socketNode is not None:
                 print(f"Node we're looking to replace: {globalGraphManager.current_Graph.nodes[socketNode]}")
                 updatedNode = globalGraphManager.current_Graph.updateNode(socketNode, args, False, "diamond")
-                if updatedNode is not None:
-                    # Make new edge
-                    globalGraphManager.current_Graph.addEdge(processNodeId, updatedNode, syscall, False, "solid")
+                globalGraphManager.current_Graph.addEdge(processNodeId, updatedNode, syscall, False, "solid")
 
             # If socket node never existed make hanging
             else:
