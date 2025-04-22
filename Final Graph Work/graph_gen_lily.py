@@ -170,13 +170,6 @@ class Subgraph:
                 self.addEdge(edge.isFrom, toId, edge.syscall, edge.isBidirectional, edge.edgeType)
             if edge.isFrom == fromId:
                 self.addEdge(toId, toId, edge.syscall, edge.isBidirectional, edge.edgeType)
-                
-    def isBidirectional(self, from_node_ID, to_node_ID):
-        for e in self.edges:
-
-            if e.isTo == from_node_ID and e.isFrom == to_node_ID:
-                return True
-        return False 
 
     def __repr__(self):
         return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid, self.nodes, self.edges})"
@@ -219,9 +212,9 @@ class Node:
 
 # ------------------------------------------------------------------------------------------------------------------------------ 
 class Edge:
-    def __init__(self, edgeId:int, isFrom:int, isTo:int, syscall:str, isBidirectional:bool, edgeType:str):
+    def __init__(self, edgeId:int, isFrom:Node, isTo:Node, syscall:str, isBidirectional:bool, edgeType:str):
         self.edgeId = edgeId
-        self.isFrom = isFrom
+        self.isFrom = isFrom # Do we want to swap this with the actual node structs or nah
         self.isTo = isTo
         self.syscall = syscall
         
@@ -297,8 +290,6 @@ class Parser:
             args = self.parseArgs(args, "networkTuple")
             # Find if matches connect call? TODO
             globalGraphManager.addSubgraph(fd, pid, args)
-            globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
-
         
         # For connect we only want to pull the result system call, not the initial
         # Take the tuple and save ALL of it
@@ -316,37 +307,16 @@ class Parser:
                 globalGraphManager.current_Graph.addEdge(processNodeId, newNode, syscall, False, "solid") 
 
         # Handle other non-connective system calls
-        if globalGraphManager.current_Graph is not None: 
-            print(self.parseArgs(args, "fileDescriptor"))
-            # See if node exists
-            for node in globalGraphManager.current_Graph.nodes:
-                # print("do nothing")
-                pass
-
-
+        if globalGraphManager.current_Graph is not None:
+            
             # Add new node that follows some specifics
             # If the FD is not -1 ( a Null/failed operation )
             if fd != -1:
 
                 # If our desired information is in the args
                 if "res" in args and globalGraphManager.current_Graph.lastSystemCall[1] == syscall:
-                    # handle case where the arguments has additional data...
                     pass
 
-                # 15:35:48.438914644: Informational Name:apache2, FD:11, Syscall:fcntl, Args:fd=11(<4t>127.0.0.1:39630->127.0.0.1:80) cmd=4(F_GETFL), Return:<NA>, PID:20763          
-                    # is the node in the current graph?
-                    node_ID = globalGraphManager.current_Graph.findNode(fd, args, pid)
-                    bidirectional = False
-
-                    # if NOT... add a new node
-                    if node_ID is None:
-                        node_ID = globalGraphManager.current_Graph.addNode(fd, args,pid, False, "oval")
-
-                    # otherwise JUST add the edge!
-                    # (isFrom: Node, isTo: Node, syscall: str, isBidirectional: bool, edgeType: str)
-                        # get if is bidirectional???
-                        bidirectional = globalGraphManager.current_Graph.isBidirectional(processNodeId, node_ID)
-                        globalGraphManager.current_Graph.addEdge(processNodeId, node_ID, syscall, bidirectional, edgeType="solid" )
 
         # Update last system call
         if globalGraphManager.current_Graph is not None:
@@ -359,13 +329,7 @@ class Parser:
             return networkTuple.group(1) if networkTuple else None
 
         if options == 'fileDescriptor':
-            fd = re.search(r"<[^>]+>(\s*[^)]*)", args)        # This should also pull out <f> and 
-            if fd is not None: 
-                output = fd.group(1)
-                if '(' in output:
-                    output = output + ')'
-                return output
-            return None
+            fd = re.search(r"")
     
     def parseFD(self, fd:str):
         if fd == '<NA>':
@@ -410,10 +374,13 @@ def createDOT(setting: str):
         try:
             os.mkdir(dirName)
             print(f"Directory '{dirName}' created successfully!")
+
         except FileExistsError:
             raise Exception(f"The directory '{dirName}' already exists.")
+        
         except PermissionError:
             raise Exception(f"PermissionError: You don't have permission to create the directory.")
+        
         except Exception as e:
             raise Exception(f"An error occurred: {e}")
 
@@ -452,6 +419,8 @@ def createDOT(setting: str):
 def getNodeFD():
     return
 
+def getProcessNode():
+    return
 
 def getSubgraphFD():
     return
@@ -463,7 +432,7 @@ def main():
     # Open target trace file
     p = Parser()
 
-    with open(".\\Falco Trace Files\\TestEvents.txt", 'r') as file:
+    with open("Falco Trace Files\TestEvents.txt", 'r') as file:
         # Read the content of the file
         for line in file:
             content = p.parseLine(line)
