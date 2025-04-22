@@ -290,6 +290,8 @@ class Parser:
             args = self.parseArgs(args, "networkTuple")
             # Find if matches connect call? TODO
             globalGraphManager.addSubgraph(fd, pid, args)
+            globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
+
         
         # For connect we only want to pull the result system call, not the initial
         # Take the tuple and save ALL of it
@@ -319,7 +321,8 @@ class Parser:
 
 
         # Update last system call
-        globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
+        if globalGraphManager.current_Graph is not None:
+            globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
         return
 
     def parseArgs(self, args:str, options:str):
@@ -428,7 +431,7 @@ def main():
     # Open target trace file
     p = Parser()
 
-    with open("C:\\Users\\Ella Dunne\\Desktop\\Coding\\syscall-graph-gen\\Final Graph Work\\Falco Trace Files\\TestEvents.txt", 'r') as file:
+    with open(".\\Falco Trace Files\\TestEvents.txt", 'r') as file:
         # Read the content of the file
         for line in file:
             content = p.parseLine(line)
