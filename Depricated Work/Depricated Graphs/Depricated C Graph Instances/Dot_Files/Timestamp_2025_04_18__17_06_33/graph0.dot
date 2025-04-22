@@ -1,0 +1,31 @@
+digraph nginx_syscalls {
+rankdir=LR;
+  0 [label="127.0.0.1:59194", shape=diamond];
+  1 [label="127.0.0.1:80", shape=diamond];
+  2 [label="20748", shape=rectangle];
+  3 [label="/tmp/.ZendSem.VS94LR (deleted)", shape=ellipse];
+  4 [label="/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv", shape=ellipse];
+  5 [label="File Descriptor:14", shape=ellipse];
+  6 [label="127.0.0.1:60110->127.0.0.1:3306", shape=ellipse];
+  0 -> 1 [style="solid", label="accept4", minlen=2, weight=2];
+  1 -> 2 [style="solid", label="fcntl", minlen=2, weight=2];
+  1 -> 2 [style="solid", label="read", minlen=2, weight=2];
+  2 -> 3 [style="solid", label="fcntl", minlen=2, weight=2];
+  2 -> 4 [style="solid", label="openat", minlen=2, weight=2];
+  2 -> 4 [style="solid", label="flock", minlen=2, weight=2];
+  2 -> 4 [style="solid", label="fcntl", minlen=2, weight=2];
+  2 -> 4 [style="solid", label="pread", minlen=2, weight=2];
+  2 -> 5 [style="solid", label="socket", minlen=2, weight=2];
+  2 -> 5 [style="solid", label="fcntl", minlen=2, weight=2];
+  2 -> 5 [style="solid", label="connect", minlen=2, weight=2];
+  2 -> 5 [style="solid", label="recvfrom", minlen=2, weight=2];
+  2 -> 5 [style="solid", label="sendto", minlen=2, weight=2];
+  2 -> 6 [style="solid", label="socket", minlen=2, weight=2];
+  2 -> 6 [style="solid", label="fcntl", minlen=2, weight=2];
+  2 -> 5 [style="solid", label="close", minlen=2, weight=2];
+  2 -> 4 [style="solid", label="close", minlen=2, weight=2];
+  2 -> 6 [style="solid", label="sendto", minlen=2, weight=2];
+  2 -> 6 [style="solid", label="close", minlen=2, weight=2];
+  2 -> 6 [style="solid", label="read", minlen=2, weight=2];
+  2 -> 6 [style="solid", label="writev", minlen=2, weight=2];
+}

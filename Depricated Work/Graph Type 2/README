@@ -1,0 +1,4 @@
+This folder contains our first implentation of type 2 graphs:
+    These graphs use system calls as the edges and file systems as nodes
+
+This is a smaller folder that demonstrates our first steps towards this concept

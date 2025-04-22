@@ -1,0 +1,130 @@
+14:52:46.259545168: Informational Name:apache2, FD:11, Syscall:accept4, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) tuple=127.0.0.1:34482->127.0.0.1:80 queuepct=0 queuelen=0 queuemax=511, Return:11, PID:20628
+14:52:46.259734765: Informational Name:apache2, FD:11, Syscall:fcntl, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) cmd=4(F_GETFL), Return:<NA>, PID:20628
+14:52:46.259738803: Informational Name:apache2, FD:11, Syscall:fcntl, Args:res=2(<f>/var/log/apache2/error.log) fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) cmd=4(F_GETFL), Return:2, PID:20628
+14:52:46.259741308: Informational Name:apache2, FD:11, Syscall:fcntl, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) cmd=5(F_SETFL), Return:<NA>, PID:20628
+14:52:46.259743472: Informational Name:apache2, FD:11, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) cmd=5(F_SETFL), Return:0, PID:20628
+14:52:46.259789689: Informational Name:apache2, FD:11, Syscall:read, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:<NA>, PID:20628
+14:52:46.259798014: Informational Name:apache2, FD:11, Syscall:read, Args:res=672 data=GET /DVWA/vulnerabilities/xss_r/?name=%3Ciframe+src%3Dhttp%3A%2F%2Flocalhost%2Fs fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:672, PID:20628
+14:52:46.308671631: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308675789: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308678214: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308680007: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308681820: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308683544: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308685417: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308687110: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308689074: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308690877: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308692811: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308694624: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308696438: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308698091: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308709603: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308711506: Informational Name:apache2, FD:<NA>, Syscall:rt_sigaction, Args:, Return:<NA>, PID:20628
+14:52:46.308713951: Informational Name:apache2, FD:<NA>, Syscall:rt_sigprocmask, Args:, Return:<NA>, PID:20628
+14:52:46.308715834: Informational Name:apache2, FD:<NA>, Syscall:rt_sigprocmask, Args:, Return:<NA>, PID:20628
+14:52:46.396472628: Informational Name:apache2, FD:<NA>, Syscall:chdir, Args:, Return:<NA>, PID:20628
+14:52:46.396487136: Informational Name:apache2, FD:<NA>, Syscall:chdir, Args:res=0 path=/var/www/html/DVWA/vulnerabilities/xss_r, Return:0, PID:20628
+14:52:46.396514858: Informational Name:apache2, FD:9, Syscall:fcntl, Args:fd=9(<f>/tmp/.ZendSem.VS94LR (deleted)) cmd=8(F_SETLK), Return:<NA>, PID:20628
+14:52:46.396524406: Informational Name:apache2, FD:9, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=9(<f>/tmp/.ZendSem.VS94LR (deleted)) cmd=8(F_SETLK), Return:0, PID:20628
+14:52:46.451925135: Informational Name:apache2, FD:<NA>, Syscall:access, Args:mode=0(F_OK), Return:<NA>, PID:20628
+14:52:46.451937678: Informational Name:apache2, FD:<NA>, Syscall:access, Args:res=0 name=../../config/config.inc.php(/var/www/html/DVWA/config/config.inc.php), Return:0, PID:20628
+14:52:46.452028189: Informational Name:apache2, FD:-1, Syscall:openat, Args:dirfd=-100(AT_FDCWD) name=/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv flags=7(O_CREAT|O_RDWR) mode=0600, Return:<NA>, PID:20628
+14:52:46.452054098: Informational Name:apache2, FD:12, Syscall:openat, Args:fd=12(<f>/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv) dirfd=-100(AT_FDCWD) name=/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv flags=7(O_CREAT|O_RDWR) mode=0600 dev=803 ino=1160717, Return:12, PID:20628
+14:52:46.452072011: Informational Name:apache2, FD:12, Syscall:flock, Args:fd=12(<f>/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv) operation=2(LOCK_EX), Return:<NA>, PID:20628
+14:52:46.452079065: Informational Name:apache2, FD:12, Syscall:flock, Args:res=0, Return:0, PID:20628
+14:52:46.452082171: Informational Name:apache2, FD:12, Syscall:fcntl, Args:fd=12(<f>/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv) cmd=3(F_SETFD), Return:<NA>, PID:20628
+14:52:46.452085938: Informational Name:apache2, FD:12, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=12(<f>/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv) cmd=3(F_SETFD), Return:0, PID:20628
+14:52:46.452094203: Informational Name:apache2, FD:12, Syscall:pread, Args:fd=12(<f>/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv) size=135 pos=0, Return:<NA>, PID:20628
+14:52:46.452115634: Informational Name:apache2, FD:12, Syscall:pread, Args:res=135 data=dvwa|a:3:{s:6:"locale";s:2:"en";s:8:"messages";a:0:{}s:8:"username";s:5:"admin"; fd=12(<f>/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv) size=135 pos=0, Return:135, PID:20628
+14:52:46.459172223: Informational Name:apache2, FD:<NA>, Syscall:access, Args:mode=2(W_OK), Return:<NA>, PID:20628
+14:52:46.459178495: Informational Name:apache2, FD:<NA>, Syscall:access, Args:res=0 name=/var/www/html/DVWA/hackable/uploads/, Return:0, PID:20628
+14:52:46.459181541: Informational Name:apache2, FD:<NA>, Syscall:access, Args:mode=2(W_OK), Return:<NA>, PID:20628
+14:52:46.459186160: Informational Name:apache2, FD:<NA>, Syscall:access, Args:res=0 name=/var/www/html/DVWA/config, Return:0, PID:20628
+14:52:46.469932133: Informational Name:apache2, FD:-1, Syscall:socket, Args:domain=2(AF_INET) type=1 proto=0, Return:<NA>, PID:20628
+14:52:46.469957541: Informational Name:apache2, FD:13, Syscall:socket, Args:fd=13(<4>) domain=2(AF_INET) type=1 proto=0, Return:13, PID:20628
+14:52:46.469961919: Informational Name:apache2, FD:13, Syscall:fcntl, Args:fd=13(<4>) cmd=4(F_GETFL), Return:<NA>, PID:20628
+14:52:46.469965546: Informational Name:apache2, FD:13, Syscall:fcntl, Args:res=2(<f>/var/log/apache2/error.log) fd=13(<4>) cmd=4(F_GETFL), Return:2, PID:20628
+14:52:46.469967520: Informational Name:apache2, FD:13, Syscall:fcntl, Args:fd=13(<4>) cmd=5(F_SETFL), Return:<NA>, PID:20628
+14:52:46.469969584: Informational Name:apache2, FD:13, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=13(<4>) cmd=5(F_SETFL), Return:0, PID:20628
+14:52:46.469973391: Informational Name:apache2, FD:13, Syscall:connect, Args:fd=13(<4>) addr=127.0.0.1:3306, Return:<NA>, PID:20628
+14:52:46.474828362: Informational Name:apache2, FD:13, Syscall:connect, Args:res=-115(EINPROGRESS) tuple=127.0.0.1:40470->127.0.0.1:3306 fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306), Return:-115, PID:20628
+14:52:46.488405693: Informational Name:apache2, FD:13, Syscall:fcntl, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:20628
+14:52:46.488409160: Informational Name:apache2, FD:13, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:20628
+14:52:46.488417906: Informational Name:apache2, FD:<NA>, Syscall:setsockopt, Args:, Return:<NA>, PID:20628
+14:52:46.488423867: Informational Name:apache2, FD:-1, Syscall:setsockopt, Args:res=0 fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:20628
+14:52:46.488426582: Informational Name:apache2, FD:<NA>, Syscall:setsockopt, Args:, Return:<NA>, PID:20628
+14:52:46.488431251: Informational Name:apache2, FD:-1, Syscall:setsockopt, Args:res=0 fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) level=1(SOL_SOCKET) optname=9(SO_KEEPALIVE) val=1 optlen=4, Return:0, PID:20628
+14:52:46.488446811: Informational Name:apache2, FD:13, Syscall:recvfrom, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) size=32768, Return:<NA>, PID:20628
+14:52:46.488470846: Informational Name:apache2, FD:13, Syscall:recvfrom, Args:res=110 data=j....5.5.5-10.6.21-MariaDB-0ubuntu0.22.04.2.R...a=MLr|;K...-...............GeEgX tuple=127.0.0.1:3306->127.0.0.1:40470, Return:110, PID:20628
+14:52:46.488503918: Informational Name:apache2, FD:13, Syscall:sendto, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) size=129 tuple=127.0.0.1:40470->127.0.0.1:3306, Return:<NA>, PID:20628
+14:52:46.488997388: Informational Name:apache2, FD:13, Syscall:sendto, Args:res=129 data=}...........-.......................dvwa...N....D.`..A......y!mysql_native_passw, Return:129, PID:20628
+14:52:46.489012867: Informational Name:apache2, FD:13, Syscall:recvfrom, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) size=32768, Return:<NA>, PID:20628
+14:52:46.489019720: Informational Name:apache2, FD:13, Syscall:recvfrom, Args:res=11 data=........... tuple=127.0.0.1:3306->127.0.0.1:40470, Return:11, PID:20628
+14:52:46.489061710: Informational Name:apache2, FD:13, Syscall:sendto, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) size=13 tuple=127.0.0.1:40470->127.0.0.1:3306, Return:<NA>, PID:20628
+14:52:46.489093580: Informational Name:apache2, FD:13, Syscall:sendto, Args:res=13 data=.....USE dvwa, Return:13, PID:20628
+14:52:46.490510821: Informational Name:apache2, FD:13, Syscall:recvfrom, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) size=32768, Return:<NA>, PID:20628
+14:52:46.490519116: Informational Name:apache2, FD:13, Syscall:recvfrom, Args:res=11 data=........... tuple=127.0.0.1:3306->127.0.0.1:40470, Return:11, PID:20628
+14:52:46.530021340: Informational Name:apache2, FD:-1, Syscall:socket, Args:domain=2(AF_INET) type=1 proto=0, Return:<NA>, PID:20628
+14:52:46.530066325: Informational Name:apache2, FD:14, Syscall:socket, Args:fd=14(<4>) domain=2(AF_INET) type=1 proto=0, Return:14, PID:20628
+14:52:46.530071324: Informational Name:apache2, FD:14, Syscall:fcntl, Args:fd=14(<4>) cmd=4(F_GETFL), Return:<NA>, PID:20628
+14:52:46.530076534: Informational Name:apache2, FD:14, Syscall:fcntl, Args:res=2(<f>/var/log/apache2/error.log) fd=14(<4>) cmd=4(F_GETFL), Return:2, PID:20628
+14:52:46.530079269: Informational Name:apache2, FD:14, Syscall:fcntl, Args:fd=14(<4>) cmd=5(F_SETFL), Return:<NA>, PID:20628
+14:52:46.530081894: Informational Name:apache2, FD:14, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=14(<4>) cmd=5(F_SETFL), Return:0, PID:20628
+14:52:46.530088296: Informational Name:apache2, FD:14, Syscall:connect, Args:fd=14(<4>) addr=127.0.0.1:3306, Return:<NA>, PID:20628
+14:52:46.530828061: Informational Name:apache2, FD:14, Syscall:connect, Args:res=-115(EINPROGRESS) tuple=127.0.0.1:40474->127.0.0.1:3306 fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306), Return:-115, PID:20628
+14:52:46.530888805: Informational Name:apache2, FD:14, Syscall:fcntl, Args:fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) cmd=5(F_SETFL), Return:<NA>, PID:20628
+14:52:46.530891360: Informational Name:apache2, FD:14, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) cmd=5(F_SETFL), Return:0, PID:20628
+14:52:46.530896900: Informational Name:apache2, FD:<NA>, Syscall:setsockopt, Args:, Return:<NA>, PID:20628
+14:52:46.530901489: Informational Name:apache2, FD:-1, Syscall:setsockopt, Args:res=0 fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) level=2(SOL_TCP) optname=0(UNKNOWN) val=.... optlen=4, Return:0, PID:20628
+14:52:46.530904104: Informational Name:apache2, FD:<NA>, Syscall:setsockopt, Args:, Return:<NA>, PID:20628
+14:52:46.530908182: Informational Name:apache2, FD:-1, Syscall:setsockopt, Args:res=0 fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) level=1(SOL_SOCKET) optname=9(SO_KEEPALIVE) val=1 optlen=4, Return:0, PID:20628
+14:52:46.530922138: Informational Name:apache2, FD:14, Syscall:recvfrom, Args:fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) size=32768, Return:<NA>, PID:20628
+14:52:46.530942446: Informational Name:apache2, FD:14, Syscall:recvfrom, Args:res=110 data=j....5.5.5-10.6.21-MariaDB-0ubuntu0.22.04.2.S...@~!")FeJ...-..............."ilc+ tuple=127.0.0.1:3306->127.0.0.1:40474, Return:110, PID:20628
+14:52:46.530966341: Informational Name:apache2, FD:14, Syscall:sendto, Args:fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) size=134 tuple=127.0.0.1:40474->127.0.0.1:3306, Return:<NA>, PID:20628
+14:52:46.531456164: Informational Name:apache2, FD:14, Syscall:sendto, Args:res=134 data=............!.......................dvwa..my...;t.z..C..2i..v.dvwa.mysql_native_, Return:134, PID:20628
+14:52:46.531471513: Informational Name:apache2, FD:14, Syscall:recvfrom, Args:fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) size=32768, Return:<NA>, PID:20628
+14:52:46.531478256: Informational Name:apache2, FD:14, Syscall:recvfrom, Args:res=11 data=........... tuple=127.0.0.1:3306->127.0.0.1:40474, Return:11, PID:20628
+14:52:46.606974139: Informational Name:apache2, FD:<NA>, Syscall:chdir, Args:, Return:<NA>, PID:20628
+14:52:46.606984419: Informational Name:apache2, FD:<NA>, Syscall:chdir, Args:res=0 path=/, Return:0, PID:20628
+14:52:46.607009466: Informational Name:apache2, FD:13, Syscall:sendto, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306) size=5 tuple=127.0.0.1:40470->127.0.0.1:3306, Return:<NA>, PID:20628
+14:52:46.607070180: Informational Name:apache2, FD:13, Syscall:sendto, Args:res=5 data=....., Return:5, PID:20628
+14:52:46.607217608: Informational Name:apache2, FD:13, Syscall:close, Args:fd=13(<4t>127.0.0.1:40470->127.0.0.1:3306), Return:<NA>, PID:20628
+14:52:46.607295425: Informational Name:apache2, FD:13, Syscall:close, Args:res=0, Return:0, PID:20628
+14:52:46.607368923: Informational Name:apache2, FD:12, Syscall:close, Args:fd=12(<f>/var/lib/php/sessions/sess_56msghea5jj69t3ig7h4870atv), Return:<NA>, PID:20628
+14:52:46.607378071: Informational Name:apache2, FD:12, Syscall:close, Args:res=0, Return:0, PID:20628
+14:52:46.607399291: Informational Name:apache2, FD:14, Syscall:sendto, Args:fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306) size=5 tuple=127.0.0.1:40474->127.0.0.1:3306, Return:<NA>, PID:20628
+14:52:46.607473110: Informational Name:apache2, FD:14, Syscall:sendto, Args:res=5 data=....., Return:5, PID:20628
+14:52:46.607602834: Informational Name:apache2, FD:14, Syscall:close, Args:fd=14(<4t>127.0.0.1:40474->127.0.0.1:3306), Return:<NA>, PID:20628
+14:52:46.607657778: Informational Name:apache2, FD:14, Syscall:close, Args:res=0, Return:0, PID:20628
+14:52:46.607688406: Informational Name:apache2, FD:9, Syscall:fcntl, Args:fd=9(<f>/tmp/.ZendSem.VS94LR (deleted)) cmd=8(F_SETLK), Return:<NA>, PID:20628
+14:52:46.607714355: Informational Name:apache2, FD:9, Syscall:fcntl, Args:res=0(<f>/dev/null) fd=9(<f>/tmp/.ZendSem.VS94LR (deleted)) cmd=8(F_SETLK), Return:0, PID:20628
+14:52:46.607803953: Informational Name:apache2, FD:<NA>, Syscall:brk, Args:addr=59CFA749B000, Return:<NA>, PID:20628
+14:52:46.607820434: Informational Name:apache2, FD:<NA>, Syscall:brk, Args:res=59CFA749B000 vm_size=213112 vm_rss=12392 vm_swap=4864, Return:98748399726592, PID:20628
+14:52:46.608382704: Informational Name:apache2, FD:<NA>, Syscall:brk, Args:addr=59CFA745B000, Return:<NA>, PID:20628
+14:52:46.608415015: Informational Name:apache2, FD:<NA>, Syscall:brk, Args:res=59CFA745B000 vm_size=212856 vm_rss=12520 vm_swap=4736, Return:98748399464448, PID:20628
+14:52:46.608454019: Informational Name:apache2, FD:11, Syscall:read, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:<NA>, PID:20628
+14:52:46.608459639: Informational Name:apache2, FD:11, Syscall:read, Args:res=-11(EAGAIN) data=NULL fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:-11, PID:20628
+14:52:46.608466171: Informational Name:apache2, FD:11, Syscall:writev, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=1869, Return:<NA>, PID:20628
+14:52:46.608520554: Informational Name:apache2, FD:11, Syscall:writev, Args:res=1869 data=HTTP/1.1 200 OK..Date: Fri, 18 Apr 2025 18:52:46 GMT..Server: Apache/2.4.52 (Ubu, Return:1869, PID:20628
+14:52:46.608540411: Informational Name:apache2, FD:8, Syscall:write, Args:fd=8(<f>/var/log/apache2/access.log) size=308, Return:<NA>, PID:20628
+14:52:46.608564677: Informational Name:apache2, FD:8, Syscall:write, Args:res=308 data=127.0.0.1 - - [18/Apr/2025:14:52:46 -0400] "GET /DVWA/vulnerabilities/xss_r/?nam, Return:308, PID:20628
+14:52:47.072124555: Informational Name:apache2, FD:11, Syscall:read, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:<NA>, PID:20628
+14:52:47.072136588: Informational Name:apache2, FD:11, Syscall:read, Args:res=622 data=GET /shell.php HTTP/1.1..Host: localhost..User-Agent: Mozilla/5.0 (X11; Ubuntu;  fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:622, PID:20628
+14:52:47.102077927: Informational Name:apache2, FD:2, Syscall:write, Args:fd=2(<f>/var/log/apache2/error.log) size=273, Return:<NA>, PID:20628
+14:52:47.103830099: Informational Name:apache2, FD:2, Syscall:write, Args:res=273 data=[Fri Apr 18 14:52:47.100362 2025] [php:error] [pid 20628] [client 127.0.0.1:3448, Return:273, PID:20628
+14:52:47.103887317: Informational Name:apache2, FD:11, Syscall:read, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:<NA>, PID:20628
+14:52:47.103895633: Informational Name:apache2, FD:11, Syscall:read, Args:res=-11(EAGAIN) data=NULL fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=8000, Return:-11, PID:20628
+14:52:47.103902105: Informational Name:apache2, FD:11, Syscall:writev, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=487, Return:<NA>, PID:20628
+14:52:47.103981715: Informational Name:apache2, FD:11, Syscall:writev, Args:res=487 data=HTTP/1.1 404 Not Found..Date: Fri, 18 Apr 2025 18:52:47 GMT..Server: Apache/2.4., Return:487, PID:20628
+14:52:47.103997034: Informational Name:apache2, FD:8, Syscall:write, Args:fd=8(<f>/var/log/apache2/access.log) size=279, Return:<NA>, PID:20628
+14:52:47.104014447: Informational Name:apache2, FD:8, Syscall:write, Args:res=279 data=127.0.0.1 - - [18/Apr/2025:14:52:47 -0400] "GET /shell.php HTTP/1.1" 404 487 "ht, Return:279, PID:20628
+14:52:52.113603665: Informational Name:apache2, FD:11, Syscall:shutdown, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) how=1(SHUT_WR), Return:<NA>, PID:20628
+14:52:52.113671072: Informational Name:apache2, FD:11, Syscall:shutdown, Args:res=0, Return:0, PID:20628
+14:52:52.116263529: Informational Name:apache2, FD:11, Syscall:read, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=512, Return:<NA>, PID:20628
+14:52:52.116268789: Informational Name:apache2, FD:11, Syscall:read, Args:res=0 data=NULL fd=11(<4t>127.0.0.1:34482->127.0.0.1:80) size=512, Return:0, PID:20628
+14:52:52.116273147: Informational Name:apache2, FD:11, Syscall:close, Args:fd=11(<4t>127.0.0.1:34482->127.0.0.1:80), Return:<NA>, PID:20628
+14:52:52.116294227: Informational Name:apache2, FD:11, Syscall:close, Args:res=0, Return:0, PID:20628
+14:52:52.116297112: Informational Name:apache2, FD:5, Syscall:read, Args:fd=5(<p>pipe:[219712]) size=1, Return:<NA>, PID:20628
+14:52:52.116300068: Informational Name:apache2, FD:5, Syscall:read, Args:res=-11(EAGAIN) data=NULL fd=5(<p>pipe:[219712]) size=1, Return:-11, PID:20628
+14:52:52.116307933: Informational Name:apache2, FD:-1, Syscall:accept4, Args:flags=0, Return:<NA>, PID:20628

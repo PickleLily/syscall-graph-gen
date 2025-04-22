@@ -1,0 +1,3 @@
+This folder contains our working Falco file
+This file should be loaded into Falco when running on a server application
+The raw outputs of this file can be fed directly into our finalized graph generation code
