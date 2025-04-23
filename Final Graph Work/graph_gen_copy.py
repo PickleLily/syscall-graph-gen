@@ -448,12 +448,6 @@ def formatKeyForPrinting(fd:int, pid:int, args:str, nodeKey:tuple):
         output = "".join(map(str, nodeKey)).replace(".", "").replace(":", "")
     return output
 
-def handleConnectionSystemCall():
-    return
-
-def printSubgraphMetadata():
-    return
-
 def createDOT(setting: str):
     # get current timestamp
     timestamp = datetime.now().timestamp()
@@ -494,14 +488,10 @@ def createDOT(setting: str):
                             f"    {graph.nodes[edge.isFrom].nodeId} -> {graph.nodes[edge.isTo].nodeId} "
                             f"[style=\"{edge.edgeType}\", label=\"{edge.syscall}\", minlen=2, weight=2];\n")
 
-
                 if (graph.isValid == 1) :
                     dot.write(f"  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n")
                 
                 dot.write("}\n")#close subgraph
-                # i++
-                
-        
     else:
         createDOT("individual")
 
@@ -540,8 +530,6 @@ def main():
     #     i = i+1
 
     # Include additional debugging information if desired
-    # if (DEBUG_LEVEL == 1) :
-    #     printSubgraphMetadata()
     # createDOT()
     # return i
 
