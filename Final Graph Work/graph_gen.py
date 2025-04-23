@@ -284,8 +284,7 @@ def main():
         i = i+1
 
     # Include additional debugging information if desired
-    if (DEBUG_LEVEL == 1) {
+    if (DEBUG_LEVEL == 1)
         printSubgraphMetadata();
-    }
     createDOT()
     return i

@@ -108,6 +108,7 @@ class Subgraph:
             # print("Node already exists with ID: {exists}")
             return exists                   # Is the nodeId
         else:
+            # node.nodePID
             newNode = Node(self.node_count, fd, pid, args, isProcess, shape)
             self.nodes.insert(self.node_count, newNode) # Inset at the current node_count index
             self.node_count += 1            # Increase this index
@@ -135,15 +136,27 @@ class Subgraph:
                          node.fd == fd and node.args == args
                          and node.nodePID == pid), None)
     
-    def findEdge(self, fromNode:'Node', toNode:'Node', syscall:str):
+    def findEdge(self, fromNode:int, toNode:int, syscall:str):
         return next((edge.edgeId for edge in self.edges if
+                     edge is not None and 
                      edge.isFrom == fromNode and
                      edge.isTo == toNode and edge.syscall == syscall), None)
 
-    def updateEdge():
-        return 0
+    def updateEdge(self, edgeBeingUpdatedId:int, updatedSyscall:str):
+        # See if the updated edge already exists
+        existingEdgeId = self.findEdge(self.edges[edgeBeingUpdatedId].isFrom, self.edges[edgeBeingUpdatedId].isTo, updatedSyscall)
+        if existingEdgeId is not None:          # If the updated node exists just "delete" this one
+            self.edges[edgeBeingUpdatedId] = None
+            return None
+        existingOtherDirectionId = self.findEdge(self.edges[edgeBeingUpdatedId].isTo, self.edges[edgeBeingUpdatedId].isFrom, updatedSyscall)
+        if existingOtherDirectionId is not None:
+            self.addEdge(self.edges[existingOtherDirectionId].isTo, self.edges[existingOtherDirectionId].isFrom, self.edges[existingOtherDirectionId].syscall, True, self.edges[edgeBeingUpdatedId].edgeType)
+            return existingOtherDirectionId
+        
+        self.edges[edgeBeingUpdatedId].syscall = updatedSyscall
+        return edgeBeingUpdatedId
     
-    def updateNode(self, nodeBeingUpdatedId:int, updatedArgs:str, updatedProcess:bool, updatedShape:str):
+    def updateNode(self, nodeBeingUpdatedId:int, updatedArgs:str, updatedProcess:bool, updatedShape:str, updateFD=None):
         # See if our updated node already exists
         existingUpdatedNodeId = self.findNode(self.nodes[nodeBeingUpdatedId].nodeId, updatedArgs, self.nodes[nodeBeingUpdatedId].nodePID)
         if existingUpdatedNodeId is not None:
@@ -154,6 +167,8 @@ class Subgraph:
             self.nodes[nodeBeingUpdatedId].args = updatedArgs
             self.nodes[nodeBeingUpdatedId].isProcess= updatedProcess
             self.nodes[nodeBeingUpdatedId].shape = updatedShape
+            if updateFD is not None:
+                self.nodes[nodeBeingUpdatedId].fd = updateFD
             return nodeBeingUpdatedId           # Id of the node we updated
         
     def moveEdges(self, fromId:int, toId:int):
@@ -170,6 +185,13 @@ class Subgraph:
                 self.addEdge(edge.isFrom, toId, edge.syscall, edge.isBidirectional, edge.edgeType)
             if edge.isFrom == fromId:
                 self.addEdge(toId, toId, edge.syscall, edge.isBidirectional, edge.edgeType)
+                
+    def isBidirectional(self, from_node_ID, to_node_ID):
+        for e in self.edges:
+
+            if e.isTo == from_node_ID and e.isFrom == to_node_ID:
+                return True
+        return False 
 
     def __repr__(self):
         return f"Subgraph({self.fdList, self.masterPID, self.originalTuple, self.isValid, self.nodes, self.edges})"
@@ -212,9 +234,9 @@ class Node:
 
 # ------------------------------------------------------------------------------------------------------------------------------ 
 class Edge:
-    def __init__(self, edgeId:int, isFrom:Node, isTo:Node, syscall:str, isBidirectional:bool, edgeType:str):
+    def __init__(self, edgeId:int, isFrom:int, isTo:int, syscall:str, isBidirectional:bool, edgeType:str):
         self.edgeId = edgeId
-        self.isFrom = isFrom # Do we want to swap this with the actual node structs or nah
+        self.isFrom = isFrom
         self.isTo = isTo
         self.syscall = syscall
         
@@ -270,6 +292,8 @@ class Parser:
         output[4] = self.parsePID(output[4])
         
         # Go to next parsing step
+        if(output[0] == 44 and output[1]=='fcntl' and output[2] == 'fd=44(<4t>127.0.0.1:34262->127.0.0.1:3306) cmd=5(F_SETFL)' and output[4]==1003):
+            print('hi')
         self.parseSyscall(output[0],output[1],output[2],output[3],output[4])
             
 
@@ -286,40 +310,92 @@ class Parser:
         
         
         # print(syscall)
+        dontUpdateLastSystemCall = False
         if syscall in {"accept4", "accept"} and fd != -1:
             args = self.parseArgs(args, "networkTuple")
             # Find if matches connect call? TODO
-            globalGraphManager.addSubgraph(fd, pid, args)
+            if globalGraphManager.current_Graph is not None:
+                for node in globalGraphManager.current_Graph.nodes:
+                    if node.args == args:           # If we find a node where the args match (a socket node)
+                        for nodeTwo in globalGraphManager.current_Graph.nodes:
+                            if nodeTwo.nodePID == pid and nodeTwo.isProcess == True:          # If we find a node that has the PID & is a process node
+                                updateNode = globalGraphManager.current_Graph.updateNode(nodeTwo.nodeId, pid, True, "rectangle", updateFD=fd)
+                                globalGraphManager.current_Graph.addEdge(node.nodeId, updateNode, syscall, False, "solid")
+                        newPidNode = globalGraphManager.current_Graph.addNode(fd, pid, pid, True, "rectangle")
+                        globalGraphManager.current_Graph.addEdge(node.nodeId, newPidNode, syscall, False, "solid")
+            else:
+                globalGraphManager.addSubgraph(fd, pid, args)
         
         # For connect we only want to pull the result system call, not the initial
         # Take the tuple and save ALL of it
-        if syscall in {"connect"} and ret != "<NA>":
+        elif syscall in {"connect"} and ret != "<NA>":
             args = self.parseArgs(args, "networkTuple")
-            socketNode = globalGraphManager.current_Graph.findNode(fd, args, pid)
+            socketNode = globalGraphManager.current_Graph.findNode(fd, fd, pid)
             if socketNode is not None:
                 print(f"Node we're looking to replace: {globalGraphManager.current_Graph.nodes[socketNode]}")
                 updatedNode = globalGraphManager.current_Graph.updateNode(socketNode, args, False, "diamond")
                 globalGraphManager.current_Graph.addEdge(processNodeId, updatedNode, syscall, False, "solid")
-
             # If socket node never existed make hanging
             else:
                 newNode = globalGraphManager.current_Graph.addNode(fd, args, pid, False, "diamond")
-                globalGraphManager.current_Graph.addEdge(processNodeId, newNode, syscall, False, "solid") 
+                globalGraphManager.current_Graph.addEdge(processNodeId, newNode, syscall, False, "solid")
 
         # Handle other non-connective system calls
-        if globalGraphManager.current_Graph is not None:
-            
+        elif globalGraphManager.current_Graph is not None:
             # Add new node that follows some specifics
             # If the FD is not -1 ( a Null/failed operation )
-            if fd != -1:
+            if fd != -1: 
 
+                if "res" not in args:
+                    args = self.parseArgs(args, "fileDescriptor")
+                    if args == "":
+                        args = str(fd)
+                    nodeId = globalGraphManager.current_Graph.findNode(fd, args, pid)
+                    
+                    if nodeId is not None:              # This node exists
+                        globalGraphManager.current_Graph.addEdge(processNodeId, nodeId, syscall, False, "solid")
+                        globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
+                    else:                               # Ths node does not exist
+                        newNode = globalGraphManager.current_Graph.addNode(fd, args, pid, False, "ellipse")
+                        globalGraphManager.current_Graph.addEdge(processNodeId, newNode, syscall, False, "solid")
+                    
                 # If our desired information is in the args
-                if "res" in args and globalGraphManager.current_Graph.lastSystemCall[1] == syscall:
-                    pass
+                elif "res" in args and globalGraphManager.current_Graph.lastSystemCall[1] == syscall:
+                    targetNode = globalGraphManager.current_Graph.findNode(fd, globalGraphManager.current_Graph.lastSystemCall[2], pid)
+                    if targetNode is None or fd not in globalGraphManager.current_Graph.fdList:
+                        print(f"Old call: {globalGraphManager.current_Graph.lastSystemCall[0], globalGraphManager.current_Graph.lastSystemCall[1], globalGraphManager.current_Graph.lastSystemCall[2], globalGraphManager.current_Graph.lastSystemCall[3], globalGraphManager.current_Graph.lastSystemCall[4]}")
+                        print(f"New call: {fd}, {syscall}, {args}, {ret}, {pid}")
+                        print(" Trying to modify edge for a syscall we haven't seen before ")
+                    else:
+                        args = self.parseArgs(args, "data")
+                        targetEdge = globalGraphManager.current_Graph.findEdge(processNodeId, targetNode, syscall)
+                        updated_args = f"{syscall} - {args}"
+                        if "None" not in updated_args:
+                            globalGraphManager.current_Graph.updateEdge(targetEdge, updated_args)
+                    dontUpdateLastSystemCall = True
 
+                # 15:35:48.438914644: Informational Name:apache2, FD:11, Syscall:fcntl, Args:fd=11(<4t>127.0.0.1:39630->127.0.0.1:80) cmd=4(F_GETFL), Return:<NA>, PID:20763          
+                    # # is the node in the current graph?
+                    # node_ID = globalGraphManager.current_Graph.findNode(fd, args, pid)
+                    # bidirectional = False
 
-        # Update last system call
-        globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
+                    # # if NOT... add a new node
+                    # if node_ID is None:
+                    #     node_ID = globalGraphManager.current_Graph.addNode(fd, args,pid, False, "oval")
+
+                    # # otherwise JUST add the edge!
+                    # # (isFrom: Node, isTo: Node, syscall: str, isBidirectional: bool, edgeType: str)
+                    #     # get if is bidirectional???
+                    #     bidirectional = globalGraphManager.current_Graph.isBidirectional(processNodeId, node_ID)
+                    #     globalGraphManager.current_Graph.addEdge(processNodeId, node_ID, syscall, bidirectional, edgeType="solid" )
+
+        # # Update last system call
+        # if globalGraphManager.current_Graph is not None:
+        #     globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
+        # return
+            # Update last system call
+                if dontUpdateLastSystemCall is not None or dontUpdateLastSystemCall == False:
+                    globalGraphManager.current_Graph.updateLastSystemCall(fd, syscall, args, ret, pid)
         return
 
     def parseArgs(self, args:str, options:str):
@@ -328,7 +404,22 @@ class Parser:
             return networkTuple.group(1) if networkTuple else None
 
         if options == 'fileDescriptor':
-            fd = re.search(r"")
+            fd = re.search(r"<[^>]+>(\s*[^)]*)", args)        # This should also pull out <f> and 
+            if fd is not None: 
+                output = fd.group(1)
+                if '(' in output:
+                    output = output + ')'
+                return output
+            return None
+        
+        if options == 'data':
+            data = re.search(r"data=(.*?)(?=(fd|tuple|$))", args)
+            if data is not None:
+                output = data.group(1).replace("...", ".").replace("\"", "'")
+                output = output.replace("{", "").replace("}","")
+                output = output.replace("(", "").replace(")", "").strip()
+                if len(set(output)) != 1 and output != "" and "NULL" not in output:
+                   return output
     
     def parseFD(self, fd:str):
         if fd == '<NA>':
@@ -357,12 +448,6 @@ def formatKeyForPrinting(fd:int, pid:int, args:str, nodeKey:tuple):
         output = "".join(map(str, nodeKey)).replace(".", "").replace(":", "")
     return output
 
-def handleConnectionSystemCall():
-    return
-
-def printSubgraphMetadata():
-    return
-
 def createDOT(setting: str):
     # get current timestamp
     timestamp = datetime.now().timestamp()
@@ -383,29 +468,30 @@ def createDOT(setting: str):
         # i = 0
         for index, (key, graph) in enumerate(globalGraphManager.graphList.items()):
             with open(f"./Dot_Files/Timestamp_{timestamp_str}/graph{index}.dot", "w") as dot:
-                print(f"Created graph {dot}")
+                print(f"Created graph {dot.name}")
                 dot.write("digraph nginx_syscalls {\n")
                 dot.write("rankdir=LR;\n")
 
                 for node in graph.nodes:
+                    if node is not None:
                     # node_identifier = formatKeyForPrinting(None, None, None, nodeKey=nodekey)
-                    dot.write(f"    {node.nodeId} [label=\"{node.args}\", shape={node.shape}];\n")
+                        if node.args == "" or node.args == node.nodePID:
+                            dot.write(f"    {node.nodeId} [label=\"{node.args}\", shape={node.shape}];\n")
+                        else:
+                            dot.write(f"    {node.nodeId} [label=\"{node.args}  - {node.nodePID}\", shape={node.shape}];\n")
 
                 for edge in graph.edges:
+                    if edge is not None:
                     # fromKey = formatKeyForPrinting(edge.isFrom.fd, edge.isFrom.nodePID, edge.isFrom.args, None)
                     # toKey = formatKeyForPrinting(edge.isTo.fd, edge.isTo.nodePID, edge.isTo.args, None)
-                    dot.write(
-                        f"    {graph.nodes[edge.isFrom].nodeId} -> {graph.nodes[edge.isTo].nodeId} "
-                        f"[style=\"{edge.edgeType}\", label=\"{edge.syscall}\", minlen=2, weight=2];\n")
-
+                        dot.write(
+                            f"    {graph.nodes[edge.isFrom].nodeId} -> {graph.nodes[edge.isTo].nodeId} "
+                            f"[style=\"{edge.edgeType}\", label=\"{edge.syscall}\", minlen=2, weight=2];\n")
 
                 if (graph.isValid == 1) :
                     dot.write(f"  -1 [label=\"Graph Did Not Receive 'Close' Syscall\", shape=box, penwidth=4, color=red, pos=\"5,5!\"];\n")
                 
                 dot.write("}\n")#close subgraph
-                # i++
-                
-        
     else:
         createDOT("individual")
 
@@ -415,8 +501,6 @@ def createDOT(setting: str):
 def getNodeFD():
     return
 
-def getProcessNode():
-    return
 
 def getSubgraphFD():
     return
@@ -428,7 +512,7 @@ def main():
     # Open target trace file
     p = Parser()
 
-    with open("C:\\Users\\Ella Dunne\\Desktop\\Coding\\syscall-graph-gen\\Final Graph Work\\Falco Trace Files\\TestEvents.txt", 'r') as file:
+    with open(".\\Falco Trace Files\\TestEvents.txt", 'r') as file:
         # Read the content of the file
         for line in file:
             content = p.parseLine(line)
@@ -446,8 +530,6 @@ def main():
     #     i = i+1
 
     # Include additional debugging information if desired
-    # if (DEBUG_LEVEL == 1) :
-    #     printSubgraphMetadata()
     # createDOT()
     # return i
 

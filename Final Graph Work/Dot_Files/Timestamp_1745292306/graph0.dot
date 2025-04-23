@@ -1,0 +1,26 @@
+digraph nginx_syscalls {
+rankdir=LR;
+    0 [label="127.0.0.1:55762  - 1081", shape=diamond];
+    1 [label="127.0.0.1:80  - 1081", shape=diamond];
+    2 [label="1081", shape=rectangle];
+    3 [label="127.0.0.1:55762->127.0.0.1:80  - 1081", shape=ellipse];
+    5 [label="/var/lib/php/sessions/sess_cb53i57j8t31h90ah2vgqlov10  - 1081", shape=ellipse];
+    7 [label="127.0.0.1:34262->127.0.0.1:3306  - 1081", shape=diamond];
+    0 -> 1 [style="solid", label="accept4", minlen=2, weight=2];
+    1 -> 2 [style="dashed", label="", minlen=2, weight=2];
+    2 -> 3 [style="solid", label="read - POST /vulnerabilities/exec/ HTTP/1.1..Host: localhost..User-Agent: Mozilla/5.0", minlen=2, weight=2];
+    2 -> 5 [style="solid", label="openat", minlen=2, weight=2];
+    2 -> 5 [style="solid", label="pread - dvwa|a:3:s:6:'locale';s:2:'en';s:8:'messages';a:0:s:8:'username';s:5:'admin';", minlen=2, weight=2];
+    2 -> 7 [style="solid", label="connect", minlen=2, weight=2];
+    2 -> 7 [style="solid", label="recvfrom - j..5.5.5-10.3.39-MariaDB-0ubuntu0.20.04.2.*.X\xgyMT.-.....<qC<D", minlen=2, weight=2];
+    2 -> 7 [style="solid", label="sendto - .....-.........dvwa..=<.C.'e..Z!.nmysql_native_passw", minlen=2, weight=2];
+    2 -> 7 [style="solid", label="recvfrom", minlen=2, weight=2];
+    2 -> 7 [style="solid", label="sendto - ...USE dvwa", minlen=2, weight=2];
+    2 -> 7 [style="solid", label="sendto", minlen=2, weight=2];
+    2 -> 7 [style="solid", label="close", minlen=2, weight=2];
+    2 -> 5 [style="solid", label="close", minlen=2, weight=2];
+    2 -> 3 [style="solid", label="read", minlen=2, weight=2];
+    2 -> 3 [style="solid", label="writev - HTTP/1.1 200 OK..Date: Thu", minlen=2, weight=2];
+    2 -> 3 [style="solid", label="shutdown", minlen=2, weight=2];
+    2 -> 3 [style="solid", label="close", minlen=2, weight=2];
+}
