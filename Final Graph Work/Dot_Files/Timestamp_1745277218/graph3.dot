@@ -1,0 +1,8 @@
+digraph nginx_syscalls {
+rankdir=LR;
+    0 [label="127.0.0.1:33150", shape=diamond];
+    1 [label="127.0.0.1:80", shape=diamond];
+    2 [label="20748", shape=rectangle];
+    0 -> 1 [style="solid", label="accept4", minlen=2, weight=2];
+    1 -> 2 [style="dashed", label="", minlen=2, weight=2];
+}

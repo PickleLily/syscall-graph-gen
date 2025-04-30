@@ -1,0 +1,23 @@
+digraph nginx_syscalls {
+rankdir=LR;
+    0 [label="127.0.0.1:39630", shape=diamond];
+    1 [label="127.0.0.1:80", shape=diamond];
+    2 [label="20763", shape=rectangle];
+    3 [label="127.0.0.1:43374->127.0.0.1:3306", shape=diamond];
+    4 [label="127.0.0.1:43386->127.0.0.1:3306", shape=diamond];
+    5 [label="127.0.0.1:43400->127.0.0.1:3306", shape=diamond];
+    6 [label="127.0.0.1:43410->127.0.0.1:3306", shape=diamond];
+    7 [label="20632", shape=rectangle];
+    8 [label="20731", shape=rectangle];
+    9 [label="20748", shape=rectangle];
+    10 [label="127.0.0.1:48348->127.0.0.1:3306", shape=diamond];
+    11 [label="127.0.0.1:48362->127.0.0.1:3306", shape=diamond];
+    0 -> 1 [style="solid", label="accept4", minlen=2, weight=2];
+    1 -> 2 [style="dashed", label="", minlen=2, weight=2];
+    2 -> 3 [style="solid", label="connect", minlen=2, weight=2];
+    2 -> 4 [style="solid", label="connect", minlen=2, weight=2];
+    2 -> 5 [style="solid", label="connect", minlen=2, weight=2];
+    2 -> 6 [style="solid", label="connect", minlen=2, weight=2];
+    9 -> 10 [style="solid", label="connect", minlen=2, weight=2];
+    9 -> 11 [style="solid", label="connect", minlen=2, weight=2];
+}
