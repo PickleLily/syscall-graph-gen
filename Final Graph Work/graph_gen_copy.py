@@ -556,7 +556,7 @@ def main():
     # Open target trace file
     p = Parser()
 
-    with open("C:\\Users\\Ella Dunne\\Desktop\\Coding\\syscall-graph-gen\\Final Graph Work\\Falco Trace Files\\TestEvents_attack_XSS.txt", 'r') as file:
+    with open(".\Falco Trace Files\Command_in\high_exploit.txt", 'r') as file:
         # Read the content of the file
         for line in file:
             content = p.parseLine(line)
