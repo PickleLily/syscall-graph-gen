@@ -119,7 +119,7 @@ class Subgraph:
             self.addFD(fd)                  # Adds FD to list of potential FDs
             return newNode.nodeId           # Returns id (index) of the newNode
 
-    def addEdge(self, isFrom:'Node', isTo:'Node', syscall:str, isBidirectional:bool, edgeType:str):
+    def addEdge(self, isFrom:int, isTo:int, syscall:str, isBidirectional:bool, edgeType:str):
         exists = self.findEdge(isFrom, isTo, syscall)
         if exists is not None:
             # print("Node already exists with ID: {exists}")
@@ -127,7 +127,8 @@ class Subgraph:
         inverse = self.findEdge(isTo, isFrom, syscall)      # If this edge will make another bidirection, do that instead of adding instance
         if inverse is not None:
             self.edges[inverse].isBidirectional = True
-        else:
+        else:       
+            # Check to see if we're looking at a recvfrom call -> in this case we should be pointing towards the PID node
             newEdge = Edge(self.edge_count, isFrom, isTo, syscall, isBidirectional, edgeType)
             self.edges.insert(self.edge_count, newEdge)
             self.edge_count += 1
@@ -393,6 +394,8 @@ class Parser:
         # If the FD is not -1 ( a Null/failed operation )
         elif fd != -1:
 
+            isInverseCall = syscall in {'recvfrom'}
+
             if "res" not in args:
                 # Parse the args as a FD type
                 args = self.parseArgs(args, "fileDescriptor")
@@ -416,11 +419,18 @@ class Parser:
                         globalGraphManager.current_Graph.edges[1].edgeType = "solid"
                         globalGraphManager.current_Graph.edges[1].syscall = syscall
                     else:
-                        globalGraphManager.current_Graph.addEdge(processNodeId, nodeId, syscall, False, "solid")
+                        if isInverseCall:
+                            globalGraphManager.current_Graph.addEdge(nodeId, processNodeId, syscall, False, "solid")
+                        else:
+                            globalGraphManager.current_Graph.addEdge(processNodeId, nodeId, syscall, False, "solid")
                 # Ths node does not exist
-                else:                              
-                    newNode = globalGraphManager.current_Graph.addNode(fd, args, pid, False, "ellipse")
-                    globalGraphManager.current_Graph.addEdge(processNodeId, newNode, syscall, False, "solid")
+                else:   
+                    if isInverseCall:
+                        newNode = globalGraphManager.current_Graph.addNode(fd, args, pid, False, "ellipse")
+                        globalGraphManager.current_Graph.addEdge(newNode, processNodeId, syscall, False, "solid")
+                    else:                           
+                        newNode = globalGraphManager.current_Graph.addNode(fd, args, pid, False, "ellipse")
+                        globalGraphManager.current_Graph.addEdge(processNodeId, newNode, syscall, False, "solid")
                 
             # If our desired information is in the args and it is a legal system call to update
             elif "res" in args and syscall not in {'flock', 'close'} and globalGraphManager.current_Graph.lastSystemCall[1] == syscall:
@@ -431,7 +441,10 @@ class Parser:
                     print(" Trying to modify edge for a syscall we haven't seen before ")
                 else:
                     args = self.parseArgs(args, "data")
-                    targetEdge = globalGraphManager.current_Graph.findEdge(processNodeId, targetNode, syscall)
+                    if isInverseCall:
+                        targetEdge = globalGraphManager.current_Graph.findEdge(targetNode, processNodeId, syscall)
+                    else:
+                        targetEdge = globalGraphManager.current_Graph.findEdge(processNodeId, targetNode, syscall)
                     updated_args = f"{syscall} - {args}"
                     if "None" not in updated_args:
                         globalGraphManager.current_Graph.updateEdge(targetEdge, updated_args)
@@ -556,7 +569,7 @@ def main():
     # Open target trace file
     p = Parser()
 
-    with open(".\Falco Trace Files\Command_in\high_exploit.txt", 'r') as file:
+    with open("C:\\Users\\Ella Dunne\\Desktop\\Coding\\syscall-graph-gen\\Final Graph Work\\Falco Trace Files\\Command_in\\high_exploit.txt", 'r') as file:
         # Read the content of the file
         for line in file:
             content = p.parseLine(line)
